@@ -10,7 +10,7 @@ const InitialValue: LocationDTO = {
   location: "",
 };
 
-const LocationFormUpdate: React.FC = () => {
+export const LocationFormUpdate: React.FC = () => {
   const { id } = useParams();
   const mutation = useLocationCreation();
 
@@ -136,5 +136,3 @@ const LocationFormUpdate: React.FC = () => {
     </PageLayout>
   );
 };
-
-export default LocationFormUpdate;

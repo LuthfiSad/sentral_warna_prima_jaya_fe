@@ -1,6 +1,6 @@
 import React from "react";
 import AdminNavbar from "@features/admin/components/AdminNavbar";
-import LocationFormUpdate from "../components/LocationFormUpdate";
+import { LocationFormUpdate } from "../components/LocationFormUpdate";
 
 const LocationUpdateView: React.FC = () => {
   return (

@@ -12,4 +12,9 @@ export const CONFIG_MENU_ADMIN: ItemMenuAdmin[] = [
     name: "Optical Network Terminal",
     to: "/admin/ont",
   },
+  {
+    icon: <FaUser />,
+    name: "Set Top Box",
+    to: "/admin/stb",
+  },
 ];

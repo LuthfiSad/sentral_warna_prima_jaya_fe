@@ -9,7 +9,7 @@ const InitialValue: LocationDTO = {
   location: "",
 };
 
-const LocationFormAdd: React.FC = () => {
+export const LocationFormAdd: React.FC = () => {
   const mutation = useLocationCreation();
 
   const [locationBody, setLocationBody] = useState<LocationDTO>({
@@ -108,5 +108,3 @@ const LocationFormAdd: React.FC = () => {
     </PageLayout>
   );
 };
-
-export default LocationFormAdd;

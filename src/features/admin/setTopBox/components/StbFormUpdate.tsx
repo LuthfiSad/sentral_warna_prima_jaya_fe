@@ -2,110 +2,124 @@ import React, { useEffect, useState } from "react";
 
 import { PageLayout } from "@features/admin/components/PageLayout";
 import { useNavigate, useParams } from "react-router-dom";
-import { OntDTO } from "@core/model/ont";
-import { useOntById, useOntCreation } from "../hooks/useOnt";
+import { StbDTO } from "@core/model/stb";
+import { useStbById, useStbCreation } from "../hooks/useStb";
 import { useLocation } from "@features/admin/location/hooks/useLocation";
 import LoadingData from "@features/_global/components/LoadingData";
 
-const InitialValue: OntDTO = {
+const InitialValue: StbDTO = {
   serialNumber: "",
   type: "",
+  deviceId: "",
   numberWo: "",
   locationId: "",
   unitAddress: "",
-  name: "",
+  packageName: "",
   dateActivation: new Date(),
   status: "",
+  deviceLocation: "",
   information: "",
+  notes: "",
 };
 
-export const OntFormUpdate: React.FC = () => {
+export const StbFormUpdate: React.FC = () => {
   const { id } = useParams();
-  const mutation = useOntCreation();
+  const mutation = useStbCreation();
   const { data: location, isLoading: loadingLocation } = useLocation();
 
-  const [ontBody, setOntBody] = useState<OntDTO>({
+  const [stbBody, setStbBody] = useState<StbDTO>({
     ...InitialValue,
   });
-  const [errors, setErrors] = useState<Partial<Record<keyof OntDTO, string>>>(
+  const [errors, setErrors] = useState<Partial<Record<keyof StbDTO, string>>>(
     {}
   );
 
-  const { data: ontById, isLoading } = useOntById();
+  const { data: stbById, isLoading } = useStbById();
   useEffect(() => {
-    if (ontById && ontById.data) {
-      handleSetOntBody(ontById.data);
+    if (stbById && stbById.data) {
+      handleSetStbBody(stbById.data);
     }
-  }, [ontById]);
+  }, [stbById]);
 
-  const handleSetOntBody = (data: OntDTO) => {
+  const handleSetStbBody = (data: StbDTO) => {
     const {
       serialNumber,
       type,
+      deviceId,
       numberWo,
       locationId,
       unitAddress,
-      name,
+      packageName,
       dateActivation,
       status,
+      deviceLocation,
       information,
+      notes,
     } = data;
-    setOntBody({
+    setStbBody({
       serialNumber,
       type,
+      deviceId,
       numberWo,
       locationId,
       unitAddress,
-      name,
+      packageName,
       dateActivation,
       status,
+      deviceLocation,
       information,
+      notes,
     });
   };
 
   const navigate = useNavigate();
 
   const validate = () => {
-    const newErrors: Partial<Record<keyof OntDTO, string>> = {};
+    const newErrors: Partial<Record<keyof StbDTO, string>> = {};
     let isValid = true;
 
-    if (!ontBody.serialNumber) {
+    if (!stbBody.serialNumber) {
       newErrors.serialNumber = "Serial Number is required";
       isValid = false;
     }
 
-    if (!ontBody.numberWo) {
+    if (!stbBody.numberWo) {
       newErrors.numberWo = "Number Wo is required";
       isValid = false;
     }
 
-    if (!ontBody.type) {
+    if (!stbBody.type) {
       newErrors.type = "Type is required";
       isValid = false;
     }
 
-    if (!ontBody.locationId) {
+    if (!stbBody.deviceId) {
+      newErrors.deviceId = "Device ID is required";
+      isValid = false;
+    }
+
+    if (!stbBody.locationId) {
       newErrors.locationId = "Location ID is required";
       isValid = false;
     }
 
-    if (!ontBody.unitAddress) {
+    if (!stbBody.unitAddress) {
       newErrors.unitAddress = "Unit Address is required";
       isValid = false;
     }
 
-    if (!ontBody.name) {
-      newErrors.name = "Name is required";
+    if (!stbBody.packageName) {
+      newErrors.packageName = "Package Name is required";
       isValid = false;
     }
 
-    if (!ontBody.dateActivation) {
+    if (!stbBody.dateActivation) {
       newErrors.dateActivation = "Activation Date is required";
       isValid = false;
     }
 
-    if (!ontBody.status) {
-      newErrors.status = "Status is required";
+    if (!stbBody.deviceLocation) {
+      newErrors.deviceLocation = "Device Location is required";
       isValid = false;
     }
 
@@ -119,25 +133,28 @@ export const OntFormUpdate: React.FC = () => {
     await mutation.mutateAsync({
       type: "update",
       data: {
-        serialNumber: ontBody.serialNumber,
-        type: ontBody.type,
-        numberWo: ontBody.numberWo,
-        locationId: ontBody.locationId,
-        unitAddress: ontBody.unitAddress,
-        name: ontBody.name,
-        dateActivation: ontBody.dateActivation,
-        status: ontBody.status,
-        information: ontBody.information,
+        serialNumber: stbBody.serialNumber,
+        type: stbBody.type,
+        deviceId: stbBody.deviceId,
+        numberWo: stbBody.numberWo,
+        locationId: stbBody.locationId,
+        unitAddress: stbBody.unitAddress,
+        packageName: stbBody.packageName,
+        dateActivation: stbBody.dateActivation,
+        status: stbBody.status,
+        deviceLocation: stbBody.deviceLocation,
+        information: stbBody.information,
+        notes: stbBody.notes,
       },
       id,
     });
   };
 
   const handleReset = () => {
-    if (ontById && ontById.data) {
-      handleSetOntBody(ontById.data);
+    if (stbById && stbById.data) {
+      handleSetStbBody(stbById.data);
     } else {
-      setOntBody(InitialValue);
+      setStbBody(InitialValue);
     }
     setErrors({});
   };
@@ -169,9 +186,9 @@ export const OntFormUpdate: React.FC = () => {
                   className="form-control"
                   placeholder="Serial Number"
                   id="serialNumber"
-                  value={ontBody.serialNumber}
+                  value={stbBody.serialNumber}
                   onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                    setOntBody((prev) => ({
+                    setStbBody((prev) => ({
                       ...prev,
                       serialNumber: e.target.value,
                     }))
@@ -193,9 +210,9 @@ export const OntFormUpdate: React.FC = () => {
                   className="form-control"
                   placeholder="Type"
                   id="type"
-                  value={ontBody.type}
+                  value={stbBody.type}
                   onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                    setOntBody((prev) => ({
+                    setStbBody((prev) => ({
                       ...prev,
                       type: e.target.value,
                     }))
@@ -206,9 +223,33 @@ export const OntFormUpdate: React.FC = () => {
                 )}
               </div>
 
+              {/* Device ID Field */}
+              <div className="col-md-4">
+                <label htmlFor="deviceId">Device ID</label>
+              </div>
+              <div className="col-md-8 form-group">
+                <input
+                  disabled={mutation.isPending}
+                  type="text"
+                  className="form-control"
+                  placeholder="Device ID"
+                  id="deviceId"
+                  value={stbBody.deviceId}
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                    setStbBody((prev) => ({
+                      ...prev,
+                      deviceId: e.target.value,
+                    }))
+                  }
+                />
+                {errors.deviceId && (
+                  <small className="text-danger">{errors.deviceId}</small>
+                )}
+              </div>
+
               {/* Number WO Field */}
               <div className="col-md-4">
-                <label htmlFor="type">Number WO</label>
+                <label htmlFor="numberWo">Number WO</label>
               </div>
               <div className="col-md-8 form-group">
                 <input
@@ -217,9 +258,9 @@ export const OntFormUpdate: React.FC = () => {
                   className="form-control"
                   placeholder="Number WO"
                   id="numberWo"
-                  value={ontBody.numberWo}
+                  value={stbBody.numberWo}
                   onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                    setOntBody((prev) => ({
+                    setStbBody((prev) => ({
                       ...prev,
                       numberWo: e.target.value,
                     }))
@@ -239,9 +280,9 @@ export const OntFormUpdate: React.FC = () => {
                   disabled={mutation.isPending || loadingLocation}
                   className="form-control"
                   id="locationId"
-                  value={ontBody.locationId}
+                  value={stbBody.locationId}
                   onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
-                    setOntBody((prev) => ({
+                    setStbBody((prev) => ({
                       ...prev,
                       locationId: e.target.value,
                     }))
@@ -250,7 +291,7 @@ export const OntFormUpdate: React.FC = () => {
                   <option value="" disabled>
                     {loadingLocation
                       ? "Loading locations..."
-                      : "Select location"}
+                      : "Select Location"}
                   </option>
                   {location?.data?.map((loc) => (
                     <option key={loc.id} value={loc.id}>
@@ -274,9 +315,9 @@ export const OntFormUpdate: React.FC = () => {
                   className="form-control"
                   placeholder="Unit Address"
                   id="unitAddress"
-                  value={ontBody.unitAddress}
+                  value={stbBody.unitAddress}
                   onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                    setOntBody((prev) => ({
+                    setStbBody((prev) => ({
                       ...prev,
                       unitAddress: e.target.value,
                     }))
@@ -287,27 +328,27 @@ export const OntFormUpdate: React.FC = () => {
                 )}
               </div>
 
-              {/* Name Field */}
+              {/* Package Name Field */}
               <div className="col-md-4">
-                <label htmlFor="name">Name</label>
+                <label htmlFor="packageName">Package Name</label>
               </div>
               <div className="col-md-8 form-group">
                 <input
                   disabled={mutation.isPending}
                   type="text"
                   className="form-control"
-                  placeholder="Name"
-                  id="name"
-                  value={ontBody.name}
+                  placeholder="Package Name"
+                  id="packageName"
+                  value={stbBody.packageName}
                   onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                    setOntBody((prev) => ({
+                    setStbBody((prev) => ({
                       ...prev,
-                      name: e.target.value,
+                      packageName: e.target.value,
                     }))
                   }
                 />
-                {errors.name && (
-                  <small className="text-danger">{errors.name}</small>
+                {errors.packageName && (
+                  <small className="text-danger">{errors.packageName}</small>
                 )}
               </div>
 
@@ -322,14 +363,14 @@ export const OntFormUpdate: React.FC = () => {
                   className="form-control"
                   id="dateActivation"
                   value={
-                    ontBody.dateActivation
-                      ? new Date(ontBody.dateActivation)
+                    stbBody.dateActivation
+                      ? new Date(stbBody.dateActivation)
                           .toISOString()
                           .split("T")[0]
                       : "" // Berikan nilai default jika undefined
                   }
                   onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                    setOntBody((prev) => ({
+                    setStbBody((prev) => ({
                       ...prev,
                       dateActivation: new Date(e.target.value),
                     }))
@@ -345,20 +386,46 @@ export const OntFormUpdate: React.FC = () => {
                 <label htmlFor="status">Status</label>
               </div>
               <div className="col-md-8 form-group">
+                <input
+                  disabled={mutation.isPending}
+                  type="checkbox"
+                  className="form-check-input"
+                  id="status"
+                  checked={stbBody.status === "Active"}
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                    setStbBody((prev) => ({
+                      ...prev,
+                      status: e.target.checked ? "Active" : "",
+                    }))
+                  }
+                />
+                <label htmlFor="status" className="form-check-label ml-2">
+                  Active
+                </label>
+                {errors.status && (
+                  <small className="text-danger">{errors.status}</small>
+                )}
+              </div>
+
+              {/* Device Location Field */}
+              <div className="col-md-4">
+                <label htmlFor="deviceLocation">Device Location</label>
+              </div>
+              <div className="col-md-8 form-group">
                 <select
                   disabled={mutation.isPending}
                   className="form-control"
-                  id="status"
-                  value={ontBody.status}
+                  id="deviceLocation"
+                  value={stbBody.deviceLocation}
                   onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
-                    setOntBody((prev) => ({
+                    setStbBody((prev) => ({
                       ...prev,
-                      status: e.target.value,
+                      deviceLocation: e.target.value,
                     }))
                   }
                 >
                   <option value="" disabled>
-                    Select Status
+                    Select Device Location
                   </option>
                   {["Active", "Ready", "Back"].map((loc, index) => (
                     <option key={index} value={loc}>
@@ -366,8 +433,8 @@ export const OntFormUpdate: React.FC = () => {
                     </option>
                   ))}
                 </select>
-                {errors.status && (
-                  <small className="text-danger">{errors.status}</small>
+                {errors.deviceLocation && (
+                  <small className="text-danger">{errors.deviceLocation}</small>
                 )}
               </div>
 
@@ -380,9 +447,9 @@ export const OntFormUpdate: React.FC = () => {
                   className="form-control"
                   placeholder="Information"
                   id="information"
-                  value={ontBody.information}
+                  value={stbBody.information}
                   onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
-                    setOntBody((prev) => ({
+                    setStbBody((prev) => ({
                       ...prev,
                       information: e.target.value,
                     }))
@@ -390,6 +457,28 @@ export const OntFormUpdate: React.FC = () => {
                 />
                 {errors.information && (
                   <small className="text-danger">{errors.information}</small>
+                )}
+              </div>
+
+              {/* Notes Field */}
+              <div className="col-md-4">
+                <label htmlFor="notes">Notes</label>
+              </div>
+              <div className="col-md-8 form-group">
+                <textarea
+                  className="form-control"
+                  placeholder="Notes"
+                  id="notes"
+                  value={stbBody.notes}
+                  onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
+                    setStbBody((prev) => ({
+                      ...prev,
+                      notes: e.target.value,
+                    }))
+                  }
+                />
+                {errors.notes && (
+                  <small className="text-danger">{errors.notes}</small>
                 )}
               </div>
 

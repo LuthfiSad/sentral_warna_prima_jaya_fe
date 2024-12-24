@@ -31,13 +31,13 @@ export const TableItem: React.FC<ILocationItemProps> = ({
           </button>
           <button
             className="btn btn-primary btn-sm font-semibold"
-            onClick={() => nav(`/admin/ont/${id}`)}
+            onClick={() => nav(`/admin/stb/${id}`)}
           >
             STB
           </button>
           <button
             className="btn btn-primary btn-sm font-semibold"
-            onClick={() => nav(`/admin/ont/${id}`)}
+            onClick={() => nav(`/admin/cable/${id}`)}
           >
             KABEL
           </button>

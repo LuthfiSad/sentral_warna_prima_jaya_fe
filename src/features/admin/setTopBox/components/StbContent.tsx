@@ -8,20 +8,20 @@ import {
 import { convertQueryParamsToObject } from "@features/_global/helper";
 import React from "react";
 import { useParams, useSearchParams } from "react-router-dom";
-import { useOnt, useOntCreation } from "../hooks/useOnt";
+import { useStb, useStbCreation } from "../hooks/useStb";
 import { TableItem } from "./Table/TableItem";
 import EmptyData from "@features/_global/components/EmptyData";
 
-export const OntContent: React.FC = () => {
+export const StbContent: React.FC = () => {
   const { locationId } = useParams();
-  const { data: onts, isLoading } = useOnt({ locationId });
+  const { data: stbs, isLoading } = useStb({ locationId });
 
   const [searchParams, setSearchParams] = useSearchParams();
   const queryParams = convertQueryParamsToObject(searchParams.toString());
   const onPageChange = (page: number) =>
     setSearchParams({ ...queryParams, page: page.toString() });
 
-  const mutation = useOntCreation();
+  const mutation = useStbCreation();
 
   const handleDelete = async (id: string) => {
     await mutation.mutateAsync({
@@ -31,62 +31,69 @@ export const OntContent: React.FC = () => {
   };
 
   const pagination = {
-    currentPage: onts?.meta?.page || 1,
-    totalPages: onts?.meta?.totalPages || 1,
+    currentPage: stbs?.meta?.page || 1,
+    totalPages: stbs?.meta?.totalPages || 1,
     onPageChange,
   };
 
   const tableHead = [
     "Nomor Seri",
     "Type",
+    "ID Device",
     "Nomor WO",
     "Alamat",
-    "Nama",
+    "Nama Paket",
     "Tanggal Aktivasi",
     "Status",
+    "Lokasi Device",
     "Keterangan",
+    "Catatan",
     "Update",
     "Action",
   ];
 
   return (
     <PageLayout
-      title="Optical Network Terminal"
+      title="Set Top Box"
       action={{
         show: true,
-        buttonTitle: "Create Optical Network Terminal",
-        link: { to: "/admin/ont/create" },
+        buttonTitle: "Create Set Top Box",
+        link: { to: "/admin/stb/create" },
       }}
       headBackground="black"
       showPagination={
         !!(
-          onts?.data?.length &&
+          stbs?.data?.length &&
           !isLoading &&
-          (onts.meta?.totalData as number) > (onts?.meta?.perPage as number)
+          (stbs.meta?.totalData as number) > (stbs?.meta?.perPage as number)
         )
       }
       pagination={pagination}
       searchField
-      searchPlaceholder="Search Ont"
-      buttonFilter="Status"
+      searchPlaceholder="Search Stb"
+      buttonFilter="Device Location"
       buttonFilterOptions={[
         {
           label: "Active",
           value: "Active",
-          key: "status"
+          key: "deviceLocation",
         },
         {
           label: "Ready",
           value: "Ready",
-          key: "status"
+          key: "deviceLocation",
         },
         {
           label: "Back",
           value: "Back",
-          key: "status"
+          key: "deviceLocation",
         },
-
       ]}
+      buttonCheckbox={{
+        label: "Active",
+        value: "Active",
+        key: "status",
+      }}
     >
       <Table>
         <TableHead field={tableHead} />
@@ -98,19 +105,19 @@ export const OntContent: React.FC = () => {
                 <LoadingData />
               </td>
             </tr>
-          ) : !onts?.data?.length ? (
+          ) : !stbs?.data?.length ? (
             <tr>
               <td colSpan={tableHead.length}>
-                <EmptyData title="optical network terminal" />
+                <EmptyData title="set top box" />
               </td>
             </tr>
           ) : (
             <>
-              {onts?.data?.map((item, key) => (
+              {stbs?.data?.map((item, key) => (
                 <TableItem
                   key={key}
                   {...item}
-                  show={key !== (onts?.data?.length as number) - 1}
+                  show={key !== (stbs?.data?.length as number) - 1}
                   handleDelete={handleDelete}
                 />
               ))}

@@ -1,6 +1,6 @@
 import React from "react";
 import AdminNavbar from "@features/admin/components/AdminNavbar";
-import OntFormUpdate from "../components/OntFormUpdate";
+import { OntFormUpdate } from "../components/OntFormUpdate";
 
 const OntUpdateView: React.FC = () => {
   return (

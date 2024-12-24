@@ -166,19 +166,21 @@ export const PageLayout: React.FC<IPageLayoutProps> = ({
             </div>
           )}
           {buttonCheckbox && (
-            <button
-              className={`btn ${
-                queryParams[buttonCheckbox.key] === buttonCheckbox.value
-                  ? "btn-blue"
-                  : "btn-outline-blue"
-              }`}
-              type="button"
-              onClick={() =>
-                handeSearchChange(buttonCheckbox.key, buttonCheckbox.value)
-              }
-            >
-              {buttonCheckbox.label}
-            </button>
+            <div>
+              <button
+                className={`btn ${
+                  queryParams[buttonCheckbox.key] === buttonCheckbox.value
+                    ? "btn-warning"
+                    : "btn-outline-warning"
+                }`}
+                type="button"
+                onClick={() =>
+                  handeSearchChange(buttonCheckbox.key, buttonCheckbox.value)
+                }
+              >
+                {buttonCheckbox.label}
+              </button>
+            </div>
           )}
           {searchField && (
             <div className="w-lg-25 ms-auto mb-3">

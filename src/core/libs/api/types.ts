@@ -4,6 +4,7 @@ export interface QueryParams {
   search?: string;
   status?: string;
   locationId?: string;
+  deviceLocation?: string;
 }
 
 export interface ApiOption {

@@ -7,5 +7,6 @@ export const API_ENDPOINT = {
   login: `${CONFIG_APP.BASE_URL}/auth/login`,
   check: `${CONFIG_APP.BASE_URL}/auth/check-token`,
   ont: `${CONFIG_APP.BASE_URL}/onts`,
+  stb: `${CONFIG_APP.BASE_URL}/stbs`,
   location: `${CONFIG_APP.BASE_URL}/locations`,
 };
