@@ -45,6 +45,7 @@ export const OntContent: React.FC = () => {
     "Tanggal Aktivasi",
     "Status",
     "Informasi",
+    "Update",
     "Action",
   ];
 
@@ -67,6 +68,25 @@ export const OntContent: React.FC = () => {
       pagination={pagination}
       searchField
       searchPlaceholder="Search Ont"
+      buttonFilter="Status"
+      buttonFilterOptions={[
+        {
+          label: "Active",
+          value: "Active",
+          key: "status"
+        },
+        {
+          label: "Ready",
+          value: "Ready",
+          key: "status"
+        },
+        {
+          label: "Back",
+          value: "Back",
+          key: "status"
+        },
+
+      ]}
     >
       <Table>
         <TableHead field={tableHead} />

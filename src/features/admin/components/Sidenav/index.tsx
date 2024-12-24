@@ -45,7 +45,7 @@ const Sidenav: React.FC<{
             ))}
             <li className="sidebar-item">
               <button
-                className="sidebar-link"
+                className="sidebar-link w-full"
                 onClick={() => {
                   if (window.confirm("Are you sure you want to logout?")) {
                     localStorage.removeItem("token");

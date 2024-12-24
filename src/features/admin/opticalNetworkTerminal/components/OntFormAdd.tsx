@@ -4,7 +4,7 @@ import { PageLayout } from "@features/admin/components/PageLayout";
 import { useNavigate } from "react-router-dom";
 import { OntDTO } from "@core/model/ont";
 import { useOntCreation } from "../hooks/useOnt";
-import { useLocation } from "@features/admin/localton/hooks/useLocation";
+import { useLocation } from "@features/admin/location/hooks/useLocation";
 
 const InitialValue: OntDTO = {
   serialNumber: "",

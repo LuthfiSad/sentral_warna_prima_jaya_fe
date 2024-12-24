@@ -1,7 +1,8 @@
-import LocationAddView from "@features/admin/localton/view/LocationAddView";
-import LocationUpdateView from "@features/admin/localton/view/LocationUpdateView";
-import { LocationView } from "@features/admin/localton/view/LocationView";
+import LocationAddView from "@features/admin/location/view/LocationAddView";
+import LocationUpdateView from "@features/admin/location/view/LocationUpdateView";
+import { LocationView } from "@features/admin/location/view/LocationView";
 import OntAddView from "@features/admin/opticalNetworkTerminal/view/OntAddView";
+import OntUpdateView from "@features/admin/opticalNetworkTerminal/view/OntUpdateView";
 import { OntView } from "@features/admin/opticalNetworkTerminal/view/OntView";
 import AdminView from "@features/admin/view/Admin";
 import LoginView from "@features/auth/view/LoginView";
@@ -37,13 +38,13 @@ export const router = createBrowserRouter([
         element: <OntAddView />,
       },
       {
+        path: "/admin/ont/edit/:id",
+        element: <OntUpdateView />,
+      },
+      {
         path: "/admin/ont/:locationId",
         element: <OntView />,
       },
-      // {
-      //   path: "/admin/anggota/edit/:id",
-      //   element: <EditAnggotaView />,
-      // },
     ],
   },
 ]);

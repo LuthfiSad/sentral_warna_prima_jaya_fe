@@ -10,7 +10,7 @@ const InitialValue: LocationDTO = {
   location: "",
 };
 
-const LocationFormAdd: React.FC = () => {
+const LocationFormUpdate: React.FC = () => {
   const { id } = useParams();
   const mutation = useLocationCreation();
 
@@ -24,13 +24,16 @@ const LocationFormAdd: React.FC = () => {
   const { data: locationById, isLoading } = useLocationById();
   useEffect(() => {
     if (locationById && locationById.data) {
-      const { location } = locationById.data;
-      // const categoryId = category ? category.id : "";
-      setLocationBody({
-        location,
-      });
+      handleSetLocationBody(locationById.data);
     }
   }, [locationById]);
+
+  const handleSetLocationBody = (data: LocationDTO) => {
+    const { location } = data;
+    setLocationBody({
+      location,
+    });
+  };
 
   const navigate = useNavigate();
 
@@ -60,7 +63,11 @@ const LocationFormAdd: React.FC = () => {
   };
 
   const handleReset = () => {
-    setLocationBody(InitialValue);
+    if (locationById && locationById.data) {
+      handleSetLocationBody(locationById.data);
+    } else {
+      setLocationBody(InitialValue);
+    }
     setErrors({});
   };
 
@@ -106,7 +113,11 @@ const LocationFormAdd: React.FC = () => {
 
               {/* Submit and Reset Buttons */}
               <div className="col-12 d-flex justify-content-end">
-                <button type="submit" className="btn btn-primary me-1 mb-1" disabled={mutation.isPending}>
+                <button
+                  type="submit"
+                  className="btn btn-primary me-1 mb-1"
+                  disabled={mutation.isPending}
+                >
                   Submit
                 </button>
                 <button
@@ -126,4 +137,4 @@ const LocationFormAdd: React.FC = () => {
   );
 };
 
-export default LocationFormAdd;
+export default LocationFormUpdate;

@@ -17,26 +17,42 @@ export const TableItem: React.FC<ILocationItemProps> = ({
   return (
     <tr key={id} className={`${show ? "border-b border-secondary" : ""}`}>
       <td className="py-3 px-5">
-        <span className="text-xs flocation-semibold text-secondary">
+        <span className="text-xs font-semibold text-secondary">
           {location}
         </span>
       </td>
       <td className="py-3 px-5">
         <div className="d-flex align-items-center gap-2">
           <button
-            className="btn btn-link p-0 text-danger text-xs flocation-semibold"
+            className="btn btn-primary btn-sm font-semibold"
             onClick={() => nav(`/admin/ont/${id}`)}
           >
             ONT
           </button>
           <button
-            className="btn btn-link p-0 text-danger text-xs flocation-semibold"
+            className="btn btn-primary btn-sm font-semibold"
+            onClick={() => nav(`/admin/ont/${id}`)}
+          >
+            STB
+          </button>
+          <button
+            className="btn btn-primary btn-sm font-semibold"
+            onClick={() => nav(`/admin/ont/${id}`)}
+          >
+            KABEL
+          </button>
+        </div>
+      </td>
+      <td className="py-3 px-5">
+        <div className="d-flex align-items-center gap-2">
+          <button
+            className="btn btn-link p-0 text-warning text-xs font-semibold"
             onClick={() => nav(`/admin/location/edit/${id}`)}
           >
             Edit
           </button>
           <button
-            className="btn btn-link p-0 text-danger text-xs flocation-semibold"
+            className="btn btn-link p-0 text-danger text-xs font-semibold"
             onClick={() => {
               const confirm = window.confirm(
                 "Are you sure you want to delete this Location?"

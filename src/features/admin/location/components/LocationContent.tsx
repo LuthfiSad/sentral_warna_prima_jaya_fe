@@ -35,7 +35,7 @@ export const LocationContent: React.FC = () => {
     onPageChange,
   };
 
-  const tableHead = ["Location", "Action"];
+  const tableHead = ["Location", "Location List", "Action"];
 
   return (
     <PageLayout

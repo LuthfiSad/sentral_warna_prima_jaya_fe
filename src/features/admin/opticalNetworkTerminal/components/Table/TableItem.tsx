@@ -1,5 +1,7 @@
 import { OntModel } from "@core/model/ont";
 import React from "react";
+import { useNavigate } from "react-router-dom";
+import { useOntCreation } from "../../hooks/useOnt";
 
 interface IOntItemProps extends OntModel {
   show?: boolean;
@@ -19,6 +21,18 @@ export const TableItem: React.FC<IOntItemProps> = ({
   show,
   handleDelete,
 }) => {
+  const mutation = useOntCreation();
+  const nav = useNavigate();
+
+  const handleChange = async (id: string, change: string) => {
+    await mutation.mutateAsync({
+      type: "update",
+      data: {
+        status: change,
+      },
+      id,
+    });
+  };
   return (
     <tr key={id} className={`${show ? "border-b border-secondary" : ""}`}>
       <td className="py-3 px-5">
@@ -65,6 +79,58 @@ export const TableItem: React.FC<IOntItemProps> = ({
       </td>
       <td className="py-3 px-5">
         <div className="d-flex align-items-center gap-2">
+          {status !== "Active" && (
+            <button
+              className="btn btn-success btn-sm font-semibold"
+              onClick={() => {
+                const confirm = window.confirm(
+                  "Are you sure you want to change active status this optical network terminal?"
+                );
+                if (!confirm) return;
+                handleChange(id, "Active");
+              }}
+            >
+              Active
+            </button>
+          )}
+          {status !== "Ready" && (
+            <button
+              className="btn btn-warning btn-sm font-semibold"
+              onClick={() => {
+                const confirm = window.confirm(
+                  "Are you sure you want to change ready status this optical network terminal?"
+                );
+                if (!confirm) return;
+                handleChange(id, "Ready");
+              }}
+            >
+              Ready
+            </button>
+          )}
+          {status !== "Back" && (
+            <button
+              className="btn btn-danger btn-sm font-semibold"
+              onClick={() => {
+                const confirm = window.confirm(
+                  "Are you sure you want to change back status this optical network terminal?"
+                );
+                if (!confirm) return;
+                handleChange(id, "Back");
+              }}
+            >
+              Back
+            </button>
+          )}
+        </div>
+      </td>
+      <td className="py-3 px-5">
+        <div className="d-flex align-items-center gap-2">
+          <button
+            className="btn btn-link p-0 text-warning text-xs font-semibold"
+            onClick={() => nav(`/admin/ont/edit/${id}`)}
+          >
+            Edit
+          </button>
           <button
             className="btn btn-link p-0 text-danger text-xs font-semibold"
             onClick={() => {
