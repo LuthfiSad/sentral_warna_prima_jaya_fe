@@ -14,6 +14,7 @@ export interface ApiOption {
   headers?: HeadersInit;
   path?: string;
   queryParams?: QueryParams;
+  responseType?: "json" | "blob";
 }
 
 export interface MetaResponse {

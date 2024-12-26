@@ -11,4 +11,5 @@ export const API_ENDPOINT = {
   location: `${CONFIG_APP.BASE_URL}/locations`,
   cable: `${CONFIG_APP.BASE_URL}/cables`,
   inventory: `${CONFIG_APP.BASE_URL}/inventories`,
+  export: `${CONFIG_APP.BASE_URL}/exports`,
 };

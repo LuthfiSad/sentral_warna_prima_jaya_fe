@@ -42,6 +42,11 @@ interface IPageLayoutProps extends PropsWithChildren {
     key: string;
     value: string;
   };
+  buttonFile?: {
+    handleFile: () => void;
+    icon?: React.ReactNode;
+    label: string;
+  }[];
 }
 
 export const PageLayout: React.FC<IPageLayoutProps> = ({
@@ -56,6 +61,7 @@ export const PageLayout: React.FC<IPageLayoutProps> = ({
   buttonFilter,
   buttonFilterOptions = [],
   buttonCheckbox,
+  buttonFile,
 }) => {
   const renderAction = () => {
     if (action?.show && action.link) {
@@ -193,7 +199,20 @@ export const PageLayout: React.FC<IPageLayoutProps> = ({
             </div>
           )}
         </div>
-
+        {buttonFile && buttonFile.length > 0 && (
+          <div className="flex justify-end gap-3 px-4 py-1">
+            {buttonFile.map(({ handleFile, label, icon }, index) => (
+              <button
+                key={index}
+                onClick={handleFile}
+                className="btn btn-outline-success flex gap-2 justify-center items-center btn-sm font-semibold"
+              >
+                {icon}
+                {label}
+              </button>
+            ))}
+          </div>
+        )}
         <div className="card-body overflow-auto px-4 py-2">{children}</div>
       </div>
 

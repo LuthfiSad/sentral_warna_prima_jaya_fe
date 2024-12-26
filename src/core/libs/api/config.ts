@@ -24,12 +24,11 @@ async function createRequest<Res = unknown, Req = unknown>(
   apiOption?: ApiOption,
   body?: Req
 ) {
+  const defaultValue = { ...apiOption };
 
-  const defaultValue = { ...apiOption, }
-
-  const token = localStorage.getItem("token") || ""
+  const token = localStorage.getItem("token") || "";
   if (token) {
-    defaultValue.bearerToken = token
+    defaultValue.bearerToken = token;
   }
 
   const res: Response = await fetch(
@@ -39,9 +38,13 @@ async function createRequest<Res = unknown, Req = unknown>(
     {
       method,
       headers: {
-        ...(defaultValue.contentType !== 'form-data' && { "Content-Type": getContentType(defaultValue?.contentType) }),
-        ...(defaultValue?.bearerToken && typeof defaultValue.bearerToken !== "undefined" &&
-          { Authorization: `Bearer ${defaultValue.bearerToken}` }),
+        ...(defaultValue.contentType !== "form-data" && {
+          "Content-Type": getContentType(defaultValue?.contentType),
+        }),
+        ...(defaultValue?.bearerToken &&
+          typeof defaultValue.bearerToken !== "undefined" && {
+            Authorization: `Bearer ${defaultValue.bearerToken}`,
+          }),
         ...defaultValue?.headers,
       },
       body:
@@ -50,32 +53,46 @@ async function createRequest<Res = unknown, Req = unknown>(
           : (body as BodyInit),
     }
   );
-  const data: Res = await res.json();
-  if (!res.ok) {
-    throw data;
+
+  const contentType = res.headers.get("Content-Type");
+
+  if (
+    contentType?.includes(
+      "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+    )
+  ) {
+    const blob = await res.blob();
+    console.log(blob);
+    if (!res.ok) throw new Error("Failed to download file");
+    return blob as unknown as Res;
+  } else if (contentType?.includes("application/json")) {
+    const data: Res = await res.json();
+    if (!res.ok) throw data;
+    return data;
+  } else {
+    throw new Error(`Unexpected content type: ${contentType}`);
   }
-  return data as Res;
 }
 
 export const HTTP_REQUEST = {
   get:
     <Res = unknown, Req = unknown>(endpoint: string) =>
-      (apiOption?: ApiOption) =>
-        createRequest<Res, Req>(endpoint, "GET", apiOption),
+    (apiOption?: ApiOption) =>
+      createRequest<Res, Req>(endpoint, "GET", apiOption),
   post:
     <Res = unknown, Req = unknown>(endpoint: string) =>
-      (body?: Req, apiOption?: ApiOption) =>
-        createRequest<Res, Req>(endpoint, "POST", apiOption, body),
+    (body?: Req, apiOption?: ApiOption) =>
+      createRequest<Res, Req>(endpoint, "POST", apiOption, body),
   put:
     <Res = unknown, Req = unknown>(endpoint: string) =>
-      (body?: Req, apiOption?: ApiOption) =>
-        createRequest<Res, Req>(endpoint, "PUT", apiOption, body),
+    (body?: Req, apiOption?: ApiOption) =>
+      createRequest<Res, Req>(endpoint, "PUT", apiOption, body),
   patch:
     <Res = unknown, Req = unknown>(endpoint: string) =>
-      (body?: Req, apiOption?: ApiOption) =>
-        createRequest<Res, Req>(endpoint, "PATCH", apiOption, body),
+    (body?: Req, apiOption?: ApiOption) =>
+      createRequest<Res, Req>(endpoint, "PATCH", apiOption, body),
   delete:
     <Res = unknown, Req = unknown>(endpoint: string) =>
-      (apiOption?: ApiOption) =>
-        createRequest<Res, Req>(endpoint, "DELETE", apiOption),
+    (apiOption?: ApiOption) =>
+      createRequest<Res, Req>(endpoint, "DELETE", apiOption),
 };

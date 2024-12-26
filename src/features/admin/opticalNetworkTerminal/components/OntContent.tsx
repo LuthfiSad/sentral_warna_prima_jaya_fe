@@ -11,6 +11,8 @@ import { useParams, useSearchParams } from "react-router-dom";
 import { useOnt, useOntCreation } from "../hooks/useOnt";
 import { TableItem } from "./Table/TableItem";
 import EmptyData from "@features/_global/components/EmptyData";
+import { RiFileExcel2Fill } from "react-icons/ri";
+import { useExport } from "@features/_global/hooks/useExport";
 
 export const OntContent: React.FC = () => {
   const { locationId } = useParams();
@@ -22,11 +24,19 @@ export const OntContent: React.FC = () => {
     setSearchParams({ ...queryParams, page: page.toString() });
 
   const mutation = useOntCreation();
+  const mutationExport = useExport();
 
   const handleDelete = async (id: string) => {
     await mutation.mutateAsync({
       type: "delete",
       id,
+    });
+  };
+
+  const handleExport = async () => {
+    await mutationExport.mutateAsync({
+      type: "ont",
+      locationId,
     });
   };
 
@@ -85,6 +95,13 @@ export const OntContent: React.FC = () => {
           label: "Back",
           value: "Back",
           key: "status",
+        },
+      ]}
+      buttonFile={[
+        {
+          handleFile: handleExport,
+          icon: <RiFileExcel2Fill className="w-5 h-5" />,
+          label: "Excel",
         },
       ]}
     >

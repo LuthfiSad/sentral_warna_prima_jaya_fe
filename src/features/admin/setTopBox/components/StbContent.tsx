@@ -11,6 +11,8 @@ import { useParams, useSearchParams } from "react-router-dom";
 import { useStb, useStbCreation } from "../hooks/useStb";
 import { TableItem } from "./Table/TableItem";
 import EmptyData from "@features/_global/components/EmptyData";
+import { RiFileExcel2Fill } from "react-icons/ri";
+import { useExport } from "@features/_global/hooks/useExport";
 
 export const StbContent: React.FC = () => {
   const { locationId } = useParams();
@@ -22,11 +24,19 @@ export const StbContent: React.FC = () => {
     setSearchParams({ ...queryParams, page: page.toString() });
 
   const mutation = useStbCreation();
+  const mutationExport = useExport();
 
   const handleDelete = async (id: string) => {
     await mutation.mutateAsync({
       type: "delete",
       id,
+    });
+  };
+
+  const handleExport = async () => {
+    await mutationExport.mutateAsync({
+      type: "stb",
+      locationId,
     });
   };
 
@@ -95,6 +105,13 @@ export const StbContent: React.FC = () => {
         value: "Active",
         key: "status",
       }}
+      buttonFile={[
+        {
+          handleFile: handleExport,
+          icon: <RiFileExcel2Fill className="w-5 h-5" />,
+          label: "Excel",
+        },
+      ]}
     >
       <Table>
         <TableHead field={tableHead} />
