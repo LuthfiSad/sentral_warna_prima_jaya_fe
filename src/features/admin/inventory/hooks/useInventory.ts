@@ -69,7 +69,7 @@ export function useInventoryCreation() {
         pauseOnHover: true,
         theme: "dark",
       });
-      navigate("/admin/inventory");
+      navigate("/inventory");
 
       queryClient.removeQueries({ queryKey: ["inventoryes"] });
       queryClient.removeQueries({ queryKey: ["inventoryesById"] });

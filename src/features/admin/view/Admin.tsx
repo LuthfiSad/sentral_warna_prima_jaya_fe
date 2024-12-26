@@ -32,7 +32,7 @@ const AdminView: React.FC = () => {
   }
 
   if (!auth?.data) {
-    return <Navigate to={"/admin/login"} replace />;
+    return <Navigate to={"/login"} replace />;
   }
 
   const handleOpenSidenav = () => setOpenSidenav(!openSidenav);

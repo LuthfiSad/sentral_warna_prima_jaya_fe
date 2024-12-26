@@ -6,7 +6,7 @@ const AuthLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const auth = useAuth();
 
   if (auth?.data) {
-    return <Navigate to={"/admin/anggota"} replace />;
+    return <Navigate to={"/anggota"} replace />;
   }
 
   return (

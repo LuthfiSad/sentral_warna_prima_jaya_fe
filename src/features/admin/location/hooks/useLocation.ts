@@ -69,8 +69,9 @@ export function useLocationCreation() {
         pauseOnHover: true,
         theme: "dark",
       });
-      navigate("/admin/location");
+      navigate("/location");
 
+      queryClient.removeQueries({ queryKey: ["cables"] });
       queryClient.removeQueries({ queryKey: ["locations"] });
       queryClient.removeQueries({ queryKey: ["locationsById"] });
       return;

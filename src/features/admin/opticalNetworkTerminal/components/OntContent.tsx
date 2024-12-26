@@ -66,7 +66,7 @@ export const OntContent: React.FC = () => {
       action={{
         show: true,
         buttonTitle: "Create Optical Network Terminal",
-        link: { to: "/admin/ont/create" },
+        link: { to: "/ont/create" },
       }}
       headBackground="black"
       showPagination={

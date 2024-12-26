@@ -29,6 +29,7 @@ const Login: React.FC = () => {
         newErrors.password = "Password is required";
       }
       setErrors(newErrors);
+      setAuthBody(InitialValue);
       return false;
     }
     return true;

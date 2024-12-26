@@ -83,8 +83,9 @@ export function useStbCreation() {
         pauseOnHover: true,
         theme: "dark",
       });
-      navigate("/admin/stb");
+      navigate("/stb");
 
+      queryClient.removeQueries({ queryKey: ["histories"] });
       queryClient.removeQueries({ queryKey: ["stbs"] });
       queryClient.removeQueries({ queryKey: ["stbsById"] });
       return;

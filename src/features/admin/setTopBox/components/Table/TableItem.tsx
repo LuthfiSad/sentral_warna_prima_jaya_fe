@@ -149,7 +149,7 @@ export const TableItem: React.FC<IStbItemProps> = ({
         <div className="d-flex align-items-center gap-2">
           <button
             className="btn btn-link p-0 text-warning text-xs font-semibold"
-            onClick={() => nav(`/admin/stb/edit/${id}`)}
+            onClick={() => nav(`/stb/edit/${id}`)}
           >
             Edit
           </button>

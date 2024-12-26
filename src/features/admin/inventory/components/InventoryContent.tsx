@@ -52,7 +52,7 @@ export const InventoryContent: React.FC = () => {
       action={{
         show: true,
         buttonTitle: "Create Inventory",
-        link: { to: "/admin/inventory/create" },
+        link: { to: "/inventory/create" },
       }}
       headBackground="black"
       showPagination={

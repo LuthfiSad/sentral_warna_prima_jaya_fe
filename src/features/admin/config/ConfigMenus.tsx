@@ -1,30 +1,42 @@
-import { FaUser } from "react-icons/fa";
+import {
+  FaBox,
+  FaMapMarkerAlt,
+  FaNetworkWired,
+  FaPlug,
+  FaTv,
+  FaUser,
+} from "react-icons/fa";
 import { ItemMenuAdmin } from "../../_global/types/MenuTypes";
 
 export const CONFIG_MENU_ADMIN: ItemMenuAdmin[] = [
   {
     icon: <FaUser />,
+    name: "Dashboard",
+    to: "/",
+  },
+  {
+    icon: <FaMapMarkerAlt />,
     name: "Location",
-    to: "/admin/location",
+    to: "/location",
   },
   {
-    icon: <FaUser />,
+    icon: <FaPlug />,
     name: "Cable",
-    to: "/admin/cable",
+    to: "/cable",
   },
   {
-    icon: <FaUser />,
+    icon: <FaNetworkWired />,
     name: "Optical Network Terminal",
-    to: "/admin/ont",
+    to: "/ont",
   },
   {
-    icon: <FaUser />,
+    icon: <FaTv />,
     name: "Set Top Box",
-    to: "/admin/stb",
+    to: "/stb",
   },
   {
-    icon: <FaUser />,
+    icon: <FaBox />,
     name: "Inventory",
-    to: "/admin/inventory",
+    to: "/inventory",
   },
 ];

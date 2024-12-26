@@ -1,5 +1,6 @@
 import CableUpdateView from "@features/admin/cable/view/CableUpdateView";
 import { CableView } from "@features/admin/cable/view/CableView";
+import { DashboardView } from "@features/admin/dashboard/view/DashboardView";
 import InventoryAddView from "@features/admin/inventory/view/InventoryAddView";
 import InventoryUpdateView from "@features/admin/inventory/view/InventoryUpdateView";
 import { InventoryView } from "@features/admin/inventory/view/InventoryView";
@@ -18,7 +19,7 @@ import { createBrowserRouter } from "react-router-dom";
 
 export const router = createBrowserRouter([
   {
-    path: "/admin/login",
+    path: "/login",
     element: <LoginView />,
   },
   {
@@ -26,71 +27,75 @@ export const router = createBrowserRouter([
     element: <AdminView />,
     children: [
       {
-        path: "/admin/location",
+        path: "/",
+        element: <DashboardView />,
+      },
+      {
+        path: "/location",
         element: <LocationView />,
       },
       {
-        path: "/admin/location/create",
+        path: "/location/create",
         element: <LocationAddView />,
       },
       {
-        path: "/admin/location/edit/:id",
+        path: "/location/edit/:id",
         element: <LocationUpdateView />,
       },
       {
-        path: "/admin/ont",
+        path: "/ont",
         element: <OntView />,
       },
       {
-        path: "/admin/ont/create",
+        path: "/ont/create",
         element: <OntAddView />,
       },
       {
-        path: "/admin/ont/edit/:id",
+        path: "/ont/edit/:id",
         element: <OntUpdateView />,
       },
       {
-        path: "/admin/ont/:locationId",
+        path: "/ont/:locationId",
         element: <OntView />,
       },
       {
-        path: "/admin/stb",
+        path: "/stb",
         element: <StbView />,
       },
       {
-        path: "/admin/stb/create",
+        path: "/stb/create",
         element: <StbAddView />,
       },
       {
-        path: "/admin/stb/edit/:id",
+        path: "/stb/edit/:id",
         element: <StbUpdateView />,
       },
       {
-        path: "/admin/stb/:locationId",
+        path: "/stb/:locationId",
         element: <StbView />,
       },
       {
-        path: "/admin/cable",
+        path: "/cable",
         element: <CableView />,
       },
       {
-        path: "/admin/cable/edit/:id",
+        path: "/cable/edit/:id",
         element: <CableUpdateView />,
       },
       {
-        path: "/admin/cable/:locationId",
+        path: "/cable/:locationId",
         element: <CableView />,
       },
       {
-        path: "/admin/inventory",
+        path: "/inventory",
         element: <InventoryView />,
       },
       {
-        path: "/admin/inventory/create",
+        path: "/inventory/create",
         element: <InventoryAddView />,
       },
       {
-        path: "/admin/inventory/edit/:id",
+        path: "/inventory/edit/:id",
         element: <InventoryUpdateView />,
       },
     ],

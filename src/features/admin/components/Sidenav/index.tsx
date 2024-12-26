@@ -49,7 +49,7 @@ const Sidenav: React.FC<{
                 onClick={() => {
                   if (window.confirm("Are you sure you want to logout?")) {
                     localStorage.removeItem("token");
-                    nav("/admin/login");
+                    nav("/login");
                   }
                 }}
               >

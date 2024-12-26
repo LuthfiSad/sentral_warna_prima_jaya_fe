@@ -16,7 +16,7 @@ export function useAuthLogin() {
         theme: "dark",
       });
       localStorage.setItem("token", res?.data?.access_token as string);
-      navigate("/admin/ont");
+      navigate("/");
     },
     onError: (err) => {
       toast.error(err.message, {

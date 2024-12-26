@@ -76,8 +76,9 @@ export function useOntCreation() {
         pauseOnHover: true,
         theme: "dark",
       });
-      navigate("/admin/ont");
+      navigate("/ont");
 
+      queryClient.removeQueries({ queryKey: ["histories"] });
       queryClient.removeQueries({ queryKey: ["onts"] });
       queryClient.removeQueries({ queryKey: ["ontsById"] });
       return;

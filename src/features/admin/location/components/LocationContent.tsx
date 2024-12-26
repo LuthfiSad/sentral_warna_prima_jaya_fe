@@ -43,7 +43,7 @@ export const LocationContent: React.FC = () => {
       action={{
         show: true,
         buttonTitle: "Create Location",
-        link: { to: "/admin/location/create" },
+        link: { to: "/location/create" },
       }}
       headBackground="black"
       showPagination={

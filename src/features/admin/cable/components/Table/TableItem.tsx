@@ -33,7 +33,7 @@ export const TableItem: React.FC<ICableItemProps> = ({
         <div className="d-flex align-items-center gap-2">
           <button
             className="btn btn-link p-0 text-warning text-xs font-semibold"
-            onClick={() => nav(`/admin/cable/edit/${id}`)}
+            onClick={() => nav(`/cable/edit/${id}`)}
           >
             Edit
           </button>

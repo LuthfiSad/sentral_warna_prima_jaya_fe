@@ -25,19 +25,19 @@ export const TableItem: React.FC<ILocationItemProps> = ({
         <div className="d-flex align-items-center gap-2">
           <button
             className="btn btn-primary btn-sm font-semibold"
-            onClick={() => nav(`/admin/ont/${id}`)}
+            onClick={() => nav(`/ont/${id}`)}
           >
             ONT
           </button>
           <button
             className="btn btn-primary btn-sm font-semibold"
-            onClick={() => nav(`/admin/stb/${id}`)}
+            onClick={() => nav(`/stb/${id}`)}
           >
             STB
           </button>
           <button
             className="btn btn-primary btn-sm font-semibold"
-            onClick={() => nav(`/admin/cable/${id}`)}
+            onClick={() => nav(`/cable/${id}`)}
           >
             KABEL
           </button>
@@ -47,7 +47,7 @@ export const TableItem: React.FC<ILocationItemProps> = ({
         <div className="d-flex align-items-center gap-2">
           <button
             className="btn btn-link p-0 text-warning text-xs font-semibold"
-            onClick={() => nav(`/admin/location/edit/${id}`)}
+            onClick={() => nav(`/location/edit/${id}`)}
           >
             Edit
           </button>

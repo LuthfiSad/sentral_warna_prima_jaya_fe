@@ -69,7 +69,7 @@ export const StbContent: React.FC = () => {
       action={{
         show: true,
         buttonTitle: "Create Set Top Box",
-        link: { to: "/admin/stb/create" },
+        link: { to: "/stb/create" },
       }}
       headBackground="black"
       showPagination={

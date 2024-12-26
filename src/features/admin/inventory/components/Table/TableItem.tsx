@@ -53,7 +53,7 @@ export const TableItem: React.FC<IInventoryItemProps> = ({
         <div className="d-flex align-items-center gap-2">
           <button
             className="btn btn-link p-0 text-warning text-xs font-semibold"
-            onClick={() => nav(`/admin/inventory/edit/${id}`)}
+            onClick={() => nav(`/inventory/edit/${id}`)}
           >
             Edit
           </button>
