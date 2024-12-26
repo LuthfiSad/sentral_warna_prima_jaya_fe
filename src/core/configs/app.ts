@@ -9,4 +9,6 @@ export const API_ENDPOINT = {
   ont: `${CONFIG_APP.BASE_URL}/onts`,
   stb: `${CONFIG_APP.BASE_URL}/stbs`,
   location: `${CONFIG_APP.BASE_URL}/locations`,
+  cable: `${CONFIG_APP.BASE_URL}/cables`,
+  inventory: `${CONFIG_APP.BASE_URL}/inventories`,
 };

@@ -17,6 +17,7 @@ export const TableItem: React.FC<IOntItemProps> = ({
   name,
   dateActivation,
   status,
+  location,
   information,
   show,
   handleDelete,
@@ -70,6 +71,11 @@ export const TableItem: React.FC<IOntItemProps> = ({
           }`}
         >
           {status}
+        </span>
+      </td>
+      <td className="py-3 px-5">
+        <span className="text-xs font-semibold text-secondary">
+          {location?.location}
         </span>
       </td>
       <td className="py-3 px-5">

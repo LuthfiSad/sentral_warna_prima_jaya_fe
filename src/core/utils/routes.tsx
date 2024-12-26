@@ -1,3 +1,8 @@
+import CableUpdateView from "@features/admin/cable/view/CableUpdateView";
+import { CableView } from "@features/admin/cable/view/CableView";
+import InventoryAddView from "@features/admin/inventory/view/InventoryAddView";
+import InventoryUpdateView from "@features/admin/inventory/view/InventoryUpdateView";
+import { InventoryView } from "@features/admin/inventory/view/InventoryView";
 import LocationAddView from "@features/admin/location/view/LocationAddView";
 import LocationUpdateView from "@features/admin/location/view/LocationUpdateView";
 import { LocationView } from "@features/admin/location/view/LocationView";
@@ -63,6 +68,30 @@ export const router = createBrowserRouter([
       {
         path: "/admin/stb/:locationId",
         element: <StbView />,
+      },
+      {
+        path: "/admin/cable",
+        element: <CableView />,
+      },
+      {
+        path: "/admin/cable/edit/:id",
+        element: <CableUpdateView />,
+      },
+      {
+        path: "/admin/cable/:locationId",
+        element: <CableView />,
+      },
+      {
+        path: "/admin/inventory",
+        element: <InventoryView />,
+      },
+      {
+        path: "/admin/inventory/create",
+        element: <InventoryAddView />,
+      },
+      {
+        path: "/admin/inventory/edit/:id",
+        element: <InventoryUpdateView />,
       },
     ],
   },

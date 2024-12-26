@@ -19,6 +19,7 @@ export const TableItem: React.FC<IStbItemProps> = ({
   dateActivation,
   status,
   deviceLocation,
+  location,
   information,
   notes,
   show,
@@ -81,6 +82,11 @@ export const TableItem: React.FC<IStbItemProps> = ({
           }`}
         >
           {deviceLocation}
+        </span>
+      </td>
+      <td className="py-3 px-5">
+        <span className="text-xs font-semibold text-secondary">
+          {location?.location}
         </span>
       </td>
       <td className="py-3 px-5">

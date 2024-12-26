@@ -2,47 +2,54 @@ import React, { useEffect, useState } from "react";
 
 import { PageLayout } from "@features/admin/components/PageLayout";
 import { useNavigate, useParams } from "react-router-dom";
-import { LocationDTO } from "@core/model/location";
-import { useLocationById, useLocationCreation } from "../hooks/useLocation";
+import { CableDTO } from "@core/model/cable";
+import { useCableById, useCableCreation } from "../hooks/useCable";
 import LoadingData from "@features/_global/components/LoadingData";
 
-const InitialValue: LocationDTO = {
-  location: "",
+const InitialValue: CableDTO = {
+  quantity: "",
+  size: "",
 };
 
-export const LocationFormUpdate: React.FC = () => {
+export const CableFormUpdate: React.FC = () => {
   const { id } = useParams();
-  const mutation = useLocationCreation();
+  const mutation = useCableCreation();
 
-  const [locationBody, setLocationBody] = useState<LocationDTO>({
+  const [cableBody, setCableBody] = useState<CableDTO>({
     ...InitialValue,
   });
-  const [errors, setErrors] = useState<
-    Partial<Record<keyof LocationDTO, string>>
-  >({});
+  const [errors, setErrors] = useState<Partial<Record<keyof CableDTO, string>>>(
+    {}
+  );
 
-  const { data: locationById, isLoading } = useLocationById();
+  const { data: cableById, isLoading } = useCableById();
   useEffect(() => {
-    if (locationById && locationById.data) {
-      handleSetLocationBody(locationById.data);
+    if (cableById && cableById.data) {
+      handleSetCableBody(cableById.data);
     }
-  }, [locationById]);
+  }, [cableById]);
 
-  const handleSetLocationBody = (data: LocationDTO) => {
-    const { location } = data;
-    setLocationBody({
-      location,
+  const handleSetCableBody = (data: CableDTO) => {
+    const { quantity, size } = data;
+    setCableBody({
+      quantity,
+      size,
     });
   };
 
   const navigate = useNavigate();
 
   const validate = () => {
-    const newErrors: Partial<Record<keyof LocationDTO, string>> = {};
+    const newErrors: Partial<Record<keyof CableDTO, string>> = {};
     let isValid = true;
 
-    if (!locationBody.location) {
-      newErrors.location = "Location is required";
+    if (!cableBody.quantity) {
+      newErrors.quantity = "Quantity is required";
+      isValid = false;
+    }
+
+    if (!cableBody.size) {
+      newErrors.size = "Size is required";
       isValid = false;
     }
 
@@ -56,24 +63,25 @@ export const LocationFormUpdate: React.FC = () => {
     await mutation.mutateAsync({
       type: "update",
       data: {
-        location: locationBody.location,
+        quantity: cableBody.quantity,
+        size: cableBody.size,
       },
       id,
     });
   };
 
   const handleReset = () => {
-    if (locationById && locationById.data) {
-      handleSetLocationBody(locationById.data);
+    if (cableById && cableById.data) {
+      handleSetCableBody(cableById.data);
     } else {
-      setLocationBody(InitialValue);
+      setCableBody(InitialValue);
     }
     setErrors({});
   };
 
   return (
     <PageLayout
-      title="Update Location"
+      title="Update Cable"
       headBackground="orange"
       action={{
         show: true,
@@ -87,27 +95,50 @@ export const LocationFormUpdate: React.FC = () => {
         <form className="form form-horizontal mt-4" onSubmit={handleSubmit}>
           <div className="form-body">
             <div className="row">
-              {/* Location Field */}
+              {/* Size Field */}
               <div className="col-md-4">
-                <label htmlFor="location">Location</label>
+                <label htmlFor="size">Size</label>
               </div>
               <div className="col-md-8 form-group">
                 <input
                   type="text"
                   className="form-control"
-                  placeholder="Location"
-                  id="location"
+                  placeholder="Size"
+                  id="size"
                   disabled={mutation.isPending}
-                  value={locationBody.location}
+                  value={cableBody.size}
                   onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                    setLocationBody((prev) => ({
+                    setCableBody((prev) => ({
                       ...prev,
-                      location: e.target.value,
+                      size: e.target.value,
                     }))
                   }
                 />
-                {errors.location && (
-                  <small className="text-danger">{errors.location}</small>
+                {errors.size && (
+                  <small className="text-danger">{errors.size}</small>
+                )}
+              </div>
+              {/* Quantity Field */}
+              <div className="col-md-4">
+                <label htmlFor="quantity">Quantity</label>
+              </div>
+              <div className="col-md-8 form-group">
+                <input
+                  type="text"
+                  className="form-control"
+                  placeholder="Quantity"
+                  id="quantity"
+                  disabled={mutation.isPending}
+                  value={cableBody.quantity}
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                    setCableBody((prev) => ({
+                      ...prev,
+                      quantity: e.target.value,
+                    }))
+                  }
+                />
+                {errors.quantity && (
+                  <small className="text-danger">{errors.quantity}</small>
                 )}
               </div>
 

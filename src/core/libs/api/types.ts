@@ -5,6 +5,7 @@ export interface QueryParams {
   status?: string;
   locationId?: string;
   deviceLocation?: string;
+  type?: string;
 }
 
 export interface ApiOption {

@@ -1,3 +1,5 @@
+import { LocationModel } from "./location";
+
 export interface StbModel {
   id: string;
   serialNumber: string;
@@ -5,6 +7,7 @@ export interface StbModel {
   deviceId: string; //new
   numberWo: string;
   locationId: string;
+  location: LocationModel;
   unitAddress: string;
   packageName: string; //change name
   dateActivation: Date;

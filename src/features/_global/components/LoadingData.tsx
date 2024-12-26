@@ -3,7 +3,7 @@ import Loading from "@core/assets/icon/loading.svg";
 
 const LoadingData: React.FC = () => {
   return (
-    <div className="flex justify-center items-center animate-spin">
+    <div className="flex justify-center items-center animate-spin p-2">
       <img src={Loading} width={60} alt="no-data" />
     </div>
   );

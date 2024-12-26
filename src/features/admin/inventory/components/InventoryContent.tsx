@@ -7,21 +7,20 @@ import {
 } from "@features/_global/components/Table";
 import { convertQueryParamsToObject } from "@features/_global/helper";
 import React from "react";
-import { useParams, useSearchParams } from "react-router-dom";
-import { useStb, useStbCreation } from "../hooks/useStb";
+import { useSearchParams } from "react-router-dom";
+import { useInventory, useInventoryCreation } from "../hooks/useInventory";
 import { TableItem } from "./Table/TableItem";
 import EmptyData from "@features/_global/components/EmptyData";
 
-export const StbContent: React.FC = () => {
-  const { locationId } = useParams();
-  const { data: stbs, isLoading } = useStb({ locationId });
+export const InventoryContent: React.FC = () => {
+  const { data: inventoryes, isLoading } = useInventory();
 
   const [searchParams, setSearchParams] = useSearchParams();
   const queryParams = convertQueryParamsToObject(searchParams.toString());
   const onPageChange = (page: number) =>
     setSearchParams({ ...queryParams, page: page.toString() });
 
-  const mutation = useStbCreation();
+  const mutation = useInventoryCreation();
 
   const handleDelete = async (id: string) => {
     await mutation.mutateAsync({
@@ -31,70 +30,42 @@ export const StbContent: React.FC = () => {
   };
 
   const pagination = {
-    currentPage: stbs?.meta?.page || 1,
-    totalPages: stbs?.meta?.totalPages || 1,
+    currentPage: inventoryes?.meta?.page || 1,
+    totalPages: inventoryes?.meta?.totalPages || 1,
     onPageChange,
   };
 
   const tableHead = [
-    "Nomor Seri",
-    "Type",
-    "ID Device",
-    "Nomor WO",
-    "Alamat",
-    "Nama Paket",
-    "Tanggal Aktivasi",
-    "Status",
-    "Lokasi Device",
-    "Location",
-    "Keterangan",
-    "Catatan",
-    "Update",
+    "Item Name",
+    "Unit",
+    "Quantity",
+    "Good",
+    "Damaged",
+    "Information",
+    "Notes",
     "Action",
   ];
 
   return (
     <PageLayout
-      title="Set Top Box"
+      title="Inventory"
       action={{
         show: true,
-        buttonTitle: "Create Set Top Box",
-        link: { to: "/admin/stb/create" },
+        buttonTitle: "Create Inventory",
+        link: { to: "/admin/inventory/create" },
       }}
       headBackground="black"
       showPagination={
         !!(
-          stbs?.data?.length &&
+          inventoryes?.data?.length &&
           !isLoading &&
-          (stbs.meta?.totalData as number) > (stbs?.meta?.perPage as number)
+          (inventoryes.meta?.totalData as number) >
+            (inventoryes?.meta?.perPage as number)
         )
       }
       pagination={pagination}
       searchField
-      searchPlaceholder="Search Stb"
-      buttonFilter="Device Location"
-      buttonFilterOptions={[
-        {
-          label: "Active",
-          value: "Active",
-          key: "deviceLocation",
-        },
-        {
-          label: "Ready",
-          value: "Ready",
-          key: "deviceLocation",
-        },
-        {
-          label: "Back",
-          value: "Back",
-          key: "deviceLocation",
-        },
-      ]}
-      buttonCheckbox={{
-        label: "Active",
-        value: "Active",
-        key: "status",
-      }}
+      searchPlaceholder="Search Inventory"
     >
       <Table>
         <TableHead field={tableHead} />
@@ -106,19 +77,19 @@ export const StbContent: React.FC = () => {
                 <LoadingData />
               </td>
             </tr>
-          ) : !stbs?.data?.length ? (
+          ) : !inventoryes?.data?.length ? (
             <tr>
               <td colSpan={tableHead.length}>
-                <EmptyData title="set top box" />
+                <EmptyData title="Inventory" />
               </td>
             </tr>
           ) : (
             <>
-              {stbs?.data?.map((item, key) => (
+              {inventoryes?.data?.map((item, key) => (
                 <TableItem
                   key={key}
                   {...item}
-                  show={key !== (stbs?.data?.length as number) - 1}
+                  show={key !== (inventoryes?.data?.length as number) - 1}
                   handleDelete={handleDelete}
                 />
               ))}

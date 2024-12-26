@@ -44,6 +44,7 @@ export const OntContent: React.FC = () => {
     "Nama",
     "Tanggal Aktivasi",
     "Status",
+    "Location",
     "Keterangan",
     "Update",
     "Action",
@@ -73,19 +74,18 @@ export const OntContent: React.FC = () => {
         {
           label: "Active",
           value: "Active",
-          key: "status"
+          key: "status",
         },
         {
           label: "Ready",
           value: "Ready",
-          key: "status"
+          key: "status",
         },
         {
           label: "Back",
           value: "Back",
-          key: "status"
+          key: "status",
         },
-
       ]}
     >
       <Table>
