@@ -5,7 +5,7 @@ import { InventoryContent } from "../components/InventoryContent";
 export const InventoryView: React.FC = () => {
   return (
     <>
-      <AdminNavbar page="List Inventory" />
+      <AdminNavbar page="List Inventaris" />
       <div className="page-content">
         <InventoryContent />
       </div>

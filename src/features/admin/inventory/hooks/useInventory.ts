@@ -29,7 +29,7 @@ export const useInventory = (options?: Options) => {
 
   const search = useDebounce(searchQuery as string, 500);
   const query = useQuery({
-    queryKey: ["inventoryes", { page, perPage, search }],
+    queryKey: ["inventories", { page, perPage, search }],
     queryFn: () =>
       inventoryService.get({
         queryParams: {
@@ -71,8 +71,8 @@ export function useInventoryCreation() {
       });
       navigate("/inventory");
 
-      queryClient.removeQueries({ queryKey: ["inventoryes"] });
-      queryClient.removeQueries({ queryKey: ["inventoryesById"] });
+      queryClient.removeQueries({ queryKey: ["inventories"] });
+      queryClient.removeQueries({ queryKey: ["inventoriesById"] });
       return;
     },
     onError: (err: ApiErrorResponse<ApiResponse>) => {
@@ -90,7 +90,7 @@ export function useInventoryCreation() {
 export function useInventoryById() {
   const { id } = useParams();
   return useQuery({
-    queryKey: ["inventoryesById", id],
+    queryKey: ["inventoriesById", id],
     queryFn: () => inventoryService.getById({ path: id }),
     enabled: !!id,
   });

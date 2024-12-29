@@ -36,7 +36,7 @@ export const CONFIG_MENU_ADMIN: ItemMenuAdmin[] = [
   },
   {
     icon: <FaBox />,
-    name: "Inventory",
+    name: "Inventaris",
     to: "/inventory",
   },
 ];

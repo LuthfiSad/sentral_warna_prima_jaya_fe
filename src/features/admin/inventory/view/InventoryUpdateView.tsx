@@ -5,7 +5,7 @@ import { InventoryFormUpdate } from "../components/InventoryFormUpdate";
 const InventoryUpdateView: React.FC = () => {
   return (
     <>
-      <AdminNavbar page="Update Inventory" />
+      <AdminNavbar page="Update Inventaris" />
       <div className="page-content">
         <InventoryFormUpdate />
       </div>

@@ -13,7 +13,7 @@ import { TableItem } from "./Table/TableItem";
 import EmptyData from "@features/_global/components/EmptyData";
 
 export const InventoryContent: React.FC = () => {
-  const { data: inventoryes, isLoading } = useInventory();
+  const { data: inventories, isLoading } = useInventory();
 
   const [searchParams, setSearchParams] = useSearchParams();
   const queryParams = convertQueryParamsToObject(searchParams.toString());
@@ -30,8 +30,8 @@ export const InventoryContent: React.FC = () => {
   };
 
   const pagination = {
-    currentPage: inventoryes?.meta?.page || 1,
-    totalPages: inventoryes?.meta?.totalPages || 1,
+    currentPage: inventories?.meta?.page || 1,
+    totalPages: inventories?.meta?.totalPages || 1,
     onPageChange,
   };
 
@@ -48,24 +48,24 @@ export const InventoryContent: React.FC = () => {
 
   return (
     <PageLayout
-      title="Inventory"
+      title="Inventaris"
       action={{
         show: true,
-        buttonTitle: "Create Inventory",
+        buttonTitle: "Create Inventaris",
         link: { to: "/inventory/create" },
       }}
       headBackground="black"
       showPagination={
         !!(
-          inventoryes?.data?.length &&
+          inventories?.data?.length &&
           !isLoading &&
-          (inventoryes.meta?.totalData as number) >
-            (inventoryes?.meta?.perPage as number)
+          (inventories.meta?.totalData as number) >
+            (inventories?.meta?.perPage as number)
         )
       }
       pagination={pagination}
       searchField
-      searchPlaceholder="Search Inventory"
+      searchPlaceholder="Search Inventaris"
     >
       <Table>
         <TableHead field={tableHead} />
@@ -77,19 +77,19 @@ export const InventoryContent: React.FC = () => {
                 <LoadingData />
               </td>
             </tr>
-          ) : !inventoryes?.data?.length ? (
+          ) : !inventories?.data?.length ? (
             <tr>
               <td colSpan={tableHead.length}>
-                <EmptyData title="Inventory" />
+                <EmptyData title="Inventaris" />
               </td>
             </tr>
           ) : (
             <>
-              {inventoryes?.data?.map((item, key) => (
+              {inventories?.data?.map((item, key) => (
                 <TableItem
                   key={key}
                   {...item}
-                  show={key !== (inventoryes?.data?.length as number) - 1}
+                  show={key !== (inventories?.data?.length as number) - 1}
                   handleDelete={handleDelete}
                 />
               ))}

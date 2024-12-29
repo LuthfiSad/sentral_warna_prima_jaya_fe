@@ -84,7 +84,7 @@ export const InventoryFormAdd: React.FC = () => {
 
   return (
     <PageLayout
-      title="Add Inventory"
+      title="Add Inventaris"
       headBackground="blue"
       action={{
         show: true,

@@ -119,7 +119,7 @@ export const InventoryFormUpdate: React.FC = () => {
 
   return (
     <PageLayout
-      title="Update Inventory"
+      title="Update Inventaris"
       headBackground="orange"
       action={{
         show: true,

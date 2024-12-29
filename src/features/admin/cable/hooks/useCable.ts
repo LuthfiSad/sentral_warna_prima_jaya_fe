@@ -76,7 +76,7 @@ export function useCableCreation() {
         pauseOnHover: true,
         theme: "dark",
       });
-      navigate("/cable");
+      navigate(-1);
 
       queryClient.removeQueries({ queryKey: ["cables"] });
       queryClient.removeQueries({ queryKey: ["cablesById"] });
