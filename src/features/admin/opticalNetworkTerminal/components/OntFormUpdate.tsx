@@ -57,7 +57,7 @@ export const OntFormUpdate: React.FC = () => {
       locationId,
       unitAddress,
       name,
-      dateActivation,
+      dateActivation: new Date(dateActivation as Date),
       status,
       information,
     });
@@ -70,42 +70,49 @@ export const OntFormUpdate: React.FC = () => {
     let isValid = true;
 
     if (!ontBody.serialNumber) {
-      newErrors.serialNumber = "Serial Number is required";
+      newErrors.serialNumber = "Nomor Seri wajib diisi";
       isValid = false;
     }
 
     if (!ontBody.numberWo) {
-      newErrors.numberWo = "Number Wo is required";
+      newErrors.numberWo = "Nomor Wo wajib diisi";
       isValid = false;
     }
 
     if (!ontBody.type) {
-      newErrors.type = "Type is required";
+      newErrors.type = "Type wajib diisi";
       isValid = false;
     }
 
     if (!ontBody.locationId) {
-      newErrors.locationId = "Location ID is required";
+      newErrors.locationId = "Lokasi wajib diisi";
       isValid = false;
     }
 
     if (!ontBody.unitAddress) {
-      newErrors.unitAddress = "Unit Address is required";
+      newErrors.unitAddress = "Alamat Unit wajib diisi";
       isValid = false;
     }
 
     if (!ontBody.name) {
-      newErrors.name = "Name is required";
+      newErrors.name = "Nama wajib diisi";
       isValid = false;
     }
 
     if (!ontBody.dateActivation) {
-      newErrors.dateActivation = "Activation Date is required";
+      newErrors.dateActivation = "Tanggal Aktivasi wajib diisi";
+      isValid = false;
+    }
+
+    if (
+      new Date(ontBody.dateActivation as Date).toString() === "Invalid Date"
+    ) {
+      newErrors.dateActivation = "Tanggal Aktivasi must be a date";
       isValid = false;
     }
 
     if (!ontBody.status) {
-      newErrors.status = "Status is required";
+      newErrors.status = "Status wajib diisi";
       isValid = false;
     }
 
@@ -125,7 +132,7 @@ export const OntFormUpdate: React.FC = () => {
         locationId: ontBody.locationId,
         unitAddress: ontBody.unitAddress,
         name: ontBody.name,
-        dateActivation: ontBody.dateActivation,
+        dateActivation: new Date(ontBody.dateActivation as Date),
         status: ontBody.status,
         information: ontBody.information,
       },
@@ -144,7 +151,7 @@ export const OntFormUpdate: React.FC = () => {
 
   return (
     <PageLayout
-      title="Update Optical Network Terminal"
+      title="Ubah Optical Network Terminal"
       headBackground="blue"
       action={{
         show: true,
@@ -158,16 +165,16 @@ export const OntFormUpdate: React.FC = () => {
         <form className="form form-horizontal mt-4" onSubmit={handleSubmit}>
           <div className="form-body">
             <div className="row">
-              {/* Serial Number Field */}
+              {/* Nomor Seri Field */}
               <div className="col-md-4">
-                <label htmlFor="serialNumber">Serial Number</label>
+                <label htmlFor="serialNumber">Nomor Seri</label>
               </div>
               <div className="col-md-8 form-group">
                 <input
                   disabled={mutation.isPending}
                   type="text"
                   className="form-control"
-                  placeholder="Serial Number"
+                  placeholder="Nomor Seri"
                   id="serialNumber"
                   value={ontBody.serialNumber}
                   onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
@@ -206,16 +213,16 @@ export const OntFormUpdate: React.FC = () => {
                 )}
               </div>
 
-              {/* Number WO Field */}
+              {/* Nomor WO Field */}
               <div className="col-md-4">
-                <label htmlFor="type">Number WO</label>
+                <label htmlFor="type">Nomor WO</label>
               </div>
               <div className="col-md-8 form-group">
                 <input
                   disabled={mutation.isPending}
                   type="text"
                   className="form-control"
-                  placeholder="Number WO"
+                  placeholder="Nomor WO"
                   id="numberWo"
                   value={ontBody.numberWo}
                   onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
@@ -230,9 +237,9 @@ export const OntFormUpdate: React.FC = () => {
                 )}
               </div>
 
-              {/* Location ID Field */}
+              {/* Lokasi Field */}
               <div className="col-md-4">
-                <label htmlFor="locationId">Location ID</label>
+                <label htmlFor="locationId">Lokasi</label>
               </div>
               <div className="col-md-8 form-group">
                 <select
@@ -263,16 +270,16 @@ export const OntFormUpdate: React.FC = () => {
                 )}
               </div>
 
-              {/* Unit Address Field */}
+              {/* Alamat Unit Field */}
               <div className="col-md-4">
-                <label htmlFor="unitAddress">Unit Address</label>
+                <label htmlFor="unitAddress">Alamat Unit</label>
               </div>
               <div className="col-md-8 form-group">
                 <input
                   disabled={mutation.isPending}
                   type="text"
                   className="form-control"
-                  placeholder="Unit Address"
+                  placeholder="Alamat Unit"
                   id="unitAddress"
                   value={ontBody.unitAddress}
                   onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
@@ -287,16 +294,16 @@ export const OntFormUpdate: React.FC = () => {
                 )}
               </div>
 
-              {/* Name Field */}
+              {/* Nama Field */}
               <div className="col-md-4">
-                <label htmlFor="name">Name</label>
+                <label htmlFor="name">Nama</label>
               </div>
               <div className="col-md-8 form-group">
                 <input
                   disabled={mutation.isPending}
                   type="text"
                   className="form-control"
-                  placeholder="Name"
+                  placeholder="Nama"
                   id="name"
                   value={ontBody.name}
                   onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
@@ -313,7 +320,7 @@ export const OntFormUpdate: React.FC = () => {
 
               {/* Date Activation Field */}
               <div className="col-md-4">
-                <label htmlFor="dateActivation">Activation Date</label>
+                <label htmlFor="dateActivation">Tanggal Aktivasi</label>
               </div>
               <div className="col-md-8 form-group">
                 <input
@@ -322,16 +329,14 @@ export const OntFormUpdate: React.FC = () => {
                   className="form-control"
                   id="dateActivation"
                   value={
-                    ontBody.dateActivation
-                      ? new Date(ontBody.dateActivation)
-                          .toISOString()
-                          .split("T")[0]
-                      : "" // Berikan nilai default jika undefined
+                    ontBody.dateActivation instanceof Date
+                      ? ontBody.dateActivation.toISOString().split("T")[0]
+                      : ontBody.dateActivation // Jika berupa string, gunakan langsung
                   }
                   onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                     setOntBody((prev) => ({
                       ...prev,
-                      dateActivation: new Date(e.target.value),
+                      dateActivation: e.target.value,
                     }))
                   }
                 />
@@ -371,14 +376,14 @@ export const OntFormUpdate: React.FC = () => {
                 )}
               </div>
 
-              {/* Information Field */}
+              {/* Keterangan Field */}
               <div className="col-md-4">
-                <label htmlFor="information">Information</label>
+                <label htmlFor="information">Keterangan</label>
               </div>
               <div className="col-md-8 form-group">
                 <textarea
                   className="form-control"
-                  placeholder="Information"
+                  placeholder="Keterangan"
                   id="information"
                   value={ontBody.information}
                   onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>

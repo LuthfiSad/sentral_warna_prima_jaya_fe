@@ -5,7 +5,7 @@ import { OntFormAdd } from "../components/OntFormAdd";
 const OntAddView: React.FC = () => {
   return (
     <>
-      <AdminNavbar page="Add Optical Network Terminal" />
+      <AdminNavbar page="Tambah Optical Network Terminal" />
       <div className="page-content">
         <OntFormAdd />
       </div>

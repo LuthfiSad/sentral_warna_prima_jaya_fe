@@ -5,7 +5,7 @@ import { OntContent } from "../components/OntContent";
 export const OntView: React.FC = () => {
   return (
     <>
-      <AdminNavbar page="List Optical Network Terminal" />
+      <AdminNavbar page="Data Optical Network Terminal" />
       <div className="page-content">
         <OntContent />
       </div>

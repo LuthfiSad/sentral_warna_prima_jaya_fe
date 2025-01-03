@@ -27,7 +27,7 @@ export interface StbDTO {
   locationId?: string;
   unitAddress?: string;
   packageName?: string;
-  dateActivation?: Date;
+  dateActivation?: Date | string;
   status?: string;
   deviceLocation?: string;
   information?: string;

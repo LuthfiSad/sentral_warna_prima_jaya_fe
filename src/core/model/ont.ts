@@ -23,7 +23,7 @@ export interface OntDTO {
   locationId?: string;
   unitAddress?: string;
   name?: string;
-  dateActivation?: Date;
+  dateActivation?: Date | string;
   status?: string;
   information?: string;
 }

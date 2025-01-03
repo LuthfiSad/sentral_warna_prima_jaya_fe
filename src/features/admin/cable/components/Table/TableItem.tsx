@@ -35,7 +35,7 @@ export const TableItem: React.FC<ICableItemProps> = ({
             className="btn btn-link p-0 text-warning text-xs font-semibold"
             onClick={() => nav(`/cable/edit/${id}`)}
           >
-            Edit
+            Ubah
           </button>
         </div>
       </td>

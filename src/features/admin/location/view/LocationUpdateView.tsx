@@ -5,7 +5,7 @@ import { LocationFormUpdate } from "../components/LocationFormUpdate";
 const LocationUpdateView: React.FC = () => {
   return (
     <>
-      <AdminNavbar page="Update Location" />
+      <AdminNavbar page="Ubah Lokasi" />
       <div className="page-content">
         <LocationFormUpdate />
       </div>

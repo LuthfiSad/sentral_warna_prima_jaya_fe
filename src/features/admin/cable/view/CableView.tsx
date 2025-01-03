@@ -5,7 +5,7 @@ import { CableContent } from "../components/CableContent";
 export const CableView: React.FC = () => {
   return (
     <>
-      <AdminNavbar page="List Cable" />
+      <AdminNavbar page="Data Kabel" />
       <div className="page-content">
         <CableContent />
       </div>

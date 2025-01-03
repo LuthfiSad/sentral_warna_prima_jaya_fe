@@ -36,13 +36,13 @@ export const InventoryContent: React.FC = () => {
   };
 
   const tableHead = [
-    "Item Name",
-    "Unit",
-    "Quantity",
-    "Good",
-    "Damaged",
-    "Information",
-    "Notes",
+    "Nama Barang",
+    "Satuan",
+    "Jumlah",
+    "Status baik",
+    "Status rusak",
+    "Keterangan",
+    "Catatan",
     "Action",
   ];
 
@@ -51,7 +51,7 @@ export const InventoryContent: React.FC = () => {
       title="Inventaris"
       action={{
         show: true,
-        buttonTitle: "Create Inventaris",
+        buttonTitle: "Tambah Inventaris",
         link: { to: "/inventory/create" },
       }}
       headBackground="black"

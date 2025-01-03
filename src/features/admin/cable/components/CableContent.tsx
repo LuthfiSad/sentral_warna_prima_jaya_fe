@@ -22,11 +22,11 @@ export const CableContent: React.FC = () => {
     locationId,
   });
 
-  const tableHead = ["Size", "Quantity", "location", "Action"];
+  const tableHead = ["Ukuran", "Jumlah", "Lokasi", "Action"];
 
   return (
     <>
-      <PageLayout title="Cable Adaptor" headBackground="blue">
+      <PageLayout title="Kabel Adaptor" headBackground="blue">
         <Table>
           <TableHead field={tableHead} />
 
@@ -40,7 +40,7 @@ export const CableContent: React.FC = () => {
             ) : !adaptor?.data?.length ? (
               <tr>
                 <td colSpan={tableHead.length}>
-                  <EmptyData title="Cable" />
+                  <EmptyData title="Kabel" />
                 </td>
               </tr>
             ) : (
@@ -57,7 +57,7 @@ export const CableContent: React.FC = () => {
           </TableBody>
         </Table>
       </PageLayout>
-      <PageLayout title="Cable Patchcord" headBackground="green">
+      <PageLayout title="Kabel Patchcord" headBackground="green">
         <Table>
           <TableHead field={tableHead} />
 
@@ -71,7 +71,7 @@ export const CableContent: React.FC = () => {
             ) : !patchcord?.data?.length ? (
               <tr>
                 <td colSpan={tableHead.length}>
-                  <EmptyData title="Cable" />
+                  <EmptyData title="Kabel" />
                 </td>
               </tr>
             ) : (

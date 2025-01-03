@@ -62,27 +62,17 @@ export const InventoryFormUpdate: React.FC = () => {
     let isValid = true;
 
     if (!inventoryBody.itemName) {
-      newErrors.itemName = "Item Name is required";
+      newErrors.itemName = "Nama Barang wajib diisi";
       isValid = false;
     }
 
     if (!inventoryBody.unit) {
-      newErrors.unit = "Unit is required";
+      newErrors.unit = "Satuan wajib diisi";
       isValid = false;
     }
 
     if (!inventoryBody.quantity) {
-      newErrors.quantity = "Quantity is required";
-      isValid = false;
-    }
-
-    if (!inventoryBody.damagedQuantity) {
-      newErrors.damagedQuantity = "Damaged Quantity is required";
-      isValid = false;
-    }
-
-    if (!inventoryBody.goodQuantity) {
-      newErrors.goodQuantity = "Good Quantity is required";
+      newErrors.quantity = "Jumlah wajib diisi";
       isValid = false;
     }
 
@@ -119,7 +109,7 @@ export const InventoryFormUpdate: React.FC = () => {
 
   return (
     <PageLayout
-      title="Update Inventaris"
+      title="Ubah Inventaris"
       headBackground="orange"
       action={{
         show: true,
@@ -133,15 +123,15 @@ export const InventoryFormUpdate: React.FC = () => {
         <form className="form form-horizontal mt-4" onSubmit={handleSubmit}>
           <div className="form-body">
             <div className="row">
-              {/* Item Name Field */}
+              {/* Nama Barang Field */}
               <div className="col-md-4">
-                <label htmlFor="itemName">Item Name</label>
+                <label htmlFor="itemName">Nama Barang</label>
               </div>
               <div className="col-md-8 form-group">
                 <input
                   type="text"
                   className="form-control"
-                  placeholder="Item Name"
+                  placeholder="Nama Barang"
                   disabled={mutation.isPending}
                   id="itemName"
                   value={inventoryBody.itemName}
@@ -157,15 +147,15 @@ export const InventoryFormUpdate: React.FC = () => {
                 )}
               </div>
 
-              {/* Unit Field */}
+              {/* Satuan Field */}
               <div className="col-md-4">
-                <label htmlFor="unit">Unit</label>
+                <label htmlFor="unit">Satuan</label>
               </div>
               <div className="col-md-8 form-group">
                 <input
                   type="text"
                   className="form-control"
-                  placeholder="Unit"
+                  placeholder="Satuan"
                   disabled={mutation.isPending}
                   id="unit"
                   value={inventoryBody.unit}
@@ -181,15 +171,15 @@ export const InventoryFormUpdate: React.FC = () => {
                 )}
               </div>
 
-              {/* Quantity Field */}
+              {/* Jumlah Field */}
               <div className="col-md-4">
-                <label htmlFor="quantity">Quantity</label>
+                <label htmlFor="quantity">Jumlah</label>
               </div>
               <div className="col-md-8 form-group">
                 <input
                   type="text"
                   className="form-control"
-                  placeholder="Quantity"
+                  placeholder="Jumlah"
                   disabled={mutation.isPending}
                   id="quantity"
                   value={inventoryBody.quantity}
@@ -205,15 +195,15 @@ export const InventoryFormUpdate: React.FC = () => {
                 )}
               </div>
 
-              {/* Damaged Quantity Field */}
+              {/* Status Rusak Field */}
               <div className="col-md-4">
-                <label htmlFor="damagedQuantity">Damaged Quantity</label>
+                <label htmlFor="damagedQuantity">Status Rusak</label>
               </div>
               <div className="col-md-8 form-group">
                 <input
                   type="text"
                   className="form-control"
-                  placeholder="Damaged Quantity"
+                  placeholder="Status Rusak"
                   disabled={mutation.isPending}
                   id="damagedQuantity"
                   value={inventoryBody.damagedQuantity}
@@ -231,15 +221,15 @@ export const InventoryFormUpdate: React.FC = () => {
                 )}
               </div>
 
-              {/* Good Quantity Field */}
+              {/* Status Baik Field */}
               <div className="col-md-4">
-                <label htmlFor="goodQuantity">Good Quantity</label>
+                <label htmlFor="goodQuantity">Status Baik</label>
               </div>
               <div className="col-md-8 form-group">
                 <input
                   type="text"
                   className="form-control"
-                  placeholder="Good Quantity"
+                  placeholder="Status Baik"
                   disabled={mutation.isPending}
                   id="goodQuantity"
                   value={inventoryBody.goodQuantity}
@@ -255,15 +245,15 @@ export const InventoryFormUpdate: React.FC = () => {
                 )}
               </div>
 
-              {/* Information Field */}
+              {/* Keterangan Field */}
               <div className="col-md-4">
-                <label htmlFor="information">Information</label>
+                <label htmlFor="information">Keterangan</label>
               </div>
               <div className="col-md-8 form-group">
                 <input
                   type="text"
                   className="form-control"
-                  placeholder="Information"
+                  placeholder="Keterangan"
                   disabled={mutation.isPending}
                   id="information"
                   value={inventoryBody.information}
@@ -279,15 +269,15 @@ export const InventoryFormUpdate: React.FC = () => {
                 )}
               </div>
 
-              {/* Notes Field */}
+              {/* Catatan Field */}
               <div className="col-md-4">
-                <label htmlFor="notes">Notes</label>
+                <label htmlFor="notes">Catatan</label>
               </div>
               <div className="col-md-8 form-group">
                 <input
                   type="text"
                   className="form-control"
-                  placeholder="Notes"
+                  placeholder="Catatan"
                   disabled={mutation.isPending}
                   id="notes"
                   value={inventoryBody.notes}

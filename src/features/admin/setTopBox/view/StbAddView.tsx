@@ -5,7 +5,7 @@ import { StbFormAdd } from "../components/StbFormAdd";
 const StbAddView: React.FC = () => {
   return (
     <>
-      <AdminNavbar page="Add Set Top Box" />
+      <AdminNavbar page="Tambah Set Top Box" />
       <div className="page-content">
         <StbFormAdd />
       </div>

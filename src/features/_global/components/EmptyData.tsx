@@ -11,7 +11,7 @@ const EmptyData: React.FC<EmptyDataProps> = ({ title, action }) => {
       <img src={NoData} width={60} alt="no-data" />
       <div className="flex flex-col justify-center items-center text-sm font-[Poppins]">
         <p className="text-black">There {title || "item"} is empty.</p>
-        {action && <p className="text-black"> Create {title || "item"} Now.</p>}
+        {action && <p className="text-black"> Tambah {title || "item"} Now.</p>}
       </div>
     </div>
   );

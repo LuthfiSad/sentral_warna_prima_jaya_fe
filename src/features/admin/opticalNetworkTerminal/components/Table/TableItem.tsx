@@ -113,18 +113,18 @@ export const TableItem: React.FC<IOntItemProps> = ({
               Ready
             </button>
           )}
-          {status !== "Back" && (
+          {status !== "Terminate" && (
             <button
               className="btn btn-danger btn-sm font-semibold"
               onClick={() => {
                 const confirm = window.confirm(
-                  "Are you sure you want to change back status this optical network terminal?"
+                  "Are you sure you want to change terminate status this optical network terminal?"
                 );
                 if (!confirm) return;
-                handleChange(id, "Back");
+                handleChange(id, "Terminate");
               }}
             >
-              Back
+              Terminate
             </button>
           )}
         </div>
@@ -135,7 +135,7 @@ export const TableItem: React.FC<IOntItemProps> = ({
             className="btn btn-link p-0 text-warning text-xs font-semibold"
             onClick={() => nav(`/ont/edit/${id}`)}
           >
-            Edit
+            Ubah
           </button>
           <button
             className="btn btn-link p-0 text-danger text-xs font-semibold"
@@ -147,7 +147,7 @@ export const TableItem: React.FC<IOntItemProps> = ({
               handleDelete(id);
             }}
           >
-            Delete
+            Hapus
           </button>
         </div>
       </td>

@@ -5,7 +5,7 @@ import { OntFormUpdate } from "../components/OntFormUpdate";
 const OntUpdateView: React.FC = () => {
   return (
     <>
-      <AdminNavbar page="Update Optical Network Terminal" />
+      <AdminNavbar page="Ubah Optical Network Terminal" />
       <div className="page-content">
         <OntFormUpdate />
       </div>

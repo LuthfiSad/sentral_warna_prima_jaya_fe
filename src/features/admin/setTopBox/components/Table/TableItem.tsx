@@ -129,18 +129,18 @@ export const TableItem: React.FC<IStbItemProps> = ({
               Ready
             </button>
           )}
-          {deviceLocation !== "Back" && (
+          {deviceLocation !== "Terminate" && (
             <button
               className="btn btn-danger btn-sm font-semibold"
               onClick={() => {
                 const confirm = window.confirm(
-                  "Are you sure you want to change back device location this set top box?"
+                  "Are you sure you want to change terminate device location this set top box?"
                 );
                 if (!confirm) return;
-                handleChange(id, "Back");
+                handleChange(id, "Terminate");
               }}
             >
-              Back
+              Terminate
             </button>
           )}
         </div>
@@ -151,7 +151,7 @@ export const TableItem: React.FC<IStbItemProps> = ({
             className="btn btn-link p-0 text-warning text-xs font-semibold"
             onClick={() => nav(`/stb/edit/${id}`)}
           >
-            Edit
+            Ubah
           </button>
           <button
             className="btn btn-link p-0 text-danger text-xs font-semibold"
@@ -163,7 +163,7 @@ export const TableItem: React.FC<IStbItemProps> = ({
               handleDelete(id);
             }}
           >
-            Delete
+            Hapus
           </button>
         </div>
       </td>

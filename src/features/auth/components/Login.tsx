@@ -23,10 +23,10 @@ const Login: React.FC = () => {
       const newErrors: AuthLoginDTO = { ...InitialValue };
 
       if (!authBody.email) {
-        newErrors.email = "Email is required";
+        newErrors.email = "Email wajib diisi";
       }
       if (!authBody.password) {
-        newErrors.password = "Password is required";
+        newErrors.password = "Password wajib diisi";
       }
       setErrors(newErrors);
       setAuthBody(InitialValue);

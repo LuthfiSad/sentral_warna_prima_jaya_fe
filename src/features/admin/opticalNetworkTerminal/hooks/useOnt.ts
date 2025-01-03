@@ -50,6 +50,7 @@ export const useOnt = (options?: Options) => {
 };
 
 export function useOntCreation() {
+  const { locationId } = useParams();
   const queryClient = useQueryClient();
   const navigate = useNavigate();
   const mutation = useMutation({
@@ -76,7 +77,7 @@ export function useOntCreation() {
         pauseOnHover: true,
         theme: "dark",
       });
-      navigate(-1);
+      navigate(locationId ? `/ont/${locationId}` : "/ont");
 
       queryClient.removeQueries({ queryKey: ["histories"] });
       queryClient.removeQueries({ queryKey: ["onts"] });

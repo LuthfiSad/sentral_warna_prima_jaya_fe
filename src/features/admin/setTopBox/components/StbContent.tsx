@@ -56,10 +56,10 @@ export const StbContent: React.FC = () => {
     "Tanggal Aktivasi",
     "Status",
     "Lokasi Device",
-    "Location",
+    "Lokasi",
     "Keterangan",
     "Catatan",
-    "Update",
+    "Action Status",
     "Action",
   ];
 
@@ -68,7 +68,7 @@ export const StbContent: React.FC = () => {
       title="Set Top Box"
       action={{
         show: true,
-        buttonTitle: "Create Set Top Box",
+        buttonTitle: "Tambah Set Top Box",
         link: { to: "/stb/create" },
       }}
       headBackground="black"
@@ -82,7 +82,7 @@ export const StbContent: React.FC = () => {
       pagination={pagination}
       searchField
       searchPlaceholder="Search Stb"
-      buttonFilter="Device Location"
+      buttonFilter="Lokasi Device"
       buttonFilterOptions={[
         {
           label: "Active",
@@ -95,8 +95,8 @@ export const StbContent: React.FC = () => {
           key: "deviceLocation",
         },
         {
-          label: "Back",
-          value: "Back",
+          label: "Terminate",
+          value: "Terminate",
           key: "deviceLocation",
         },
       ]}

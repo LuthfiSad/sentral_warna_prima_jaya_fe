@@ -44,12 +44,12 @@ export const CableFormUpdate: React.FC = () => {
     let isValid = true;
 
     if (!cableBody.quantity) {
-      newErrors.quantity = "Quantity is required";
+      newErrors.quantity = "Jumlah wajib diisi";
       isValid = false;
     }
 
     if (!cableBody.size) {
-      newErrors.size = "Size is required";
+      newErrors.size = "Ukuran wajib diisi";
       isValid = false;
     }
 
@@ -81,7 +81,7 @@ export const CableFormUpdate: React.FC = () => {
 
   return (
     <PageLayout
-      title="Update Cable"
+      title="Ubah Kabel"
       headBackground="orange"
       action={{
         show: true,
@@ -95,15 +95,15 @@ export const CableFormUpdate: React.FC = () => {
         <form className="form form-horizontal mt-4" onSubmit={handleSubmit}>
           <div className="form-body">
             <div className="row">
-              {/* Size Field */}
+              {/* Ukuran Field */}
               <div className="col-md-4">
-                <label htmlFor="size">Size</label>
+                <label htmlFor="size">Ukuran</label>
               </div>
               <div className="col-md-8 form-group">
                 <input
                   type="text"
                   className="form-control"
-                  placeholder="Size"
+                  placeholder="Ukuran"
                   id="size"
                   disabled={mutation.isPending}
                   value={cableBody.size}
@@ -118,15 +118,15 @@ export const CableFormUpdate: React.FC = () => {
                   <small className="text-danger">{errors.size}</small>
                 )}
               </div>
-              {/* Quantity Field */}
+              {/* Jumlah Field */}
               <div className="col-md-4">
-                <label htmlFor="quantity">Quantity</label>
+                <label htmlFor="quantity">Jumlah</label>
               </div>
               <div className="col-md-8 form-group">
                 <input
                   type="text"
                   className="form-control"
-                  placeholder="Quantity"
+                  placeholder="Jumlah"
                   id="quantity"
                   disabled={mutation.isPending}
                   value={cableBody.quantity}

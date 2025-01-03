@@ -55,7 +55,7 @@ export const TableItem: React.FC<IInventoryItemProps> = ({
             className="btn btn-link p-0 text-warning text-xs font-semibold"
             onClick={() => nav(`/inventory/edit/${id}`)}
           >
-            Edit
+            Ubah
           </button>
           <button
             className="btn btn-link p-0 text-danger text-xs font-semibold"
@@ -67,7 +67,7 @@ export const TableItem: React.FC<IInventoryItemProps> = ({
               handleDelete(id);
             }}
           >
-            Delete
+            Hapus
           </button>
         </div>
       </td>

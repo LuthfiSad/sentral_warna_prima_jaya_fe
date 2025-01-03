@@ -45,20 +45,20 @@ export const DashboardContent: React.FC = () => {
   const tableHeadOnt = [
     "Key",
     "Activity",
-    "Name",
+    "Nama",
     "Type",
-    "Serial Number",
-    "Unit address",
+    "Nomor Seri",
+    "Alamat Unit",
     "Location",
   ];
 
   const tableHeadStb = [
     "Key",
     "Activity",
-    "Package Name",
+    "Nama Paket",
     "Type",
-    "Serial Number",
-    "Unit address",
+    "Nomor Seri",
+    "Alamat Unit",
     "Location",
   ];
 
@@ -94,7 +94,7 @@ export const DashboardContent: React.FC = () => {
     {
       icon: <FaPlug />,
       colorClass: "text-white bg-green-500",
-      title: "Total Data Patch Cord",
+      title: "Total Data Kabel Patch Cord",
       isLoading: isLoadingPatchcord,
       value:
         patchcord?.data
@@ -104,7 +104,7 @@ export const DashboardContent: React.FC = () => {
     {
       icon: <FaCogs />,
       colorClass: "text-white bg-red-500",
-      title: "Total Data Cable Adaptor",
+      title: "Total Data Kabel Adaptor",
       isLoading: isLoadingAdaptor,
       value:
         adaptor?.data

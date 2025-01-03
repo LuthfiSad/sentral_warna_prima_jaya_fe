@@ -35,14 +35,14 @@ export const LocationContent: React.FC = () => {
     onPageChange,
   };
 
-  const tableHead = ["Location", "Location List", "Action"];
+  const tableHead = ["Nama Lokasi", "Item Barang", "Action"];
 
   return (
     <PageLayout
-      title="Location"
+      title="Lokasi"
       action={{
         show: true,
-        buttonTitle: "Create Location",
+        buttonTitle: "Tambah Lokasi",
         link: { to: "/location/create" },
       }}
       headBackground="black"

@@ -39,47 +39,54 @@ export const StbFormAdd: React.FC = () => {
     let isValid = true;
 
     if (!stbBody.serialNumber) {
-      newErrors.serialNumber = "Serial Number is required";
+      newErrors.serialNumber = "Nomor Seri wajib diisi";
       isValid = false;
     }
 
     if (!stbBody.numberWo) {
-      newErrors.numberWo = "Number Wo is required";
+      newErrors.numberWo = "Nomor Wo wajib diisi";
       isValid = false;
     }
 
     if (!stbBody.type) {
-      newErrors.type = "Type is required";
+      newErrors.type = "Type wajib diisi";
       isValid = false;
     }
 
     if (!stbBody.deviceId) {
-      newErrors.deviceId = "Device ID is required";
+      newErrors.deviceId = "Device ID wajib diisi";
       isValid = false;
     }
 
     if (!stbBody.locationId) {
-      newErrors.locationId = "Location ID is required";
+      newErrors.locationId = "Lokasi wajib diisi";
       isValid = false;
     }
 
     if (!stbBody.unitAddress) {
-      newErrors.unitAddress = "Unit Address is required";
+      newErrors.unitAddress = "Alamat Unit wajib diisi";
       isValid = false;
     }
 
     if (!stbBody.packageName) {
-      newErrors.packageName = "Package Name is required";
+      newErrors.packageName = "Nama Paket wajib diisi";
       isValid = false;
     }
 
     if (!stbBody.dateActivation) {
-      newErrors.dateActivation = "Activation Date is required";
+      newErrors.dateActivation = "Tanggal Aktivasi wajib diisi";
+      isValid = false;
+    }
+
+    if (
+      new Date(stbBody.dateActivation as Date).toString() === "Invalid Date"
+    ) {
+      newErrors.dateActivation = "Tanggal Aktivasi harus berupa tanggal";
       isValid = false;
     }
 
     if (!stbBody.deviceLocation) {
-      newErrors.deviceLocation = "Device Location is required";
+      newErrors.deviceLocation = "Lokasi Device wajib diisi";
       isValid = false;
     }
 
@@ -100,7 +107,7 @@ export const StbFormAdd: React.FC = () => {
         locationId: stbBody.locationId,
         unitAddress: stbBody.unitAddress,
         packageName: stbBody.packageName,
-        dateActivation: stbBody.dateActivation,
+        dateActivation: new Date(stbBody.dateActivation as Date),
         status: stbBody.status,
         deviceLocation: stbBody.deviceLocation,
         information: stbBody.information,
@@ -116,7 +123,7 @@ export const StbFormAdd: React.FC = () => {
 
   return (
     <PageLayout
-      title="Add Optical Network Terminal"
+      title="Tambah Optical Network Terminal"
       headBackground="blue"
       action={{
         show: true,
@@ -128,16 +135,16 @@ export const StbFormAdd: React.FC = () => {
       <form className="form form-horizontal mt-4" onSubmit={handleSubmit}>
         <div className="form-body">
           <div className="row">
-            {/* Serial Number Field */}
+            {/* Nomor Seri Field */}
             <div className="col-md-4">
-              <label htmlFor="serialNumber">Serial Number</label>
+              <label htmlFor="serialNumber">Nomor Seri</label>
             </div>
             <div className="col-md-8 form-group">
               <input
                 disabled={mutation.isPending}
                 type="text"
                 className="form-control"
-                placeholder="Serial Number"
+                placeholder="Nomor Seri"
                 id="serialNumber"
                 value={stbBody.serialNumber}
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
@@ -200,16 +207,16 @@ export const StbFormAdd: React.FC = () => {
               )}
             </div>
 
-            {/* Number WO Field */}
+            {/* Nomor WO Field */}
             <div className="col-md-4">
-              <label htmlFor="numberWo">Number WO</label>
+              <label htmlFor="numberWo">Nomor WO</label>
             </div>
             <div className="col-md-8 form-group">
               <input
                 disabled={mutation.isPending}
                 type="text"
                 className="form-control"
-                placeholder="Number WO"
+                placeholder="Nomor WO"
                 id="numberWo"
                 value={stbBody.numberWo}
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
@@ -224,9 +231,9 @@ export const StbFormAdd: React.FC = () => {
               )}
             </div>
 
-            {/* Location ID Field */}
+            {/* Lokasi Field */}
             <div className="col-md-4">
-              <label htmlFor="locationId">Location ID</label>
+              <label htmlFor="locationId">Lokasi</label>
             </div>
             <div className="col-md-8 form-group">
               <select
@@ -255,16 +262,16 @@ export const StbFormAdd: React.FC = () => {
               )}
             </div>
 
-            {/* Unit Address Field */}
+            {/* Alamat Unit Field */}
             <div className="col-md-4">
-              <label htmlFor="unitAddress">Unit Address</label>
+              <label htmlFor="unitAddress">Alamat Unit</label>
             </div>
             <div className="col-md-8 form-group">
               <input
                 disabled={mutation.isPending}
                 type="text"
                 className="form-control"
-                placeholder="Unit Address"
+                placeholder="Alamat Unit"
                 id="unitAddress"
                 value={stbBody.unitAddress}
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
@@ -279,16 +286,16 @@ export const StbFormAdd: React.FC = () => {
               )}
             </div>
 
-            {/* Package Name Field */}
+            {/* Nama Paket Field */}
             <div className="col-md-4">
-              <label htmlFor="packageName">Package Name</label>
+              <label htmlFor="packageName">Nama Paket</label>
             </div>
             <div className="col-md-8 form-group">
               <input
                 disabled={mutation.isPending}
                 type="text"
                 className="form-control"
-                placeholder="Package Name"
+                placeholder="Nama Paket"
                 id="packageName"
                 value={stbBody.packageName}
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
@@ -305,7 +312,7 @@ export const StbFormAdd: React.FC = () => {
 
             {/* Date Activation Field */}
             <div className="col-md-4">
-              <label htmlFor="dateActivation">Activation Date</label>
+              <label htmlFor="dateActivation">Tanggal Aktivasi</label>
             </div>
             <div className="col-md-8 form-group">
               <input
@@ -313,11 +320,15 @@ export const StbFormAdd: React.FC = () => {
                 type="date"
                 className="form-control"
                 id="dateActivation"
-                value={stbBody.dateActivation?.toISOString().split("T")[0]} // Format date
+                value={
+                  stbBody.dateActivation instanceof Date
+                    ? stbBody.dateActivation.toISOString().split("T")[0]
+                    : stbBody.dateActivation // Jika berupa string, gunakan langsung
+                }
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                   setStbBody((prev) => ({
                     ...prev,
-                    dateActivation: new Date(e.target.value),
+                    dateActivation: e.target.value,
                   }))
                 }
               />
@@ -352,9 +363,9 @@ export const StbFormAdd: React.FC = () => {
               )}
             </div>
 
-            {/* Device Location Field */}
+            {/* Lokasi Device Field */}
             <div className="col-md-4">
-              <label htmlFor="deviceLocation">Device Location</label>
+              <label htmlFor="deviceLocation">Lokasi Device</label>
             </div>
             <div className="col-md-8 form-group">
               <select
@@ -370,7 +381,7 @@ export const StbFormAdd: React.FC = () => {
                 }
               >
                 <option value="" disabled>
-                  Select Device Location
+                  Select Lokasi Device
                 </option>
                 {["Active", "Ready", "Back"].map((loc, index) => (
                   <option key={index} value={loc}>
@@ -383,14 +394,14 @@ export const StbFormAdd: React.FC = () => {
               )}
             </div>
 
-            {/* Information Field */}
+            {/* Keterangan Field */}
             <div className="col-md-4">
-              <label htmlFor="information">Information</label>
+              <label htmlFor="information">Keterangan</label>
             </div>
             <div className="col-md-8 form-group">
               <textarea
                 className="form-control"
-                placeholder="Information"
+                placeholder="Keterangan"
                 id="information"
                 value={stbBody.information}
                 onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
@@ -405,14 +416,14 @@ export const StbFormAdd: React.FC = () => {
               )}
             </div>
 
-            {/* Notes Field */}
+            {/* Catatan Field */}
             <div className="col-md-4">
-              <label htmlFor="notes">Notes</label>
+              <label htmlFor="notes">Catatan</label>
             </div>
             <div className="col-md-8 form-group">
               <textarea
                 className="form-control"
-                placeholder="Notes"
+                placeholder="Catatan"
                 id="notes"
                 value={stbBody.notes}
                 onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>

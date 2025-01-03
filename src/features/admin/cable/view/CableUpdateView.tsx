@@ -5,7 +5,7 @@ import { CableFormUpdate } from "../components/CableFormUpdate";
 const CableUpdateView: React.FC = () => {
   return (
     <>
-      <AdminNavbar page="Update Cable" />
+      <AdminNavbar page="Ubah Kabel" />
       <div className="page-content">
         <CableFormUpdate />
       </div>

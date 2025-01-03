@@ -5,7 +5,7 @@ import { LocationFormAdd } from "../components/LocationFormAdd";
 const LocationAddView: React.FC = () => {
   return (
     <>
-      <AdminNavbar page="Add Location" />
+      <AdminNavbar page="Tambah Lokasi" />
       <div className="page-content">
         <LocationFormAdd />
       </div>

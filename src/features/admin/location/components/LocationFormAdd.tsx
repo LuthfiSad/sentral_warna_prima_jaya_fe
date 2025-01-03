@@ -26,7 +26,7 @@ export const LocationFormAdd: React.FC = () => {
     let isValid = true;
 
     if (!locationBody.location) {
-      newErrors.location = "Location is required";
+      newErrors.location = "Nama Lokasi wajib diisi";
       isValid = false;
     }
 
@@ -52,7 +52,7 @@ export const LocationFormAdd: React.FC = () => {
 
   return (
     <PageLayout
-      title="Add Location"
+      title="Tambah Lokasi"
       headBackground="blue"
       action={{
         show: true,
@@ -64,15 +64,15 @@ export const LocationFormAdd: React.FC = () => {
       <form className="form form-horizontal mt-4" onSubmit={handleSubmit}>
         <div className="form-body">
           <div className="row">
-            {/* Location Field */}
+            {/* Nama Lokasi Field */}
             <div className="col-md-4">
-              <label htmlFor="location">Location</label>
+              <label htmlFor="location">Nama Lokasi</label>
             </div>
             <div className="col-md-8 form-group">
               <input
                 type="text"
                 className="form-control"
-                placeholder="Location"
+                placeholder="Nama Lokasi"
                 disabled={mutation.isPending}
                 id="location"
                 value={locationBody.location}

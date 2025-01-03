@@ -57,6 +57,7 @@ export const useStb = (options?: Options) => {
 };
 
 export function useStbCreation() {
+  const { locationId } = useParams();
   const queryClient = useQueryClient();
   const navigate = useNavigate();
   const mutation = useMutation({
@@ -83,7 +84,7 @@ export function useStbCreation() {
         pauseOnHover: true,
         theme: "dark",
       });
-      navigate(-1);
+      navigate(locationId ? `/stb/${locationId}` : "/stb");
 
       queryClient.removeQueries({ queryKey: ["histories"] });
       queryClient.removeQueries({ queryKey: ["stbs"] });

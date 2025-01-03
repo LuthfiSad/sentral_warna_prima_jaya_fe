@@ -54,9 +54,9 @@ export const OntContent: React.FC = () => {
     "Nama",
     "Tanggal Aktivasi",
     "Status",
-    "Location",
+    "Lokasi",
     "Keterangan",
-    "Update",
+    "Action Status",
     "Action",
   ];
 
@@ -65,7 +65,7 @@ export const OntContent: React.FC = () => {
       title="Optical Network Terminal"
       action={{
         show: true,
-        buttonTitle: "Create Optical Network Terminal",
+        buttonTitle: "Tambah Optical Network Terminal",
         link: { to: "/ont/create" },
       }}
       headBackground="black"
@@ -92,8 +92,8 @@ export const OntContent: React.FC = () => {
           key: "status",
         },
         {
-          label: "Back",
-          value: "Back",
+          label: "Terminate",
+          value: "Terminate",
           key: "status",
         },
       ]}

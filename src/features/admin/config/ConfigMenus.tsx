@@ -16,12 +16,12 @@ export const CONFIG_MENU_ADMIN: ItemMenuAdmin[] = [
   },
   {
     icon: <FaMapMarkerAlt />,
-    name: "Location",
+    name: "Lokasi",
     to: "/location",
   },
   {
     icon: <FaPlug />,
-    name: "Cable",
+    name: "Kabel",
     to: "/cable",
   },
   {

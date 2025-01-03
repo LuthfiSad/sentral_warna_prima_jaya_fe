@@ -11,15 +11,12 @@ export const TableItem: React.FC<ILocationItemProps> = ({
   id,
   location,
   show,
-  handleDelete,
 }) => {
   const nav = useNavigate();
   return (
     <tr key={id} className={`${show ? "border-b border-secondary" : ""}`}>
       <td className="py-3 px-5">
-        <span className="text-xs font-semibold text-secondary">
-          {location}
-        </span>
+        <span className="text-xs font-semibold text-secondary">{location}</span>
       </td>
       <td className="py-3 px-5">
         <div className="d-flex align-items-center gap-2">
@@ -49,19 +46,7 @@ export const TableItem: React.FC<ILocationItemProps> = ({
             className="btn btn-link p-0 text-warning text-xs font-semibold"
             onClick={() => nav(`/location/edit/${id}`)}
           >
-            Edit
-          </button>
-          <button
-            className="btn btn-link p-0 text-danger text-xs font-semibold"
-            onClick={() => {
-              const confirm = window.confirm(
-                "Are you sure you want to delete this Location?"
-              );
-              if (!confirm) return;
-              handleDelete(id);
-            }}
-          >
-            Delete
+            Ubah
           </button>
         </div>
       </td>

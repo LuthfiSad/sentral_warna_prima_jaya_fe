@@ -5,7 +5,7 @@ import { LocationContent } from "../components/LocationContent";
 export const LocationView: React.FC = () => {
   return (
     <>
-      <AdminNavbar page="List Location" />
+      <AdminNavbar page="Data Lokasi" />
       <div className="page-content">
         <LocationContent />
       </div>

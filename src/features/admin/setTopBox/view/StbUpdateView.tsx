@@ -5,7 +5,7 @@ import { StbFormUpdate } from "../components/StbFormUpdate";
 const StbUpdateView: React.FC = () => {
   return (
     <>
-      <AdminNavbar page="Update Set Top Box" />
+      <AdminNavbar page="Ubah Set Top Box" />
       <div className="page-content">
         <StbFormUpdate />
       </div>
