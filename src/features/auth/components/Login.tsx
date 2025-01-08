@@ -47,7 +47,7 @@ const Login: React.FC = () => {
   };
 
   return (
-    <form className="form form-horizontal mt-4" onSubmit={handleSubmit}>
+    <form className="form form-horizontal" onSubmit={handleSubmit}>
       <div className="form-body">
         <div className="row">
           {/* Email Field */}
