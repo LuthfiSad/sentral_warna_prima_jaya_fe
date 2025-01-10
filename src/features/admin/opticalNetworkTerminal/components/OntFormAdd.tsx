@@ -322,7 +322,7 @@ export const OntFormAdd: React.FC = () => {
                 <option value="" disabled>
                   Select Status
                 </option>
-                {["Active", "Ready", "Back"].map((loc, index) => (
+                {["Active", "Ready", "Terminate"].map((loc, index) => (
                   <option key={index} value={loc}>
                     {loc}
                   </option>
