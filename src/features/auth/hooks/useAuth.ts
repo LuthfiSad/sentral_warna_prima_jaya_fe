@@ -1,3 +1,4 @@
+import { queryClient } from "@core/libs/query/query";
 import { AuthLoginDTO } from "@core/model/auth";
 import { authService } from "@core/services/auth";
 import { useMutation, useQuery } from "@tanstack/react-query";
@@ -16,6 +17,7 @@ export function useAuthLogin() {
         theme: "dark",
       });
       localStorage.setItem("token", res?.data?.access_token as string);
+      queryClient.removeQueries({ queryKey: ["checkToken"] });
       navigate("/");
     },
     onError: (err) => {

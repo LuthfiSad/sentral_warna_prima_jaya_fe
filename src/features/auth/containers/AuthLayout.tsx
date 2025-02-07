@@ -8,7 +8,7 @@ const AuthLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const auth = useAuth();
 
   if (auth?.data) {
-    return <Navigate to={"/anggota"} replace />;
+    return <Navigate to={"/"} replace />;
   }
 
   return (

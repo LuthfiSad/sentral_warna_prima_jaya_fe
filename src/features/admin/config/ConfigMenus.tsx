@@ -5,6 +5,7 @@ import {
   FaPlug,
   FaTv,
   FaUser,
+  FaUserCircle,
 } from "react-icons/fa";
 import { ItemMenuAdmin } from "../../_global/types/MenuTypes";
 
@@ -13,6 +14,11 @@ export const CONFIG_MENU_ADMIN: ItemMenuAdmin[] = [
     icon: <FaUser />,
     name: "Dashboard",
     to: "/",
+  },
+  {
+    icon: <FaUserCircle />,
+    name: "User Management",
+    to: "/user",
   },
   {
     icon: <FaMapMarkerAlt />,

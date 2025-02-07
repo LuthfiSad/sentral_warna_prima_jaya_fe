@@ -5,6 +5,7 @@ export const CONFIG_APP = {
 
 export const API_ENDPOINT = {
   login: `${CONFIG_APP.BASE_URL}/auth/login`,
+  user: `${CONFIG_APP.BASE_URL}/auth/user`,
   check: `${CONFIG_APP.BASE_URL}/auth/check-token`,
   ont: `${CONFIG_APP.BASE_URL}/onts`,
   stb: `${CONFIG_APP.BASE_URL}/stbs`,
