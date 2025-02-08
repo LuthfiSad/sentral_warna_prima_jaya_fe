@@ -12,11 +12,16 @@ const Sidenav: React.FC<{
   Menus: MenuAdminConfig;
   openSidenav: boolean;
   setOpenSidenav: () => void;
-}> = ({ Menus, openSidenav, setOpenSidenav }) => {
+  user: string;
+}> = ({ Menus, openSidenav, setOpenSidenav, user }) => {
   const nav = useNavigate();
   return (
     <div id="sidebar">
-      <div className={`sidebar-wrapper !bg-[#F7F7F7] ${openSidenav ? "!left-0" : ""}`}>
+      <div
+        className={`sidebar-wrapper !bg-[#F7F7F7] ${
+          openSidenav ? "!left-0" : ""
+        }`}
+      >
         <div className="sidebar-header pb-0 position-relative">
           <div className="d-flex justify-content-between align-items-center">
             <div className="logo w-full px-3">
@@ -34,6 +39,7 @@ const Sidenav: React.FC<{
         </div>
         <div className="sidebar-menu">
           <ul className="menu">
+            <li className="sidebar-title text-center">{user}</li>
             <li className="sidebar-title">Menu</li>
             {Menus.map((item, index) => (
               <ItemSidenav {...item} key={index} />

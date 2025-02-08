@@ -118,7 +118,7 @@ const AdminView: React.FC = () => {
       setShouldRedirect({ redirect: true, path: redirectPath });
     }
     setOldPath(location.pathname);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [location.pathname, auth?.data?.data?.role, auth?.isLoading, auth?.data]);
 
   useEffect(() => {}, [location.pathname]);
@@ -150,6 +150,7 @@ const AdminView: React.FC = () => {
         openSidenav={openSidenav}
         setOpenSidenav={handleOpenSidenav}
         Menus={CONFIG_MENU_ADMIN}
+        user={auth?.data?.data?.role || ""}
       />
       <div className="p-4 min-h-screen flex flex-col xl:ml-80 justify-between">
         <div>
