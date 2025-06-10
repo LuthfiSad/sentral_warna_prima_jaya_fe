@@ -18,6 +18,7 @@ import { toast } from "react-toastify";
 const AdminView: React.FC = () => {
   const [openSidenav, setOpenSidenav] = useAtom(openSidenavAtom);
   const auth = useAuth();
+  // const auth = { isLoading: false, data: { data: { role: "KARYAWAN" } } };
   const location = useLocation();
   const [shouldRedirect, setShouldRedirect] = useState<{
     redirect: boolean;
@@ -64,17 +65,26 @@ const AdminView: React.FC = () => {
       return;
     }
 
-    const userRole = auth.data.data?.role;
+    const userRole = auth.data.data?.is_admin ? "ADMIN" : "KARYAWAN";
+
+    function capitalize(str: string): string {
+      return str
+        .split(" ")
+        .map(
+          (word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
+        )
+        .join(" ");
+    }
 
     if (!currentRoute.role.includes(userRole!)) {
-      let redirectPath = "/login";
+      let redirectPath = "/";
 
       switch (userRole) {
         case "ADMIN":
-          redirectPath = "/user";
+          redirectPath = "/";
           toast.error(
             "You don't have permission, you are not " +
-              currentRoute?.role?.join(", "),
+              currentRoute?.role?.map((role) => capitalize(role))?.join(", "),
             {
               position: "top-right",
               autoClose: 3000,
@@ -83,28 +93,13 @@ const AdminView: React.FC = () => {
             }
           );
           break;
-        case "LEADER":
+        case "KARYAWAN":
           redirectPath = oldRoute?.role?.includes(userRole)
             ? oldRoute.path
             : "/";
           toast.error(
             "You don't have permission, you are not " +
-              currentRoute?.role?.join(", "),
-            {
-              position: "top-right",
-              autoClose: 3000,
-              pauseOnHover: true,
-              theme: "dark",
-            }
-          );
-          break;
-        case "USER":
-          redirectPath = oldRoute?.role?.includes(userRole)
-            ? oldRoute.path
-            : "/";
-          toast.error(
-            "You don't have permission, you are not " +
-              currentRoute?.role?.join(", "),
+              currentRoute?.role?.map((role) => capitalize(role))?.join(", "),
             {
               position: "top-right",
               autoClose: 3000,
@@ -119,7 +114,12 @@ const AdminView: React.FC = () => {
     }
     setOldPath(location.pathname);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [location.pathname, auth?.data?.data?.role, auth?.isLoading, auth?.data]);
+  }, [
+    location.pathname,
+    auth?.data?.data?.is_admin,
+    auth?.isLoading,
+    auth?.data,
+  ]);
 
   useEffect(() => {}, [location.pathname]);
 
@@ -150,7 +150,7 @@ const AdminView: React.FC = () => {
         openSidenav={openSidenav}
         setOpenSidenav={handleOpenSidenav}
         Menus={CONFIG_MENU_ADMIN}
-        user={auth?.data?.data?.role || ""}
+        user={auth?.data?.data?.email || ""}
       />
       <div className="p-4 min-h-screen flex flex-col xl:ml-80 justify-between">
         <div>

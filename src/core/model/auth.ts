@@ -3,6 +3,14 @@ export interface AuthLoginModel {
 }
 
 export interface AuthLoginDTO {
-    email: string,
+    login: string,
     password: string
+}
+
+export interface AuthRegisterDTO {
+    username: string,
+    email: string,
+    password?: string,
+    confirmPassword?: string
+    is_admin?: boolean
 }

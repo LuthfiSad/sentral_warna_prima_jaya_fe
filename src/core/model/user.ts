@@ -1,21 +1,15 @@
+import { EmployeeModel } from "./employee";
+
 export interface UserModel {
   id: string;
+  username: string;
   email: string;
-  name: string;
-  password: string;
-  role: string;
-  createdAt?: string | Date;
-  updatedAt?: string | Date;
-}
-
-export interface UserDTO {
-  email?: string;
-  name?: string;
-  password?: string;
-  role?: string;
+  is_admin: boolean;
+  karyawan_id?: number | null;
+  employee?: EmployeeModel | null;
 }
 
 export interface ChangePasswordDTO {
   password?: string;
-  newPassword?: string;
+  confirm_password?: string;
 }

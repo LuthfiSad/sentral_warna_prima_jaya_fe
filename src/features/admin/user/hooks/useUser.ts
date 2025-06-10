@@ -1,5 +1,7 @@
 import { ApiErrorResponse, ApiResponse } from "@core/libs/api/types";
-import { ChangePasswordDTO, UserDTO } from "@core/model/user";
+import { AuthRegisterDTO } from "@core/model/auth";
+import { ChangePasswordDTO } from "@core/model/user";
+import { authService } from "@core/services/auth";
 import { userService } from "@core/services/user";
 import useDebounce from "@features/_global/hooks/useDebounce";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
@@ -17,7 +19,7 @@ type PayloadType = "create" | "update" | "delete" | "change";
 
 interface UserCreation {
   type: PayloadType;
-  data?: UserDTO | ChangePasswordDTO;
+  data?: AuthRegisterDTO | ChangePasswordDTO;
   id?: string;
 }
 
@@ -25,19 +27,18 @@ export const useUser = (options?: Options) => {
   const [searchParams] = useSearchParams();
   const page = options?.page || searchParams.get("page") || 1;
   const perPage = options?.perPage || searchParams.get("perPage") || 10;
-  const role = options?.role || searchParams.get("status") || undefined;
+  // const role = options?.role || searchParams.get("status") || undefined;
   const searchQuery =
     options?.search || searchParams.get("search") || undefined;
 
   const search = useDebounce(searchQuery as string, 500);
   const query = useQuery({
-    queryKey: ["users", { page, perPage, search, role }],
+    queryKey: ["users", { page, perPage, search }],
     queryFn: () =>
       userService.get({
         queryParams: {
           perPage: perPage ? Number(perPage) : undefined,
           page: page ? Number(page) : undefined,
-          role,
           search,
         },
       }),
@@ -52,7 +53,7 @@ export function useUserCreation() {
     mutationFn: async ({ data, type, id }: UserCreation) => {
       switch (type) {
         case "create":
-          return userService.post(data);
+          return authService.register(data as AuthRegisterDTO);
         case "update":
           return userService.put(data, {
             path: id,

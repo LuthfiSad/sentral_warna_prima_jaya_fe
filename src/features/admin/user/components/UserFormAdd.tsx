@@ -2,49 +2,46 @@ import React, { useState } from "react";
 
 import { PageLayout } from "@features/admin/components/PageLayout";
 import { useNavigate } from "react-router-dom";
-import { UserDTO } from "@core/model/user";
 import { useUserCreation } from "../hooks/useUser";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
+import { AuthRegisterDTO } from "@core/model/auth";
+import { CustomApiError } from "@features/_global/types/CustomApiError";
 
-const InitialValue: UserDTO = {
+const InitialValue: AuthRegisterDTO = {
+  username: "",
   email: "",
-  name: "",
   password: "",
-  role: "",
+  is_admin: false,
 };
 
 export const UserFormAdd: React.FC = () => {
   const mutation = useUserCreation();
 
-  const [userBody, setUserBody] = useState<UserDTO>({
+  const [userBody, setUserBody] = useState<AuthRegisterDTO>({
     ...InitialValue,
   });
-  const [errors, setErrors] = useState<Partial<Record<keyof UserDTO, string>>>(
-    {}
-  );
+  const [errors, setErrors] = useState<
+    Partial<Record<keyof AuthRegisterDTO, string>>
+  >({});
 
   const navigate = useNavigate();
 
   const validate = () => {
-    const newErrors: Partial<Record<keyof UserDTO, string>> = {};
+    const newErrors: Partial<Record<keyof AuthRegisterDTO, string>> = {};
     let isValid = true;
-    if (!userBody.name) {
-      newErrors.name = "Nama wajib diisi";
+
+    if (!userBody.username) {
+      newErrors.username = "Username wajib diisi";
       isValid = false;
     }
 
-    if (!userBody.email) {
+    if (!userBody.email && !userBody.is_admin) {
       newErrors.email = "Email wajib diisi";
       isValid = false;
     }
 
     if (!userBody.password) {
       newErrors.password = "Password wajib diisi";
-      isValid = false;
-    }
-
-    if (!userBody.role) {
-      newErrors.role = "Role wajib diisi";
       isValid = false;
     }
 
@@ -55,15 +52,25 @@ export const UserFormAdd: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!validate()) return;
-    await mutation.mutateAsync({
-      type: "create",
-      data: {
-        email: userBody.email,
-        password: userBody.password,
-        name: userBody.name,
-        role: userBody.role,
-      },
-    });
+    try {
+      await mutation.mutateAsync({
+        type: "create",
+        data: {
+          username: userBody.username,
+          email: userBody.email,
+          password: userBody.password,
+          is_admin: userBody.is_admin,
+        },
+      });
+    } catch (error: unknown) {
+      if (
+        error instanceof Error &&
+        (error as CustomApiError).error !== undefined
+      ) {
+        const customError = error as CustomApiError;
+        setErrors({ ...customError.error });
+      }
+    }
   };
 
   const handleReset = () => {
@@ -87,27 +94,27 @@ export const UserFormAdd: React.FC = () => {
       <form className="form form-horizontal mt-4" onSubmit={handleSubmit}>
         <div className="form-body">
           <div className="row">
-            {/* Name Field */}
+            {/* Username Field */}
             <div className="col-md-4">
-              <label htmlFor="name">Nama</label>
+              <label htmlFor="username">Username</label>
             </div>
             <div className="col-md-8 form-group">
               <input
                 type="text"
                 className="form-control"
-                placeholder="Nama"
-                id="name"
-                value={userBody.name}
+                placeholder="Username"
+                id="username"
+                value={userBody.username}
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                   setUserBody((prev) => ({
                     ...prev,
-                    name: e.target.value,
+                    username: e.target.value,
                   }))
                 }
                 disabled={mutation.isPending}
               />
-              {errors.name && (
-                <small className="text-danger">{errors.name}</small>
+              {errors.username && (
+                <small className="text-danger">{errors.username}</small>
               )}
             </div>
 
@@ -166,10 +173,10 @@ export const UserFormAdd: React.FC = () => {
                     <FaEye className="h-5 w-5" />
                   )}
                 </button>
-                {errors.password && (
-                  <small className="text-red-500">{errors.password}</small>
-                )}
               </div>
+              {errors.password && (
+                <small className="text-danger">{errors.password}</small>
+              )}
             </div>
 
             {/* Role Field */}
@@ -180,27 +187,18 @@ export const UserFormAdd: React.FC = () => {
               <select
                 className="form-control"
                 id="role"
-                value={userBody.role}
+                value={userBody.is_admin ? "true" : "false"}
                 onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
                   setUserBody((prev) => ({
                     ...prev,
-                    role: e.target.value,
+                    is_admin: e.target.value === "true",
                   }))
                 }
                 disabled={mutation.isPending}
               >
-                <option value="" disabled>
-                  Pilih Role
-                </option>
-                {["ADMIN", "USER", "LEADER"].map((role, index) => (
-                  <option key={index} value={role}>
-                    {role}
-                  </option>
-                ))}
+                <option value="false">KARYAWAN</option>
+                <option value="true">ADMIN</option>
               </select>
-              {errors.role && (
-                <small className="text-danger">{errors.role}</small>
-              )}
             </div>
 
             {/* Submit and Reset Buttons */}

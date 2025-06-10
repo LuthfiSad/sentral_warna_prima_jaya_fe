@@ -4,14 +4,8 @@ export const CONFIG_APP = {
 };
 
 export const API_ENDPOINT = {
-  login: `${CONFIG_APP.BASE_URL}/auth/login`,
-  user: `${CONFIG_APP.BASE_URL}/auth/user`,
-  check: `${CONFIG_APP.BASE_URL}/auth/check-token`,
-  ont: `${CONFIG_APP.BASE_URL}/onts`,
-  stb: `${CONFIG_APP.BASE_URL}/stbs`,
-  location: `${CONFIG_APP.BASE_URL}/locations`,
-  cable: `${CONFIG_APP.BASE_URL}/cables`,
-  inventory: `${CONFIG_APP.BASE_URL}/inventories`,
-  export: `${CONFIG_APP.BASE_URL}/exports`,
-  history: `${CONFIG_APP.BASE_URL}/histories`,
+  login: `${CONFIG_APP.BASE_URL}/users/auth/login`,
+  register: `${CONFIG_APP.BASE_URL}/users/auth/register`,
+  check: `${CONFIG_APP.BASE_URL}/users/check`,
+  user: `${CONFIG_APP.BASE_URL}/users`,
 };

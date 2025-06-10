@@ -5,7 +5,7 @@ import Login from "../components/Login"
 
 const LoginView: React.FC = () => {
   return (
-    <AuthLayout>
+    <AuthLayout title="Login">
       <Login />
     </AuthLayout>
   )

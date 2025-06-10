@@ -1,40 +1,61 @@
 import React, { useState } from "react";
-
-import { PageLayout } from "@features/admin/components/PageLayout";
-import { useNavigate, useParams } from "react-router-dom";
 import { ChangePasswordDTO } from "@core/model/user";
-import { useUserCreation } from "../hooks/useUser";
-import { FaEye, FaEyeSlash } from "react-icons/fa";
+import { FaEye, FaEyeSlash, FaTimes } from "react-icons/fa";
+import { CustomApiError } from "@features/_global/types/CustomApiError";
 
 const InitialValue: ChangePasswordDTO = {
-  newPassword: "",
+  confirm_password: "",
   password: "",
 };
 
-export const UserFormUpdatePassword: React.FC = () => {
-  const { id } = useParams();
-  const mutation = useUserCreation();
+interface ResetPasswordModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+  userId: string;
+  onSubmit: (
+    data: { password: string; confirm_password: string },
+    id: string
+  ) => Promise<void>;
+  isLoading?: boolean;
+}
 
+export const ResetPasswordModal: React.FC<ResetPasswordModalProps> = ({
+  isOpen,
+  onClose,
+  userId,
+  onSubmit,
+  isLoading = false,
+}) => {
   const [userBody, setUserBody] = useState<ChangePasswordDTO>({
     ...InitialValue,
   });
   const [errors, setErrors] = useState<
     Partial<Record<keyof ChangePasswordDTO, string>>
   >({});
-
-  const navigate = useNavigate();
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const validate = () => {
     const newErrors: Partial<Record<keyof ChangePasswordDTO, string>> = {};
     let isValid = true;
 
     if (!userBody.password) {
-      newErrors.password = "Password Lama wajib diisi";
+      newErrors.password = "Password Baru wajib diisi";
       isValid = false;
     }
 
-    if (!userBody.newPassword) {
-      newErrors.newPassword = "Password Baru wajib diisi";
+    if (!userBody.confirm_password) {
+      newErrors.confirm_password = "Konfirmasi Password wajib diisi";
+      isValid = false;
+    }
+
+    if (
+      userBody.password &&
+      userBody.confirm_password &&
+      userBody.password !== userBody.confirm_password
+    ) {
+      newErrors.confirm_password =
+        "Password dan Konfirmasi Password tidak cocok";
       isValid = false;
     }
 
@@ -45,14 +66,25 @@ export const UserFormUpdatePassword: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!validate()) return;
-    await mutation.mutateAsync({
-      type: "change",
-      data: {
-        password: userBody.password,
-        newPassword: userBody.newPassword,
-      },
-      id,
-    });
+
+    try {
+      await onSubmit(
+        {
+          password: userBody.password ?? "",
+          confirm_password: userBody.confirm_password ?? "",
+        },
+        userId
+      );
+      handleClose();
+    } catch (error: unknown) {
+      if (
+        error instanceof Error &&
+        (error as CustomApiError).error !== undefined
+      ) {
+        const customError = error as CustomApiError;
+        setErrors({ ...customError.error });
+      }
+    }
   };
 
   const handleReset = () => {
@@ -60,118 +92,137 @@ export const UserFormUpdatePassword: React.FC = () => {
     setErrors({});
   };
 
-  const [showPassword, setShowPassword] = useState(false);
-  const [showNewPassword, setShowNewPassword] = useState(false);
+  const handleClose = () => {
+    handleReset();
+    onClose();
+  };
+
+  if (!isOpen) return null;
 
   return (
-    <PageLayout
-      title="Ubah User"
-      headBackground="blue"
-      action={{
-        show: true,
-        buttonTitle: "Cancel",
-        buttonProps: { onClick: () => navigate(-1) },
-        colorButton: "red",
-      }}
+    <div
+      className="modal fade show d-block"
+      style={{ backgroundColor: "rgba(0,0,0,0.5)" }}
     >
-      <form className="form form-horizontal mt-4" onSubmit={handleSubmit}>
-        <div className="form-body">
-          <div className="row">
-            {/* Password Field */}
-            <div className="col-md-4">
-              <label htmlFor="password">Password</label>
-            </div>
-            <div className="col-md-8 form-group">
-              <div className="relative w-full">
-                <input
-                  type={showPassword ? "text" : "password"}
-                  className="form-control"
-                  placeholder="Password"
-                  id="password"
-                  value={userBody.password}
-                  onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                    setUserBody((prev) => ({
-                      ...prev,
-                      password: e.target.value,
-                    }))
-                  }
-                  disabled={mutation.isPending}
-                />
-                <button
-                  type="button"
-                  className="absolute right-2 top-1/2 -translate-y-1/2 p-1 text-gray-500 hover:text-gray-700"
-                  onClick={() => setShowPassword(!showPassword)}
-                >
-                  {showPassword ? (
-                    <FaEyeSlash className="h-5 w-5" />
-                  ) : (
-                    <FaEye className="h-5 w-5" />
+      <div className="modal-dialog modal-dialog-centered">
+        <div className="modal-content">
+          <div className="modal-header">
+            <h5 className="modal-title">Reset Password User</h5>
+            <button
+              type="button"
+              className="btn-close"
+              onClick={handleClose}
+              disabled={isLoading}
+            />
+          </div>
+
+          <form onSubmit={handleSubmit}>
+            <div className="modal-body">
+              <div className="row">
+                {/* Password Field */}
+                <div className="col-12 mb-3">
+                  <label htmlFor="password" className="form-label">
+                    Password Baru
+                  </label>
+                  <div className="position-relative">
+                    <input
+                      type={showPassword ? "text" : "password"}
+                      className="form-control"
+                      placeholder="Masukkan password baru"
+                      id="password"
+                      value={userBody.password}
+                      onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                        setUserBody((prev) => ({
+                          ...prev,
+                          password: e.target.value,
+                        }))
+                      }
+                      disabled={isLoading}
+                    />
+                    <button
+                      type="button"
+                      className="btn btn-outline-secondary position-absolute end-0 top-0 h-100 px-3"
+                      style={{ border: "none", backgroundColor: "transparent" }}
+                      onClick={() => setShowPassword(!showPassword)}
+                      disabled={isLoading}
+                    >
+                      {showPassword ? <FaEyeSlash /> : <FaEye />}
+                    </button>
+                  </div>
+                  {errors.password && (
+                    <small className="text-danger">{errors.password}</small>
                   )}
-                </button>
-                {errors.password && (
-                  <small className="text-red-500">{errors.password}</small>
-                )}
+                </div>
+
+                {/* Confirm Password Field */}
+                <div className="col-12 mb-3">
+                  <label htmlFor="confirm_password" className="form-label">
+                    Konfirmasi Password
+                  </label>
+                  <div className="position-relative">
+                    <input
+                      type={showConfirmPassword ? "text" : "password"}
+                      className="form-control"
+                      placeholder="Konfirmasi password baru"
+                      id="confirm_password"
+                      value={userBody.confirm_password}
+                      onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                        setUserBody((prev) => ({
+                          ...prev,
+                          confirm_password: e.target.value,
+                        }))
+                      }
+                      disabled={isLoading}
+                    />
+                    <button
+                      type="button"
+                      className="btn btn-outline-secondary position-absolute end-0 top-0 h-100 px-3"
+                      style={{ border: "none", backgroundColor: "transparent" }}
+                      onClick={() =>
+                        setShowConfirmPassword(!showConfirmPassword)
+                      }
+                      disabled={isLoading}
+                    >
+                      {showConfirmPassword ? <FaEyeSlash /> : <FaEye />}
+                    </button>
+                  </div>
+                  {errors.confirm_password && (
+                    <small className="text-danger">
+                      {errors.confirm_password}
+                    </small>
+                  )}
+                </div>
               </div>
             </div>
 
-            {/* Password Field */}
-            <div className="col-md-4">
-              <label htmlFor="password">New Password</label>
-            </div>
-            <div className="col-md-8 form-group">
-              <div className="relative w-full">
-                <input
-                  type={showNewPassword ? "text" : "password"}
-                  className="form-control"
-                  placeholder="New Password"
-                  id="password"
-                  value={userBody.newPassword}
-                  onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                    setUserBody((prev) => ({
-                      ...prev,
-                      newPassword: e.target.value,
-                    }))
-                  }
-                  disabled={mutation.isPending}
-                />
-                <button
-                  type="button"
-                  className="absolute right-2 top-1/2 -translate-y-1/2 p-1 text-gray-500 hover:text-gray-700"
-                  onClick={() => setShowNewPassword(!showNewPassword)}
-                >
-                  {showNewPassword ? (
-                    <FaEyeSlash className="h-5 w-5" />
-                  ) : (
-                    <FaEye className="h-5 w-5" />
-                  )}
-                </button>
-                {errors.newPassword && (
-                  <small className="text-red-500">{errors.newPassword}</small>
-                )}
-              </div>
-            </div>
-
-            {/* Submit and Reset Buttons */}
-            <div className="col-12 d-flex justify-content-end">
-              <button
-                type="submit"
-                className="btn btn-primary me-1 mb-1"
-                disabled={mutation.isPending}
-              >
-                Submit
-              </button>
+            <div className="modal-footer">
               <button
                 type="button"
-                className="btn btn-light-secondary me-1 mb-1"
-                disabled={mutation.isPending}
+                className="btn btn-secondary"
                 onClick={handleReset}
+                disabled={isLoading}
               >
                 Reset
               </button>
+              <button
+                type="button"
+                className="btn btn-light"
+                onClick={handleClose}
+                disabled={isLoading}
+              >
+                Batal
+              </button>
+              <button
+                type="submit"
+                className="btn btn-primary"
+                disabled={isLoading}
+              >
+                {isLoading ? "Loading..." : "Submit"}
+              </button>
             </div>
-          </div>
+          </form>
         </div>
-      </form>
-    </PageLayout>
+      </div>
+    </div>
   );
 };

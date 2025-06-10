@@ -9,12 +9,12 @@ import { ToastContainer } from "react-toastify";
 
 function App() {
   return (
-    <>
+    <div className="font-sans">
       <QueryClientProvider client={queryClient}>
         <RouterProvider router={router} />
         <ToastContainer />
       </QueryClientProvider>
-    </>
+    </div>
   );
 }
 

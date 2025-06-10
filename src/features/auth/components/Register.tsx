@@ -1,45 +1,60 @@
-import { AuthLoginDTO } from "@core/model/auth";
+import { AuthRegisterDTO } from "@core/model/auth";
 import React, { useState } from "react";
-import { useAuthLogin } from "../hooks/useAuth";
-import { FaEnvelope, FaLock } from "react-icons/fa6";
-import { PiWarningCircleBold } from "react-icons/pi";
+import { useAuthRegister } from "../hooks/useAuth";
+import { FaEnvelope, FaLock, FaUser } from "react-icons/fa6";
 import { Link } from "react-router-dom";
 import { CustomApiError } from "@features/_global/types/CustomApiError";
 
 const InitialValue = {
-  login: "",
+  username: "",
+  email: "",
   password: "",
+  confirmPassword: "",
 };
 
-const Login: React.FC = () => {
-  const [authBody, setAuthBody] = useState<AuthLoginDTO>({
+const Register: React.FC = () => {
+  const [authBody, setAuthBody] = useState<AuthRegisterDTO>({
     ...InitialValue,
   });
   const [errors, setErrors] = useState<
-    Partial<Record<keyof AuthLoginDTO, string>>
+    Partial<Record<keyof AuthRegisterDTO, string>>
   >({ ...InitialValue });
 
-  const mutation = useAuthLogin();
+  const mutation = useAuthRegister();
 
   const validate = () => {
-    const newErrors: Partial<Record<keyof AuthLoginDTO, string>> = {};
+    const newErrors: Partial<Record<keyof AuthRegisterDTO, string>> = {};
     let isValid = true;
-
-    if (!authBody.login) {
+    
+    if (!authBody.username) {
       isValid = false;
-      newErrors.login = "Email or Username wajib diisi";
+      newErrors.username = "Username wajib diisi";
+    }
+
+    if (!authBody.email) {
+      isValid = false;
+      newErrors.email = "Email wajib diisi";
     }
     if (!authBody.password) {
       isValid = false;
       newErrors.password = "Password wajib diisi";
     }
+    if (!authBody.confirmPassword) {
+      isValid = false;
+      newErrors.confirmPassword = "Konfirmasi Password wajib diisi";
+    }
+
+    if (authBody.password !== authBody.confirmPassword) {
+      isValid = false;
+      newErrors.confirmPassword = "Konfirmasi Password tidak sesuai";
+    }
     setErrors(newErrors);
-    setAuthBody(InitialValue);
     return isValid;
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setErrors({});
     if (!validate()) return;
     try {
       await mutation.mutateAsync(authBody);
@@ -63,6 +78,39 @@ const Login: React.FC = () => {
     <form className="form form-horizontal" onSubmit={handleSubmit}>
       <div className="form-body">
         <div className="row">
+          {/* Username Field */}
+          <div className="col-md-12">
+            <div className="form-group">
+              <label htmlFor="username-horizontal-icon" className="text-black">
+                Username
+              </label>
+              <div className="has-icon-left form-group mt-2">
+                <div className="position-relative">
+                  <input
+                    type="text"
+                    className="form-control rounded-full bg-transparent text-black border-black py-2"
+                    placeholder="johndoe"
+                    id="username-horizontal-icon"
+                    autoComplete="username"
+                    value={authBody.username}
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                      setAuthBody((prev) => ({
+                        ...prev,
+                        username: e.target.value,
+                      }))
+                    }
+                  />
+                  <div className="form-control-icon !top-1/2 transform -translate-y-1/2">
+                    <FaUser />
+                  </div>
+                </div>
+                {errors.username && (
+                  <small className="text-danger">{errors.username}</small>
+                )}
+              </div>
+            </div>
+          </div>
+
           {/* Email Field */}
           <div className="col-md-12">
             <div className="form-group">
@@ -72,16 +120,16 @@ const Login: React.FC = () => {
               <div className="has-icon-left form-group mt-2">
                 <div className="position-relative">
                   <input
-                    type="text"
+                    type="email"
                     className="form-control rounded-full bg-transparent text-black border-black py-2"
                     placeholder="johndoe@email.com"
                     id="email-horizontal-icon"
                     autoComplete="email"
-                    value={authBody.login}
+                    value={authBody.email}
                     onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                       setAuthBody((prev) => ({
                         ...prev,
-                        login: e.target.value,
+                        email: e.target.value,
                       }))
                     }
                   />
@@ -89,8 +137,8 @@ const Login: React.FC = () => {
                     <FaEnvelope />
                   </div>
                 </div>
-                {errors.login && (
-                  <small className="text-danger">{errors.login}</small>
+                {errors.email && (
+                  <small className="text-danger">{errors.email}</small>
                 )}
               </div>
             </div>
@@ -129,6 +177,41 @@ const Login: React.FC = () => {
             </div>
           </div>
 
+          {/* Confirm Password Field */}
+          <div className="col-md-12">
+            <div className="form-group">
+              <label htmlFor="password-horizontal-icon" className="text-black">
+                Confirm Password
+              </label>
+              <div className="has-icon-left form-group mt-2">
+                <div className="position-relative">
+                  <input
+                    type="password"
+                    className="form-control rounded-full bg-transparent text-black border-black py-2"
+                    placeholder="********"
+                    id="password-horizontal-icon"
+                    autoComplete="current-password"
+                    value={authBody.confirmPassword}
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                      setAuthBody((prev) => ({
+                        ...prev,
+                        confirmPassword: e.target.value,
+                      }))
+                    }
+                  />
+                  <div className="form-control-icon !top-1/2 transform -translate-y-1/2">
+                    <FaLock />
+                  </div>
+                </div>
+                {errors.confirmPassword && (
+                  <small className="text-danger">
+                    {errors.confirmPassword}
+                  </small>
+                )}
+              </div>
+            </div>
+          </div>
+
           {/* Submit and Reset Buttons */}
           <div className="col-12 d-flex justify-content-end">
             <button
@@ -136,7 +219,7 @@ const Login: React.FC = () => {
               className="btn btn-primary w-full me-1 mb-1"
               disabled={mutation.isPending}
             >
-              Login
+              Register
             </button>
             <button
               type="reset"
@@ -147,15 +230,11 @@ const Login: React.FC = () => {
               Reset
             </button>
           </div>
-          <p className="text-yellow-800 items-center flex gap-1 text-xs mt-1">
-            <PiWarningCircleBold />
-            jika lupa akun silahkan hubungi admin
-          </p>
           <div className="col-12 text-center mt-2">
             <p className="text-black">
-              Don&apos;t have an account?{" "}
-              <Link to="/register" className="text-primary hover:underline">
-                Register
+              Already have an account?{" "}
+              <Link to="/login" className="text-primary hover:underline">
+                Login
               </Link>
             </p>
           </div>
@@ -173,4 +252,4 @@ const Login: React.FC = () => {
   );
 };
 
-export default Login;
+export default Register;

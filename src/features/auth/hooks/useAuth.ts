@@ -1,5 +1,5 @@
 import { queryClient } from "@core/libs/query/query";
-import { AuthLoginDTO } from "@core/model/auth";
+import { AuthLoginDTO, AuthRegisterDTO } from "@core/model/auth";
 import { authService } from "@core/services/auth";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
@@ -19,6 +19,31 @@ export function useAuthLogin() {
       localStorage.setItem("token", res?.data?.access_token as string);
       queryClient.removeQueries({ queryKey: ["checkToken"] });
       navigate("/");
+    },
+    onError: (err) => {
+      toast.error(err.message, {
+        position: "top-right",
+        autoClose: 3000,
+        pauseOnHover: true,
+        theme: "dark",
+      });
+    },
+  });
+  return mutation;
+}
+
+export function useAuthRegister() {
+  const navigate = useNavigate();
+  const mutation = useMutation({
+    mutationFn: (body: AuthRegisterDTO) => authService.register(body),
+    onSuccess: (res) => {
+      toast.success(res.message, {
+        position: "top-right",
+        autoClose: 3000,
+        pauseOnHover: true,
+        theme: "dark",
+      });
+      navigate("/login");
     },
     onError: (err) => {
       toast.error(err.message, {
