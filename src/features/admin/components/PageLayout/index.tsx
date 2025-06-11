@@ -213,7 +213,7 @@ export const PageLayout: React.FC<IPageLayoutProps> = ({
             ))}
           </div>
         )}
-        <div className="card-body overflow-auto px-4 py-2">{children}</div>
+        <div className="card-body px-4 py-2">{children}</div>
       </div>
 
       {showPagination && <Pagination {...pagination} />}

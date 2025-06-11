@@ -17,6 +17,7 @@ export function useAuthLogin() {
         theme: "dark",
       });
       localStorage.setItem("token", res?.data?.access_token as string);
+      queryClient.clear();
       queryClient.removeQueries({ queryKey: ["checkToken"] });
       navigate("/");
     },

@@ -43,7 +43,7 @@ export const TableItem: React.FC<IEmployeeItemProps> = ({
           ) : (
             <div 
               className="rounded-lg bg-secondary d-flex align-items-center justify-content-center text-white"
-              style={{ width: '100px', height: '100px' }}
+              style={{ width: '100%', height: '100px' }}
             >
               <span className="text-xs font-semibold">
                 {name?.charAt(0)?.toUpperCase() || "?"}

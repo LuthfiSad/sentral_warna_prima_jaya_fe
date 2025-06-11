@@ -2,7 +2,7 @@ import AdminNavbar from "@features/admin/components/AdminNavbar";
 import React from "react";
 import { EmployeeContent } from "../components/EmployeeContent";
 
-export const EmployeeView: React.FC = () => {
+const EmployeeView: React.FC = () => {
   return (
     <>
       <AdminNavbar page="Data Karyawan" />
@@ -12,3 +12,5 @@ export const EmployeeView: React.FC = () => {
     </>
   );
 };
+
+export default EmployeeView;

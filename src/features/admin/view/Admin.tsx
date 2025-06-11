@@ -14,9 +14,12 @@ import { openSidenavAtom } from "../store/sidenav";
 import { RxHamburgerMenu } from "react-icons/rx";
 import { allRoutes } from "@core/utils/routes";
 import { toast } from "react-toastify";
+import { dataUserAtom } from "../store/dataUser";
+import { UserModel } from "@core/model/user";
 
 const AdminView: React.FC = () => {
   const [openSidenav, setOpenSidenav] = useAtom(openSidenavAtom);
+  const [, setDataUser] = useAtom(dataUserAtom);
   const auth = useAuth();
   // const auth = { isLoading: false, data: { data: { role: "KARYAWAN" } } };
   const location = useLocation();
@@ -41,6 +44,7 @@ const AdminView: React.FC = () => {
     setShouldRedirect({ redirect: false, path: "" });
 
     if (auth?.isLoading || !auth?.data) return;
+    setDataUser(auth.data.data as UserModel);
 
     const currentRoute = allRoutes.find((route) => {
       if (route.path.includes(":")) {
@@ -150,7 +154,7 @@ const AdminView: React.FC = () => {
         openSidenav={openSidenav}
         setOpenSidenav={handleOpenSidenav}
         Menus={CONFIG_MENU_ADMIN}
-        user={auth?.data?.data?.email || ""}
+        user={auth?.data?.data?.is_admin ? "ADMIN" : "KARYAWAN"}
       />
       <div className="p-4 min-h-screen flex flex-col xl:ml-80 justify-between">
         <div>

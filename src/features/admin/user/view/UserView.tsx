@@ -2,7 +2,7 @@ import AdminNavbar from "@features/admin/components/AdminNavbar";
 import React from "react";
 import { UserContent } from "../components/UserContent";
 
-export const UserView: React.FC = () => {
+const UserView: React.FC = () => {
   return (
     <>
       <AdminNavbar page="Data User" />
@@ -12,3 +12,5 @@ export const UserView: React.FC = () => {
     </>
   );
 };
+
+export default UserView;

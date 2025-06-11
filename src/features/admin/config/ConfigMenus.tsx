@@ -20,4 +20,9 @@ export const CONFIG_MENU_ADMIN: ItemMenuAdmin[] = [
     name: "Manajemen Karyawan",
     to: "/employee",
   },
+  {
+    icon: <FaWindows />,
+    name: "Report",
+    to: "/report",
+  }
 ];

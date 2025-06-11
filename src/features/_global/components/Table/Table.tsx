@@ -5,5 +5,9 @@ interface ITableBodyProps extends PropsWithChildren {
 }
 
 export const Table: React.FC<ITableBodyProps> = ({ children }) => {
-  return <table className="w-full min-w-[640px] table-auto">{children}</table>;
+  return (
+    <div className="w-full overflow-x-auto">
+      <table className="w-full min-w-[640px] table-auto">{children}</table>
+    </div>
+  );
 };

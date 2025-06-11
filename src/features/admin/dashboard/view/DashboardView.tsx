@@ -2,7 +2,7 @@ import AdminNavbar from "@features/admin/components/AdminNavbar";
 import React from "react";
 import { DashboardContent } from "../components/DashboardContent";
 
-export const DashboardView: React.FC = () => {
+const DashboardView: React.FC = () => {
   return (
     <>
       <AdminNavbar page="Dashboard" />
@@ -12,3 +12,5 @@ export const DashboardView: React.FC = () => {
     </>
   );
 };
+
+export default DashboardView;
