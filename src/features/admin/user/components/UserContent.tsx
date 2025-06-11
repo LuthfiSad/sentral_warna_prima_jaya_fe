@@ -11,7 +11,7 @@ import { useSearchParams } from "react-router-dom";
 import { useUser, useUserCreation } from "../hooks/useUser";
 import { TableItem } from "./Table/TableItem";
 import EmptyData from "@features/_global/components/EmptyData";
-import { ResetPasswordModal } from "./UserFormUpdatePassword";
+import { ResetPasswordModal } from "./ResetPasswordModal";
 
 export const UserContent: React.FC = () => {
   const { data: users, isLoading } = useUser();

@@ -1,4 +1,7 @@
 import { DashboardView } from "@features/admin/dashboard/view/DashboardView";
+import EmployeeAddView from "@features/admin/employee/view/EmployeeAddView";
+import EmployeeUpdateView from "@features/admin/employee/view/EmployeeUpdateView";
+import { EmployeeView } from "@features/admin/employee/view/EmployeeView";
 import UserAddView from "@features/admin/user/view/UserAddView";
 import UserUpdateView from "@features/admin/user/view/UserUpdateView";
 import { UserView } from "@features/admin/user/view/UserView";
@@ -30,17 +33,17 @@ export const allRoutes = [
   },
   {
     path: "/employee",
-    element: <UserView />,
+    element: <EmployeeView />,
     role: ["ADMIN"],
   },
   {
     path: "/employee/create",
-    element: <UserAddView />,
+    element: <EmployeeAddView />,
     role: ["ADMIN"],
   },
   {
     path: "/employee/edit/:id",
-    element: <UserUpdateView />,
+    element: <EmployeeUpdateView />,
     role: ["ADMIN"],
   },
 ];

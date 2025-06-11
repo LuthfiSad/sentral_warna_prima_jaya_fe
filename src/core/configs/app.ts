@@ -8,4 +8,5 @@ export const API_ENDPOINT = {
   register: `${CONFIG_APP.BASE_URL}/users/auth/register`,
   check: `${CONFIG_APP.BASE_URL}/users/check`,
   user: `${CONFIG_APP.BASE_URL}/users`,
+  employee: `${CONFIG_APP.BASE_URL}/employees`,
 };

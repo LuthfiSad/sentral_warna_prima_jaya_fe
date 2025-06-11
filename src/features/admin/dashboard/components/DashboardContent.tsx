@@ -1,68 +1,10 @@
-import { PageLayout } from "@features/admin/components/PageLayout";
-import LoadingData from "@features/_global/components/LoadingData";
-import {
-  Table,
-  TableBody,
-  TableHead,
-} from "@features/_global/components/Table";
-import React, { useState } from "react";
-import { useHistory } from "../hooks/useHistory";
-import { TableItem } from "./Table/TableItem";
-import EmptyData from "@features/_global/components/EmptyData";
+import React from "react";
 import { StatsCard } from "./StatsCard";
-import { FaBox, FaCogs, FaNetworkWired, FaPlug, FaTv } from "react-icons/fa";
-import { useOnt } from "@features/admin/opticalNetworkTerminal/hooks/useOnt";
+import { FaCogs, FaPlug, FaTv } from "react-icons/fa";
 import { useStb } from "@features/admin/setTopBox/hooks/useStb";
 import { useCable } from "@features/admin/cable/hooks/useCable";
-import { useInventory } from "@features/admin/inventory/hooks/useInventory";
 
 export const DashboardContent: React.FC = () => {
-  const [pageOnt, setPageOnt] = useState(1);
-  const [pageStb, setPageStb] = useState(1);
-  const { data: historyOnt, isLoading: isLoadingHistoryOnt } = useHistory({
-    page: pageOnt,
-    type: "Ont",
-  });
-  const { data: historyStb, isLoading: isLoadingHistoryStb } = useHistory({
-    type: "Stb",
-    page: pageStb,
-  });
-
-  const onPageChangeOnt = (page: number) => setPageOnt(page);
-  const paginationOnt = {
-    currentPage: historyOnt?.meta?.page || 1,
-    totalPages: historyOnt?.meta?.totalPages || 1,
-    onPageChange: onPageChangeOnt,
-  };
-
-  const onPageChangeStb = (page: number) => setPageStb(page);
-  const paginationStb = {
-    currentPage: historyStb?.meta?.page || 1,
-    totalPages: historyStb?.meta?.totalPages || 1,
-    onPageChange: onPageChangeStb,
-  };
-
-  const tableHeadOnt = [
-    "Key",
-    "Activity",
-    "Nama",
-    "Type",
-    "Nomor Seri",
-    "Alamat Unit",
-    "Location",
-  ];
-
-  const tableHeadStb = [
-    "Key",
-    "Activity",
-    "Nama Paket",
-    "Type",
-    "Nomor Seri",
-    "Alamat Unit",
-    "Location",
-  ];
-
-  const { data: onts, isLoading: isLoadingOnt } = useOnt({ perPage: 999999 });
   const { data: stbs, isLoading: isLoadingStb } = useStb({ perPage: 999999 });
   const { data: patchcord, isLoading: isLoadingPatchcord } = useCable({
     perPage: 999999,
@@ -72,18 +14,8 @@ export const DashboardContent: React.FC = () => {
     perPage: 999999,
     type: "Adaptor",
   });
-  const { data: inventory, isLoading: isLoadingInventory } = useInventory({
-    perPage: 999999,
-  });
 
   const statsData = [
-    {
-      icon: <FaNetworkWired />,
-      colorClass: "text-white bg-purple-500",
-      title: "Total Data Optical Network Terminal",
-      isLoading: isLoadingOnt,
-      value: onts?.meta?.totalData?.toString() || "0",
-    },
     {
       icon: <FaTv />,
       colorClass: "text-white bg-blue-500",
@@ -111,16 +43,6 @@ export const DashboardContent: React.FC = () => {
           ?.reduce((acc, item) => acc + item.quantity, 0)
           .toString() || "0",
     },
-    {
-      icon: <FaBox />,
-      colorClass: "text-white bg-yellow-500",
-      title: "Total Data Inventory",
-      isLoading: isLoadingInventory,
-      value:
-        inventory?.data
-          ?.reduce((acc, item) => acc + item.quantity, 0)
-          .toString() || "0",
-    },
   ];
 
   return (
@@ -130,92 +52,6 @@ export const DashboardContent: React.FC = () => {
           <StatsCard key={index} {...stat} />
         ))}
       </div>
-      <PageLayout
-        title="History Ont"
-        headBackground="blue"
-        showPagination={
-          !!(
-            historyOnt?.data?.length &&
-            !isLoadingHistoryOnt &&
-            (historyOnt.meta?.totalData as number) >
-              (historyOnt?.meta?.perPage as number)
-          )
-        }
-        pagination={paginationOnt}
-      >
-        <Table>
-          <TableHead field={tableHeadOnt} />
-
-          <TableBody>
-            {isLoadingHistoryOnt ? (
-              <tr>
-                <td colSpan={tableHeadOnt.length}>
-                  <LoadingData />
-                </td>
-              </tr>
-            ) : !historyOnt?.data?.length ? (
-              <tr>
-                <td colSpan={tableHeadOnt.length}>
-                  <EmptyData title="History" />
-                </td>
-              </tr>
-            ) : (
-              <>
-                {historyOnt?.data?.map((item, key) => (
-                  <TableItem
-                    key={key}
-                    {...item}
-                    show={key !== (historyOnt?.data?.length as number) - 1}
-                  />
-                ))}
-              </>
-            )}
-          </TableBody>
-        </Table>
-      </PageLayout>
-      <PageLayout
-        title="History Stb"
-        headBackground="green"
-        showPagination={
-          !!(
-            historyStb?.data?.length &&
-            !isLoadingHistoryStb &&
-            (historyStb.meta?.totalData as number) >
-              (historyStb?.meta?.perPage as number)
-          )
-        }
-        pagination={paginationStb}
-      >
-        <Table>
-          <TableHead field={tableHeadStb} />
-
-          <TableBody>
-            {isLoadingHistoryStb ? (
-              <tr>
-                <td colSpan={tableHeadStb.length}>
-                  <LoadingData />
-                </td>
-              </tr>
-            ) : !historyStb?.data?.length ? (
-              <tr>
-                <td colSpan={tableHeadStb.length}>
-                  <EmptyData title="History" />
-                </td>
-              </tr>
-            ) : (
-              <>
-                {historyStb?.data?.map((item, key) => (
-                  <TableItem
-                    key={key}
-                    {...item}
-                    show={key !== (historyStb?.data?.length as number) - 1}
-                  />
-                ))}
-              </>
-            )}
-          </TableBody>
-        </Table>
-      </PageLayout>
     </>
   );
 };

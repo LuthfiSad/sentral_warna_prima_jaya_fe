@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { ChangePasswordDTO } from "@core/model/user";
-import { FaEye, FaEyeSlash, FaTimes } from "react-icons/fa";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { CustomApiError } from "@features/_global/types/CustomApiError";
 
 const InitialValue: ChangePasswordDTO = {

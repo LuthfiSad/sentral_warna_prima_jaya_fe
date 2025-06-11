@@ -1,6 +1,5 @@
 import { ApiErrorResponse, ApiResponse } from "@core/libs/api/types";
-import { InventoryDTO } from "@core/model/inventory";
-import { inventoryService } from "@core/services/inventory";
+import { employeeService } from "@core/services/employee";
 import useDebounce from "@features/_global/hooks/useDebounce";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useNavigate, useParams, useSearchParams } from "react-router-dom";
@@ -10,17 +9,18 @@ interface Options {
   page?: number;
   perPage?: number;
   search?: string;
+  divisi?: string;
 }
 
 type PayloadType = "create" | "update" | "delete";
 
-interface InventoryCreation {
+interface EmployeeCreation {
   type: PayloadType;
-  data?: InventoryDTO;
+  data?: FormData;
   id?: string;
 }
 
-export const useInventory = (options?: Options) => {
+export const useEmployee = (options?: Options) => {
   const [searchParams] = useSearchParams();
   const page = options?.page || searchParams.get("page") || 1;
   const perPage = options?.perPage || searchParams.get("perPage") || 10;
@@ -29,9 +29,9 @@ export const useInventory = (options?: Options) => {
 
   const search = useDebounce(searchQuery as string, 500);
   const query = useQuery({
-    queryKey: ["inventories", { page, perPage, search }],
+    queryKey: ["employees", { page, perPage, search }],
     queryFn: () =>
-      inventoryService.get({
+      employeeService.get({
         queryParams: {
           perPage: perPage ? Number(perPage) : undefined,
           page: page ? Number(page) : undefined,
@@ -42,24 +42,24 @@ export const useInventory = (options?: Options) => {
   return query;
 };
 
-export function useInventoryCreation() {
+export function useEmployeeCreation() {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
   const mutation = useMutation({
-    mutationFn: async ({ data, type, id }: InventoryCreation) => {
+    mutationFn: async ({ data, type, id }: EmployeeCreation) => {
       switch (type) {
         case "create":
-          return inventoryService.post(data);
+          return employeeService.post(data, { contentType: "form-data" });
         case "update":
-          return inventoryService.put(data, {
-            path: id,
+          return employeeService.put(data, {
+            path: id, contentType: "form-data"
           });
         case "delete":
-          return inventoryService.delete({
+          return employeeService.delete({
             path: id,
           });
         default:
-          return inventoryService.post(data);
+          return employeeService.post(data);
       }
     },
     onSuccess: (res) => {
@@ -69,10 +69,10 @@ export function useInventoryCreation() {
         pauseOnHover: true,
         theme: "dark",
       });
-      navigate("/inventory");
+      navigate("/employee");
 
-      queryClient.removeQueries({ queryKey: ["inventories"] });
-      queryClient.removeQueries({ queryKey: ["inventoriesById"] });
+      queryClient.removeQueries({ queryKey: ["employees"] });
+      queryClient.removeQueries({ queryKey: ["employeesById"] });
       return;
     },
     onError: (err: ApiErrorResponse<ApiResponse>) => {
@@ -87,11 +87,11 @@ export function useInventoryCreation() {
   return mutation;
 }
 
-export function useInventoryById() {
+export function useEmployeeById() {
   const { id } = useParams();
   return useQuery({
-    queryKey: ["inventoriesById", id],
-    queryFn: () => inventoryService.getById({ path: id }),
+    queryKey: ["employeesById", id],
+    queryFn: () => employeeService.getById({ path: id }),
     enabled: !!id,
   });
 }
