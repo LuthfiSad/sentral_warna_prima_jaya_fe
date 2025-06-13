@@ -16,8 +16,9 @@ type PayloadType = "create" | "delete";
 
 interface AttendanceCreation {
   type: PayloadType;
-  data?: FormData;
-  id?: string;
+  data?: {
+    attendance_ids?: string[];
+  };
 }
 
 export const useAttendance = (options?: Options) => {
@@ -46,14 +47,10 @@ export function useAttendanceCreation() {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
   const mutation = useMutation({
-    mutationFn: async ({ data, type, id }: AttendanceCreation) => {
+    mutationFn: async ({ data, type }: AttendanceCreation) => {
       switch (type) {
-        case "create":
-          return attendanceService.post(data, { contentType: "form-data" });
         case "delete":
-          return attendanceService.delete({
-            path: id,
-          });
+          return attendanceService.post(data);
         default:
           return attendanceService.post(data);
       }
@@ -65,7 +62,7 @@ export function useAttendanceCreation() {
         pauseOnHover: true,
         theme: "dark",
       });
-      navigate("/attendance");
+      navigate("/dashboard/attendance");
 
       queryClient.removeQueries({ queryKey: ["attendances"] });
       queryClient.removeQueries({ queryKey: ["attendancesById"] });

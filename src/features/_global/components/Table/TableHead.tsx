@@ -1,7 +1,7 @@
 import React from "react";
 
 interface ITableHeadProps {
-  field: string[];
+  field: (string | JSX.Element)[];
 }
 
 export const TableHead: React.FC<ITableHeadProps> = ({ field }) => {

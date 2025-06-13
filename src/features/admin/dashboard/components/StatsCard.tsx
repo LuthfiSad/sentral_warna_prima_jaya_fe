@@ -1,5 +1,6 @@
 import LoadingData from "@features/_global/components/LoadingData";
 import React from "react";
+import { Link } from "react-router-dom";
 
 interface StatsCardProps {
   icon: React.ReactNode;
@@ -7,6 +8,7 @@ interface StatsCardProps {
   title: string;
   value: string | number;
   isLoading: boolean;
+  to?: string;
 }
 
 export const StatsCard: React.FC<StatsCardProps> = ({
@@ -15,12 +17,13 @@ export const StatsCard: React.FC<StatsCardProps> = ({
   title,
   value,
   isLoading,
+  to
 }) => {
   return (
-    <div className="col-6 col-lg-4 col-md-6">
+    <div className="col-12 col-lg-3 col-sm-6">
       <div className="card">
         <div className="card-body py-4-5">
-          <div className="row">
+          <Link to={to || "#"} className="row">
             {isLoading ? (
               <LoadingData />
             ) : (
@@ -34,7 +37,7 @@ export const StatsCard: React.FC<StatsCardProps> = ({
                 </div>
               </>
             )}
-          </div>
+          </Link>
         </div>
       </div>
     </div>

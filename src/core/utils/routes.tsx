@@ -1,3 +1,5 @@
+import AttendanceDetailView from "@features/admin/attendance/view/AttendanceDetailView";
+import AttendanceView from "@features/admin/attendance/view/AttendanceView";
 import DashboardView from "@features/admin/dashboard/view/DashboardView";
 import EmployeeAddView from "@features/admin/employee/view/EmployeeAddView";
 import EmployeeUpdateView from "@features/admin/employee/view/EmployeeUpdateView";
@@ -20,44 +22,54 @@ export const allRoutes = [
     role: ["ADMIN", "KARYAWAN"],
   },
   {
-    path: "/user",
+    path: "/dashboard/user",
     element: <UserView />,
     role: ["ADMIN"],
   },
   {
-    path: "/user/create",
+    path: "/dashboard/user/create",
     element: <UserAddView />,
     role: ["ADMIN"],
   },
   {
-    path: "/user/edit/:id",
+    path: "/dashboard/user/edit/:id",
     element: <UserUpdateView />,
     role: ["ADMIN"],
   },
   {
-    path: "/employee",
+    path: "/dashboard/employee",
     element: <EmployeeView />,
     role: ["ADMIN"],
   },
   {
-    path: "/employee/create",
+    path: "/dashboard/employee/create",
     element: <EmployeeAddView />,
     role: ["ADMIN"],
   },
   {
-    path: "/employee/edit/:id",
+    path: "/dashboard/employee/edit/:id",
     element: <EmployeeUpdateView />,
     role: ["ADMIN"],
   },
   {
-    path: "/report",
+    path: "/dashboard/report",
     element: <ReportView />,
     role: ["ADMIN", "KARYAWAN"],
   },
   {
-    path: "/report/create",
+    path: "/dashboard/report/create",
     element: <ReportAddView />,
     role: ["KARYAWAN"],
+  },
+  {
+    path: "/dashboard/attendance",
+    element: <AttendanceView />,
+    role: ["KARYAWAN", "ADMIN"],
+  },
+  {
+    path: "/dashboard/attendance/:id",
+    element: <AttendanceDetailView />,
+    role: ["KARYAWAN", "ADMIN"],
   },
 ];
 

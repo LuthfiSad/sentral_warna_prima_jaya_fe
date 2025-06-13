@@ -1,4 +1,5 @@
 import {
+  FaPlug,
   FaUserCircle,
 } from "react-icons/fa";
 import { ItemMenuAdmin } from "../../_global/types/MenuTypes";
@@ -13,16 +14,21 @@ export const CONFIG_MENU_ADMIN: ItemMenuAdmin[] = [
   {
     icon: <FaUser />,
     name: "Manajemen User",
-    to: "/user",
+    to: "/dashboard/user",
   },
   {
     icon: <FaUserCircle />,
     name: "Manajemen Karyawan",
-    to: "/employee",
+    to: "/dashboard/employee",
   },
   {
     icon: <FaWindows />,
     name: "Report",
-    to: "/report",
+    to: "/dashboard/report",
+  },
+  {
+    icon: <FaPlug />,
+    name: "Absensi",
+    to: "/dashboard/attendance",
   }
 ];
