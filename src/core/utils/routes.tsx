@@ -8,6 +8,7 @@ import UserAddView from "@features/admin/user/view/UserAddView";
 import UserUpdateView from "@features/admin/user/view/UserUpdateView";
 import UserView from "@features/admin/user/view/UserView";
 import AdminView from "@features/admin/view/Admin";
+import AttendancePage from "@features/auth/components/Attendance";
 import LoginView from "@features/auth/view/LoginView";
 import RegisterView from "@features/auth/view/RegisterView";
 import { createBrowserRouter } from "react-router-dom";
@@ -68,6 +69,10 @@ export const router = createBrowserRouter([
   {
     path: "/register",
     element: <RegisterView />,
+  },
+  {
+    path: "/attendance",
+    element: <AttendancePage />,
   },
   {
     path: "/",

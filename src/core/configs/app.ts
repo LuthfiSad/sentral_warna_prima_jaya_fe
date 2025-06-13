@@ -9,5 +9,6 @@ export const API_ENDPOINT = {
   check: `${CONFIG_APP.BASE_URL}/users/check`,
   user: `${CONFIG_APP.BASE_URL}/users`,
   employee: `${CONFIG_APP.BASE_URL}/employees`,
-  report: `${CONFIG_APP.BASE_URL}/reports`
+  report: `${CONFIG_APP.BASE_URL}/reports`,
+  attendance: `${CONFIG_APP.BASE_URL}/attendances`,
 };

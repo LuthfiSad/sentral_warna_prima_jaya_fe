@@ -162,7 +162,7 @@ const Login: React.FC = () => {
           <div className="col-12 text-center mt-2">
             <p className="text-black">
               Want to Absen?{" "}
-              <Link to="/absen" className="text-primary hover:underline">
+              <Link to="/attendance" className="text-primary hover:underline">
                 Absen
               </Link>
             </p>

@@ -8,5 +8,6 @@ export const employeeService = {
   getById: HTTP_REQUEST.get<ApiResponse<EmployeeModel>>(API_ENDPOINT.employee),
   post: HTTP_REQUEST.post<ApiResponse<EmployeeModel>>(API_ENDPOINT.employee),
   put: HTTP_REQUEST.put<ApiResponse<EmployeeModel>>(API_ENDPOINT.employee),
+  verify: HTTP_REQUEST.post<ApiResponse<EmployeeModel>>(API_ENDPOINT.employee + "/verify"),
   delete: HTTP_REQUEST.delete<ApiResponse<void>>(API_ENDPOINT.employee),
 };

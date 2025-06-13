@@ -52,7 +52,8 @@ export function useEmployeeCreation() {
           return employeeService.post(data, { contentType: "form-data" });
         case "update":
           return employeeService.put(data, {
-            path: id, contentType: "form-data"
+            path: id,
+            contentType: "form-data",
           });
         case "delete":
           return employeeService.delete({
@@ -85,6 +86,32 @@ export function useEmployeeCreation() {
     },
   });
   return mutation;
+}
+
+export function useEmployeeVerify() {
+  return useMutation({
+    mutationFn: async (data: FormData) => {
+      return employeeService.verify(data, {
+        contentType: "form-data",
+      });
+    },
+    onSuccess: (res) => {
+      toast.success(res.message, {
+        position: "top-right",
+        autoClose: 3000,
+        pauseOnHover: true,
+        theme: "dark",
+      });
+    },
+    onError: (err: ApiErrorResponse<ApiResponse>) => {
+      toast.error(err.message, {
+        position: "top-right",
+        autoClose: 3000,
+        pauseOnHover: true,
+        theme: "dark",
+      });
+    },
+  });
 }
 
 export function useEmployeeById() {
