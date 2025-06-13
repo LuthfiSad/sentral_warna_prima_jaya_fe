@@ -6,7 +6,6 @@ import { useNavigate } from "react-router-dom";
 // import ItemSidenav from "./item";
 import { IoMdLogOut } from "react-icons/io";
 import ItemSidenav from "./item";
-import logo from "@core/assets/logo.jpeg";
 
 const Sidenav: React.FC<{
   Menus: MenuAdminConfig;
@@ -25,7 +24,8 @@ const Sidenav: React.FC<{
         <div className="sidebar-header pb-0 position-relative">
           <div className="d-flex justify-content-between align-items-center">
             <div className="logo w-full px-3">
-              <img src={logo} className="w-full !h-auto" alt="Logo" srcSet="" />
+              {/* <img src={logo} className="w-full !h-auto" alt="Logo" srcSet="" /> */}
+              <h2 className="text-2xl flex items-center justify-center font-bold text-gray-800">Logo</h2>
             </div>
             <div className="sidebar-toggler x">
               <button

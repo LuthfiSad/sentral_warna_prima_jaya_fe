@@ -57,13 +57,37 @@ const AttendanceMap: React.FC<AttendanceMapProps> = ({
   officeLng,
   allowedRadius,
 }) => {
+  const markerRef = useRef<L.Marker | null>(null);
   const mapRef = useRef<L.Map | null>(null);
-  const [mapKey, setMapKey] = useState(0);
+  // const [mapKey, setMapKey] = useState(0);
+
+  // const center: [number, number] = useMemo(() => {
+  //   return [officeLat, officeLng];
+  // }, [officeLat, officeLng]);
+
+  const center: [number, number] = [
+    userLocation?.latitude ?? 0,
+    userLocation?.longitude ?? 0,
+  ];
 
   // Force refresh map ketika ada perubahan critical
+  // useEffect(() => {
+  //   setMapKey((prev) => prev + 1);
+  // }, [userLocation, showAttendanceLocation]);
+
   useEffect(() => {
-    setMapKey((prev) => prev + 1);
-  }, [userLocation, showAttendanceLocation]);
+    if (
+      markerRef.current &&
+      userLocation?.latitude &&
+      userLocation?.longitude
+    ) {
+      markerRef.current.setLatLng([
+        userLocation?.latitude,
+        userLocation?.longitude,
+      ]);
+      mapRef.current?.panTo([userLocation?.latitude, userLocation?.longitude]);
+    }
+  }, [userLocation?.latitude, userLocation?.longitude, userLocation]);
 
   if (!userLocation) {
     return (
@@ -83,11 +107,10 @@ const AttendanceMap: React.FC<AttendanceMapProps> = ({
     );
   }
 
-  const center: [number, number] = [officeLat, officeLng];
   return (
     <div style={{ height: "100%", width: "100%" }}>
       <MapContainer
-        key={`map-${mapKey}-${userLocation.latitude}-${userLocation.longitude}`} // Unique key
+        // key={`map-${mapKey}-${userLocation.latitude}-${userLocation.longitude}`} // Unique key
         center={center}
         zoom={15}
         ref={mapRef}
@@ -111,7 +134,7 @@ const AttendanceMap: React.FC<AttendanceMapProps> = ({
         />
 
         {/* User location marker */}
-        <Marker position={center}>
+        <Marker position={center} ref={markerRef}>
           <Popup>
             {showAttendanceLocation ? "Lokasi Absensi" : "Lokasi Anda"}
           </Popup>
@@ -241,7 +264,9 @@ const AttendancePage: React.FC = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string>("");
   const [cameraReady, setCameraReady] = useState(false);
-  const [mapRefreshKey, setMapRefreshKey] = useState(0); // Key untuk force refresh map
+  // const [mapRefreshKey, setMapRefreshKey] = useState(0); // Key untuk force refresh map
+
+  const [locationValidated, setLocationValidated] = useState(false);
 
   const webcamRef = useRef<Webcam>(null);
   const navigate = useNavigate();
@@ -259,33 +284,52 @@ const AttendancePage: React.FC = () => {
 
   // Get user location dengan retry mechanism
   useEffect(() => {
-    const getLocation = () => {
-      if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(
-          (position) => {
-            setUserLocation({
-              latitude: position.coords.latitude,
-              longitude: position.coords.longitude,
-            });
-            // Force refresh map setelah mendapat lokasi
-            setMapRefreshKey((prev) => prev + 1);
-          },
-          (error) => {
-            console.error("Error getting location:", error);
-            setError("Gagal mendapatkan lokasi");
-            // Retry after 3 seconds
-            setTimeout(getLocation, 3000);
-          },
-          {
-            enableHighAccuracy: true,
-            timeout: 10000,
-            maximumAge: 60000,
-          }
-        );
+    let watchId = null;
+
+    const handlePositionUpdate = (position: GeolocationPosition) => {
+      const validation = validateLocation(position);
+      // alert(validation.isValid);
+
+      if (!validation.isValid) {
+        setError(validation.error || "Lokasi tidak valid");
+        setLocationValidated(false);
+        return;
       }
+
+      // Jika validasi berhasil
+      if (!locationValidated) {
+        setLocationValidated(true);
+      }
+
+      setUserLocation({
+        latitude: position.coords.latitude,
+        longitude: position.coords.longitude,
+      });
+      setError("");
+      // setMapRefreshKey((prev) => prev + 1);
     };
 
-    getLocation();
+    const handleError = (error: GeolocationPositionError) => {
+      console.error("Error getting location:", error);
+      setError("Gagal mendapatkan lokasi");
+    };
+
+    if (navigator.geolocation) {
+      watchId = navigator.geolocation.watchPosition(
+        handlePositionUpdate,
+        handleError,
+        {
+          enableHighAccuracy: true,
+          timeout: 10000,
+          maximumAge: 0, // Tidak menggunakan cached position
+        }
+      );
+    }
+
+    // Cleanup function untuk stop tracking saat komponen unmount
+    return () => {
+      if (watchId) navigator.geolocation.clearWatch(watchId);
+    };
   }, []);
 
   // Cleanup webcam
@@ -330,13 +374,13 @@ const AttendancePage: React.FC = () => {
 
         setStep("verified");
         // Force refresh map di step verified
-        setMapRefreshKey((prev) => prev + 1);
+        // setMapRefreshKey((prev) => prev + 1);
       } catch (error) {
         console.error("Verification failed:", error);
         setError("Verifikasi wajah gagal. Silakan coba lagi.");
+        setTimeout(() => setError(""), 3000);
       } finally {
         setIsLoading(false);
-        setTimeout(() => setError(""), 3000);
       }
     },
     [mutationEmployee]
@@ -391,8 +435,9 @@ const AttendancePage: React.FC = () => {
     setCapturedImage(null);
     setError("");
     setCameraReady(false);
+    setLocationValidated(false);
     // Force refresh map saat reset
-    setMapRefreshKey((prev) => prev + 1);
+    // setMapRefreshKey((prev) => prev + 1);
   };
 
   // Handle webcam ready
@@ -464,10 +509,9 @@ const AttendancePage: React.FC = () => {
             </div>
           </div>
         </div>
-
         <div className="mt-6 h-64 rounded-lg overflow-hidden border border-gray-300">
           <MapWrapper
-            key={`upload-${mapRefreshKey}`}
+            // key={`upload-${mapRefreshKey}`}
             userLocation={userLocation}
             officeLat={officeLat}
             officeLng={officeLng}
@@ -641,7 +685,7 @@ const AttendancePage: React.FC = () => {
 
         <div className="mb-6 h-64 rounded-lg overflow-hidden border border-green-300">
           <MapWrapper
-            key={`verified-${mapRefreshKey}`}
+            // key={`verified-${mapRefreshKey}`}
             userLocation={userLocation}
             showAttendanceLocation={true}
             officeLat={officeLat}
@@ -651,16 +695,18 @@ const AttendancePage: React.FC = () => {
         </div>
 
         <ErrorAlert error={error} />
-
+        <button onClick={() => alert(locationValidated)}>Coba lah</button>
         <button
           onClick={handleAttendance}
-          disabled={isLoading || !userLocation}
+          disabled={isLoading || !userLocation || !locationValidated}
           className={`w-full py-4 px-6 rounded-xl font-semibold text-lg transition-all duration-300 ${
             employeeData?.attendance_today
               ? "bg-red-500 hover:bg-red-600 text-white"
               : "bg-green-500 hover:bg-green-600 text-white"
           } ${
-            isLoading || !userLocation ? "opacity-50 cursor-not-allowed" : ""
+            isLoading || !userLocation || !locationValidated
+              ? "opacity-50 cursor-not-allowed"
+              : ""
           } shadow-lg transform hover:scale-105`}
         >
           {isLoading ? (
@@ -697,3 +743,108 @@ const AttendancePage: React.FC = () => {
 };
 
 export default AttendancePage;
+
+
+const detectFakeGPS = (position: GeolocationPosition): boolean => {
+  const { coords, timestamp } = position;
+
+  // 1. Cek accuracy yang terlalu sempurna atau sangat rendah (indikasi fake GPS)
+  // Perluasan: Menggunakan rentang yang lebih masuk akal. Accuracy 0 sangat mencurigakan.
+  // Accuracy di bawah 5m juga bisa dicurigai, terutama jika konsisten.
+  if (coords.accuracy === 0 || coords.accuracy < 3) {
+    return true;
+  }
+
+  // 2. Cek koordinat yang terlalu presisi (fake GPS sering memberikan koordinat tidak realistis)
+  // Penyesuaian: Lebih fokus pada jumlah desimal yang tidak wajar dan pola berulang (misal, banyak angka nol).
+  const latStr = coords.latitude.toString();
+  const lngStr = coords.longitude.toString();
+
+  // Jika koordinat memiliki lebih dari 7 desimal (GPS asli jarang sepresisi ini)
+  // ATAU memiliki pola '0000' atau '9999' di akhir setelah 6 desimal
+  if (
+    (latStr.includes(".") && latStr.split(".")[1].length > 7) ||
+    (lngStr.includes(".") && lngStr.split(".")[1].length > 7) ||
+    (latStr.includes(".") && latStr.split(".")[1].length > 5 && (latStr.endsWith("0000") || latStr.endsWith("9999"))) ||
+    (lngStr.includes(".") && lngStr.split(".")[1].length > 5 && (lngStr.endsWith("0000") || lngStr.endsWith("9999")))
+  ) {
+    return true;
+  }
+
+  // 3. Cek jika altitude terlalu sempurna (fake GPS sering memberikan altitude bulat atau tidak berubah)
+  // Penyesuaian: Altitude 0 atau bulat sempurna (tanpa desimal) kecuali jika memang di permukaan laut atau dataran rendah yang sangat datar.
+  // Menambahkan ambang batas untuk altitude non-nol yang bulat.
+  if (
+    coords.altitude !== null &&
+    coords.altitude !== 0 &&
+    coords.altitude % 1 === 0 && // Bilangan bulat
+    coords.accuracy < 10 // Pastikan akurasi juga baik, jangan sampai karena akurasi buruk jadi false positive
+  ) {
+    return true;
+  }
+
+  // 4. Cek jika speed dan heading tersedia tapi nilainya 0 (tidak realistis saat berpindah)
+  // Penyesuaian: Kondisi ini hanya relevan jika perangkat seharusnya bergerak.
+  // Jika perangkat diam, speed dan heading 0 adalah normal.
+  // Kita asumsikan ini untuk deteksi yang lebih agresif, tetapi bisa disesuaikan jika ada konteks pergerakan.
+  if (coords.speed !== null && coords.heading !== null && coords.speed === 0 && coords.heading === 0 && coords.accuracy < 20) {
+    // Menambahkan pengecekan akurasi agar tidak false positive saat GPS belum sepenuhnya lock
+    return true;
+  }
+
+
+  // 5. Cek timestamp yang tidak wajar (fake GPS kadang memberikan timestamp yang tidak konsisten)
+  // Penyesuaian: Memperluas rentang toleransi sedikit untuk menghindari false positive karena latensi jaringan/sistem.
+  // Juga, cek jika timestamp di masa depan.
+  const now = Date.now();
+  const timeDiff = Math.abs(now - timestamp);
+
+  // Jika timestamp terlalu jauh dari waktu sekarang (lebih dari 60 detik)
+  // Atau jika timestamp di masa depan (lebih dari 5 detik ke depan)
+  if (timeDiff > 60000 || (timestamp - now > 5000)) {
+    return true;
+  }
+
+  // 6. Cek adanya mock location API (hanya bisa dilakukan di Android melalui Cordova/React Native plugins)
+  // Ini adalah deteksi yang paling kuat, tetapi membutuhkan integrasi native.
+  // Contoh pseudo-code (bukan bagian dari GeolocationPosition standar):
+  // if (position.isFromMockProvider) {
+  //   return true;
+  // }
+
+  return false;
+};
+
+// Fungsi untuk validasi lokasi dengan multiple checks
+const validateLocation = (
+  position: GeolocationPosition
+): { isValid: boolean; error?: string } => {
+  // Cek koordinat nol (seringkali indikasi GPS tidak aktif/error)
+  if (position.coords.latitude === 0 && position.coords.longitude === 0) {
+    return {
+      isValid: false,
+      error: "Koordinat tidak valid (0,0). Pastikan GPS aktif dengan benar atau coba lagi.",
+    };
+  }
+
+  // Cek akurasi terlalu rendah (sinyal buruk atau indoor)
+  // Ambang batas 100m mungkin terlalu longgar, bisa disesuaikan tergantung kebutuhan.
+  // Untuk absensi, akurasi di bawah 20-50m mungkin lebih ideal.
+  if (position.coords.accuracy > 50) { // Misalnya, akurasi lebih dari 50 meter dianggap buruk
+    return {
+      isValid: false,
+      error: "Akurasi GPS terlalu rendah (" + position.coords.accuracy.toFixed(2) + "m). Harap tunggu hingga GPS mendapat sinyal yang lebih baik.",
+    };
+  }
+
+  // Panggil deteksi fake GPS setelah validasi dasar lokasi
+  if (detectFakeGPS(position)) {
+    return {
+      isValid: false,
+      error:
+        "Terdeteksi penggunaan lokasi palsu. Harap gunakan lokasi asli untuk absensi.",
+    };
+  }
+
+  return { isValid: true };
+};
