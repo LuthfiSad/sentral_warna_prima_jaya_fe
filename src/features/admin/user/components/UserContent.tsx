@@ -71,7 +71,7 @@ export const UserContent: React.FC = () => {
         action={{
           show: true,
           buttonTitle: "Tambah User",
-          link: { to: "/user/create" },
+          link: { to: "/dashboard/user/create" },
         }}
         headBackground="black"
         showPagination={

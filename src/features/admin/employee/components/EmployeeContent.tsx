@@ -52,7 +52,7 @@ export const EmployeeContent: React.FC = () => {
         action={{
           show: true,
           buttonTitle: "Tambah Karyawan",
-          link: { to: "/employee/create" },
+          link: { to: "/dashboard/employee/create" },
         }}
         headBackground="black"
         showPagination={

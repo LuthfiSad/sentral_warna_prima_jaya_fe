@@ -75,7 +75,7 @@ export function useUserCreation() {
         pauseOnHover: true,
         theme: "dark",
       });
-      navigate("/user");
+      navigate("/dashboard/user");
 
       queryClient.removeQueries({ queryKey: ["users"] });
       queryClient.removeQueries({ queryKey: ["usersById"] });

@@ -70,7 +70,7 @@ export function useReportCreation() {
         pauseOnHover: true,
         theme: "dark",
       });
-      navigate("/report");
+      navigate("/dashboard/report");
 
       queryClient.removeQueries({ queryKey: ["reports"] });
       queryClient.removeQueries({ queryKey: ["reportsById"] });

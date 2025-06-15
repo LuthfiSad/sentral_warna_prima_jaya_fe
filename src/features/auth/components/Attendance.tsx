@@ -330,7 +330,7 @@ const AttendancePage: React.FC = () => {
     return () => {
       if (watchId) navigator.geolocation.clearWatch(watchId);
     };
-  }, []);
+  }, [locationValidated]);
 
   // Cleanup webcam
   // Cleanup webcam

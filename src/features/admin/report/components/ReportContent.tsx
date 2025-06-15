@@ -82,7 +82,7 @@ export const ReportContent: React.FC = () => {
             : {
                 show: true,
                 buttonTitle: "Tambah Laporan",
-                link: { to: "/report/create" },
+                link: { to: "/dashboard/report/create" },
               }
         }
         headBackground="black"

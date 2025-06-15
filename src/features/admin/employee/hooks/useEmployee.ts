@@ -70,7 +70,7 @@ export function useEmployeeCreation() {
         pauseOnHover: true,
         theme: "dark",
       });
-      navigate("/employee");
+      navigate("/dashboard/employee");
 
       queryClient.removeQueries({ queryKey: ["employees"] });
       queryClient.removeQueries({ queryKey: ["employeesById"] });
