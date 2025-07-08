@@ -18,6 +18,7 @@ import { useEmployeeVerify } from "@features/admin/employee/hooks/useEmployee";
 import { EmployeeModel } from "@core/model/employee";
 import { useNavigate } from "react-router-dom";
 import { useAttendanceCheck } from "@features/admin/attendance/hooks/useAttendance";
+import { CONFIG_APP } from "@core/configs/app";
 
 // Fix Leaflet default marker icons
 interface FixedDefaultIcon extends L.Icon.Default {
@@ -253,8 +254,8 @@ const InputField: React.FC<InputFieldProps> = ({
 );
 
 const AttendancePage: React.FC = () => {
-  const officeLat = -6.1876709;
-  const officeLng = 106.6646784;
+  const officeLat = CONFIG_APP.OFFICE_LATITUDE || 0;
+  const officeLng = CONFIG_APP.OFFICE_LONGITUDE || 0;
   const allowedRadius = 300;
 
   const [step, setStep] = useState<Step>("upload");

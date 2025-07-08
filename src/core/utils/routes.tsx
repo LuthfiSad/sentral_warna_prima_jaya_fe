@@ -5,6 +5,7 @@ import EmployeeAddView from "@features/admin/employee/view/EmployeeAddView";
 import EmployeeUpdateView from "@features/admin/employee/view/EmployeeUpdateView";
 import EmployeeView from "@features/admin/employee/view/EmployeeView";
 import ReportAddView from "@features/admin/report/view/ReportAddView";
+import ReportUpdateView from "@features/admin/report/view/ReportUpdateView";
 import ReportView from "@features/admin/report/view/ReportView";
 import UserAddView from "@features/admin/user/view/UserAddView";
 import UserUpdateView from "@features/admin/user/view/UserUpdateView";
@@ -60,6 +61,11 @@ export const allRoutes = [
     path: "/dashboard/report/create",
     element: <ReportAddView />,
     role: ["KARYAWAN"],
+  },
+  {
+    path: "/dashboard/report/edit/:id",
+    element: <ReportUpdateView />,
+    role: ["KARYAWAN", "ADMIN"],
   },
   {
     path: "/dashboard/attendance",

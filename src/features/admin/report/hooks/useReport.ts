@@ -13,7 +13,7 @@ interface Options {
   status?: string;
 }
 
-type PayloadType = "create" | "delete" | "changeStatus";
+type PayloadType = "create" | "update" | "delete" | "changeStatus";
 
 interface ReportCreation {
   type: PayloadType;
@@ -51,9 +51,14 @@ export function useReportCreation() {
       switch (type) {
         case "create":
           return reportService.post(data, { contentType: "form-data" });
+        case "update":
+          return reportService.put(data, {
+            path: id,
+            contentType: "form-data",
+          });
         case "changeStatus":
           return reportService.patch(data, {
-            path: `${id}/status`
+            path: `${id}/status`,
           });
         case "delete":
           return reportService.delete({
@@ -105,16 +110,19 @@ export function useReportExport() {
     onSuccess: (res) => {
       // Create and download CSV file
       const csvContent = convertToCSV(res.data as ReportModel[]);
-      const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
-      const link = document.createElement('a');
+      const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+      const link = document.createElement("a");
       const url = URL.createObjectURL(blob);
-      link.setAttribute('href', url);
-      link.setAttribute('download', `reports_${new Date().toISOString().split('T')[0]}.csv`);
-      link.style.visibility = 'hidden';
+      link.setAttribute("href", url);
+      link.setAttribute(
+        "download",
+        `reports_${new Date().toISOString().split("T")[0]}.csv`
+      );
+      link.style.visibility = "hidden";
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
-      
+
       toast.success("Data berhasil diekspor", {
         position: "top-right",
         autoClose: 3000,
@@ -136,20 +144,20 @@ export function useReportExport() {
 
 // Helper function to convert data to CSV
 function convertToCSV(data: ReportModel[]): string {
-  if (!data || data.length === 0) return '';
-  
-  const headers = ['Date', 'Employee Name', 'Report', 'Status'];
-  const csvRows = [headers.join(',')];
-  
-  data.forEach(item => {
+  if (!data || data.length === 0) return "";
+
+  const headers = ["Date", "Employee Name", "Report", "Status"];
+  const csvRows = [headers.join(",")];
+
+  data.forEach((item) => {
     const row = [
       item.date,
       `"${item.employee.name}"`,
       `"${item.report.replace(/"/g, '""')}"`,
-      item.status
+      item.status,
     ];
-    csvRows.push(row.join(','));
+    csvRows.push(row.join(","));
   });
-  
-  return csvRows.join('\n');
+
+  return csvRows.join("\n");
 }

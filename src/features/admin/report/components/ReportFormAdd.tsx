@@ -8,12 +8,20 @@ import { useReportCreation } from "../hooks/useReport";
 interface ReportCreateDTO {
   date: string;
   report: string;
+  customer_name: string;
+  vehicle_type: string;
+  total_repairs: number;
+  cost: number;
   image?: File;
 }
 
 const InitialValue: ReportCreateDTO = {
   date: "",
   report: "",
+  customer_name: "",
+  vehicle_type: "",
+  total_repairs: 0,
+  cost: 0,
 };
 
 export const ReportFormAdd: React.FC = () => {
@@ -43,6 +51,26 @@ export const ReportFormAdd: React.FC = () => {
       isValid = false;
     }
 
+    if (!reportBody.customer_name) {
+      newErrors.customer_name = "Nama pelanggan wajib diisi";
+      isValid = false;
+    }
+
+    if (!reportBody.vehicle_type) {
+      newErrors.vehicle_type = "Jenis kendaraan wajib diisi";
+      isValid = false;
+    }
+
+    if (!reportBody.total_repairs || reportBody.total_repairs <= 0) {
+      newErrors.total_repairs = "Total perbaikan harus lebih dari 0";
+      isValid = false;
+    }
+
+    if (!reportBody.cost || reportBody.cost <= 0) {
+      newErrors.cost = "Biaya harus lebih dari 0";
+      isValid = false;
+    }
+
     setErrors(newErrors);
     return isValid;
   };
@@ -55,6 +83,10 @@ export const ReportFormAdd: React.FC = () => {
       const formData = new FormData();
       formData.append("date", reportBody.date);
       formData.append("report", reportBody.report);
+      formData.append("customer_name", reportBody.customer_name);
+      formData.append("vehicle_type", reportBody.vehicle_type);
+      formData.append("total_repairs", reportBody.total_repairs.toString());
+      formData.append("cost", reportBody.cost.toString());
       
       if (reportBody.image) {
         formData.append("image", reportBody.image);
@@ -112,6 +144,26 @@ export const ReportFormAdd: React.FC = () => {
     }
   };
 
+  const handleNumberChange = (
+    field: 'total_repairs' | 'cost',
+    value: string
+  ) => {
+    const numValue = parseFloat(value) || 0;
+    setReportBody(prev => ({
+      ...prev,
+      [field]: numValue
+    }));
+  };
+
+  const formatCurrency = (value: number) => {
+    return new Intl.NumberFormat('id-ID', {
+      style: 'currency',
+      currency: 'IDR',
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 0
+    }).format(value);
+  };
+
   return (
     <PageLayout
       title="Tambah Laporan"
@@ -146,6 +198,109 @@ export const ReportFormAdd: React.FC = () => {
               />
               {errors.date && (
                 <small className="text-danger">{errors.date}</small>
+              )}
+            </div>
+
+            {/* Customer Name Field */}
+            <div className="col-md-4">
+              <label htmlFor="customer_name">Nama Pelanggan</label>
+            </div>
+            <div className="col-md-8 form-group">
+              <input
+                type="text"
+                className="form-control"
+                id="customer_name"
+                placeholder="Masukkan nama pelanggan"
+                value={reportBody.customer_name}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                  setReportBody((prev) => ({
+                    ...prev,
+                    customer_name: e.target.value,
+                  }))
+                }
+                disabled={mutation.isPending}
+              />
+              {errors.customer_name && (
+                <small className="text-danger">{errors.customer_name}</small>
+              )}
+            </div>
+
+            {/* Vehicle Type Field */}
+            <div className="col-md-4">
+              <label htmlFor="vehicle_type">Jenis Kendaraan</label>
+            </div>
+            <div className="col-md-8 form-group">
+              <select
+                className="form-control"
+                id="vehicle_type"
+                value={reportBody.vehicle_type}
+                onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
+                  setReportBody((prev) => ({
+                    ...prev,
+                    vehicle_type: e.target.value,
+                  }))
+                }
+                disabled={mutation.isPending}
+              >
+                <option value="">Pilih jenis kendaraan</option>
+                <option value="Motor">Motor</option>
+                <option value="Mobil">Mobil</option>
+                <option value="Truk">Truk</option>
+                <option value="Bus">Bus</option>
+                <option value="Lainnya">Lainnya</option>
+              </select>
+              {errors.vehicle_type && (
+                <small className="text-danger">{errors.vehicle_type}</small>
+              )}
+            </div>
+
+            {/* Total Repairs Field */}
+            <div className="col-md-4">
+              <label htmlFor="total_repairs">Total Perbaikan</label>
+            </div>
+            <div className="col-md-8 form-group">
+              <input
+                type="number"
+                className="form-control"
+                id="total_repairs"
+                placeholder="Masukkan jumlah perbaikan"
+                min="1"
+                value={reportBody.total_repairs || ''}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                  handleNumberChange('total_repairs', e.target.value)
+                }
+                disabled={mutation.isPending}
+              />
+              {errors.total_repairs && (
+                <small className="text-danger">{errors.total_repairs}</small>
+              )}
+            </div>
+
+            {/* Cost Field */}
+            <div className="col-md-4">
+              <label htmlFor="cost">Biaya</label>
+            </div>
+            <div className="col-md-8 form-group">
+              <input
+                type="number"
+                className="form-control"
+                id="cost"
+                placeholder="Masukkan biaya"
+                min="0"
+                step="0.01"
+                value={reportBody.cost || ''}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                  handleNumberChange('cost', e.target.value)
+                }
+                disabled={mutation.isPending}
+              />
+              {reportBody.cost > 0 && (
+                <small className="text-muted">
+                  {formatCurrency(reportBody.cost)}
+                </small>
+              )}
+              {errors.cost && (
+                <small className="text-danger">{errors.cost}</small>
               )}
             </div>
 

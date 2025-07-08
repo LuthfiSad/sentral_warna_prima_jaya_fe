@@ -10,8 +10,11 @@ import { useUser } from "@features/admin/user/hooks/useUser";
 import { useEmployee } from "@features/admin/employee/hooks/useEmployee";
 import { useReport } from "@features/admin/report/hooks/useReport";
 import { useAttendance } from "@features/admin/attendance/hooks/useAttendance";
+import { useAtom } from "jotai";
+import { dataUserAtom } from "@features/admin/store/dataUser";
 
 export const DashboardContent: React.FC = () => {
+  const [dataUser] = useAtom(dataUserAtom);
   const { data: users, isLoading: isLoadingUser } = useUser({
     page: 1,
     perPage: 1,
@@ -40,7 +43,7 @@ export const DashboardContent: React.FC = () => {
       title: "Total Data User",
       isLoading: isLoadingUser,
       value: users?.meta?.totalData || 0,
-      to: "/dashboard/user",
+      to: dataUser?.is_admin ? "/dashboard/user" : "/",
     },
     {
       icon: <FaUserTie />,
@@ -48,7 +51,7 @@ export const DashboardContent: React.FC = () => {
       title: "Total Data Karyawan",
       isLoading: isLoadingEmployee,
       value: employees?.meta?.totalData || 0,
-      to: "/dashboard/employee",
+      to: dataUser?.is_admin ? "/dashboard/employee" : "/",
     },
     {
       icon: <FaFileAlt />,

@@ -153,9 +153,12 @@ const AdminView: React.FC = () => {
       <Sidenav
         openSidenav={openSidenav}
         setOpenSidenav={handleOpenSidenav}
-        Menus={CONFIG_MENU_ADMIN}
+        Menus={CONFIG_MENU_ADMIN.filter((menu) =>
+          menu.role.includes(auth?.data?.data?.is_admin ? "ADMIN" : "KARYAWAN")
+        )}
         user={auth?.data?.data?.is_admin ? "ADMIN" : "KARYAWAN"}
       />
+
       <div className="p-4 min-h-screen flex flex-col xl:ml-80 justify-between">
         <div>
           <header className="mb-3">

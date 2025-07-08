@@ -67,9 +67,14 @@ export const ReportContent: React.FC = () => {
     "Gambar",
     "Tanggal",
     "Nama Karyawan",
+    "Nama Pelanggan",
+    "Jenis Kendaraan",
+    "Total Perbaikan",
+    "Biaya",
     "Laporan",
     "Status",
-    ...(dataUser?.is_admin ? ["Aksi"] : []),
+    "Aksi",
+    // ...(dataUser?.is_admin ? ["Aksi"] : []),
   ];
 
   return (
@@ -134,6 +139,7 @@ export const ReportContent: React.FC = () => {
                     {...item}
                     show={key !== (reports?.data?.length as number) - 1}
                     dataUser={dataUser}
+                    linkUpdate={`/dashboard/report/edit/${item.id}`}
                     handleDelete={handleDelete}
                     handleApprove={handleApprove}
                     handleReject={handleReject}

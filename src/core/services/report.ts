@@ -6,6 +6,7 @@ import { ReportModel } from "@core/model/report";
 export const reportService = {
   get: HTTP_REQUEST.get<ApiResponse<ReportModel[]>>(API_ENDPOINT.report),
   getById: HTTP_REQUEST.get<ApiResponse<ReportModel>>(API_ENDPOINT.report),
+  put: HTTP_REQUEST.put<ApiResponse<ReportModel>>(API_ENDPOINT.report),
   patch: HTTP_REQUEST.patch<ApiResponse<ReportModel>>(API_ENDPOINT.report),
   post: HTTP_REQUEST.post<ApiResponse<ReportModel>>(API_ENDPOINT.report),
   delete: HTTP_REQUEST.delete<ApiResponse<void>>(API_ENDPOINT.report),
