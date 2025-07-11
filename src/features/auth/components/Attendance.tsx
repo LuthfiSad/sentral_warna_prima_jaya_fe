@@ -713,7 +713,7 @@ const AttendancePage: React.FC = () => {
           {isLoading ? (
             <div className="flex items-center justify-center space-x-2">
               <div className="animate-spin w-5 h-5 border-2 border-white border-t-transparent rounded-full"></div>
-              <span>Memproses...</span>
+              <span>MemPROSES...</span>
             </div>
           ) : (
             <>

@@ -1,5 +1,6 @@
 export interface QueryParams {
   page?: number;
+  limit?: number;
   perPage?: number;
   search?: string;
   status?: string;
@@ -7,6 +8,8 @@ export interface QueryParams {
   deviceLocation?: string;
   role?: string;
   type?: string;
+  transaction_id?: number;
+  employee_id?: number;
 }
 
 export interface ApiOption {

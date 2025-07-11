@@ -14,4 +14,7 @@ export const API_ENDPOINT = {
   employee: `${CONFIG_APP.BASE_URL}/employees`,
   report: `${CONFIG_APP.BASE_URL}/reports`,
   attendance: `${CONFIG_APP.BASE_URL}/attendances`,
+  customer: `${CONFIG_APP.BASE_URL}/customers`,
+  transaction: `${CONFIG_APP.BASE_URL}/transactions`,
+  history: `${CONFIG_APP.BASE_URL}/histories`,
 };

@@ -1,6 +1,10 @@
 import {
   FaPlug,
   FaUserCircle,
+  FaCar,
+  FaFileAlt,
+  FaExchangeAlt,
+  FaHistory,
 } from "react-icons/fa";
 import { ItemMenuAdmin } from "../../_global/types/MenuTypes";
 import { FaUser, FaWindows } from "react-icons/fa6";
@@ -25,10 +29,28 @@ export const CONFIG_MENU_ADMIN: ItemMenuAdmin[] = [
     role: ["ADMIN"],
   },
   {
-    icon: <FaWindows />,
-    name: "Report",
+    icon: <FaCar />,
+    name: "Customer",
+    to: "/dashboard/customer",
+    role: ["ADMIN"],
+  },
+  {
+    icon: <FaExchangeAlt />,
+    name: "Transaksi",
+    to: "/dashboard/transaction",
+    role: ["ADMIN", "KARYAWAN"],
+  },
+  {
+    icon: <FaFileAlt />,
+    name: "Laporan",
     to: "/dashboard/report",
     role: ["ADMIN", "KARYAWAN"],
+  },
+  {
+    icon: <FaHistory />,
+    name: "History",
+    to: "/dashboard/history",
+    role: ["ADMIN"],
   },
   {
     icon: <FaPlug />,
