@@ -46,7 +46,7 @@ export const TableItem: React.FC<IUserItemProps> = ({
               : "bg-secondary"
           }`}
         >
-          {is_admin ? "ADMIN" : "KARYAWAN"}
+          {is_admin ? "PERSONALIA" : "KARYAWAN"}
         </span>
       </td>
       <td className="py-3 px-5">

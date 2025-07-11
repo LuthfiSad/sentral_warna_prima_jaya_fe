@@ -171,7 +171,7 @@
 //                   <option value="" disabled>
 //                     Pilih Role
 //                   </option>
-//                   {["ADMIN", "KARYAWAN"].map((role, index) => (
+//                   {["PERSONALIA", "KARYAWAN"].map((role, index) => (
 //                     <option key={index} value={role}>
 //                       {role}
 //                     </option>
@@ -382,7 +382,7 @@ export const UserFormUpdate: React.FC = () => {
                   disabled={mutation.isPending}
                 >
                   <option value="false">KARYAWAN</option>
-                  <option value="true">ADMIN</option>
+                  <option value="true">PERSONALIA</option>
                 </select>
               </div>
 

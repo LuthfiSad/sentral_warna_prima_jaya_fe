@@ -92,8 +92,8 @@ export const UserContent: React.FC = () => {
         //     key: "status",
         //   },
         //   {
-        //     label: "ADMIN",
-        //     value: "ADMIN",
+        //     label: "PERSONALIA",
+        //     value: "PERSONALIA",
         //     key: "status",
         //   },
         // ]}

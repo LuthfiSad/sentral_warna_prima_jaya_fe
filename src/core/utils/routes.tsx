@@ -29,88 +29,88 @@ export const allRoutes = [
   {
     path: "/",
     element: <DashboardView />,
-    role: ["ADMIN", "KARYAWAN"],
+    role: ["PERSONALIA", "KARYAWAN"],
   },
   {
     path: "/dashboard/user",
     element: <UserView />,
-    role: ["ADMIN"],
+    role: ["PERSONALIA"],
   },
   {
     path: "/dashboard/user/create",
     element: <UserAddView />,
-    role: ["ADMIN"],
+    role: ["PERSONALIA"],
   },
   {
     path: "/dashboard/user/edit/:id",
     element: <UserUpdateView />,
-    role: ["ADMIN"],
+    role: ["PERSONALIA"],
   },
   {
     path: "/dashboard/employee",
     element: <EmployeeView />,
-    role: ["ADMIN"],
+    role: ["PERSONALIA"],
   },
   {
     path: "/dashboard/employee/create",
     element: <EmployeeAddView />,
-    role: ["ADMIN"],
+    role: ["PERSONALIA"],
   },
   {
     path: "/dashboard/employee/edit/:id",
     element: <EmployeeUpdateView />,
-    role: ["ADMIN"],
+    role: ["PERSONALIA"],
   },
 
   // Customer Management Routes
   {
     path: "/dashboard/customer",
     element: <CustomerView />,
-    role: ["ADMIN"],
+    role: ["PERSONALIA"],
   },
   {
     path: "/dashboard/customer/create",
     element: <CustomerAddView />,
-    role: ["ADMIN"],
+    role: ["PERSONALIA"],
   },
   {
     path: "/dashboard/customer/edit/:id",
     element: <CustomerUpdateView />,
-    role: ["ADMIN"],
+    role: ["PERSONALIA"],
   },
   {
     path: "/dashboard/customer/:id",
     element: <CustomerDetailView />,
-    role: ["ADMIN"],
+    role: ["PERSONALIA"],
   },
 
   // Transaction Management Routes
   {
     path: "/dashboard/transaction",
     element: <TransactionView />,
-    role: ["ADMIN", "KARYAWAN"],
+    role: ["PERSONALIA", "KARYAWAN"],
   },
   {
     path: "/dashboard/transaction/create",
     element: <TransactionAddView />,
-    role: ["ADMIN"],
+    role: ["PERSONALIA"],
   },
   {
     path: "/dashboard/transaction/:id/edit",
     element: <TransactionUpdateView />,
-    role: ["ADMIN"],
+    role: ["PERSONALIA"],
   },
   {
     path: "/dashboard/transaction/:id",
     element: <TransactionDetailView />,
-    role: ["ADMIN", "KARYAWAN"],
+    role: ["PERSONALIA", "KARYAWAN"],
   },
 
   // Report Management Routes
   {
     path: "/dashboard/report",
     element: <ReportView />,
-    role: ["ADMIN", "KARYAWAN"],
+    role: ["PERSONALIA", "KARYAWAN"],
   },
   {
     path: "/dashboard/report/create",
@@ -120,25 +120,25 @@ export const allRoutes = [
   {
     path: "/dashboard/report/edit/:id",
     element: <ReportUpdateView />,
-    role: ["KARYAWAN", "ADMIN"],
+    role: ["KARYAWAN", "PERSONALIA"],
   },
 
   // History Routes
   {
     path: "/dashboard/history",
     element: <HistoryView />,
-    role: ["ADMIN"],
+    role: ["PERSONALIA"],
   },
 
   {
     path: "/dashboard/attendance",
     element: <AttendanceView />,
-    role: ["KARYAWAN", "ADMIN"],
+    role: ["KARYAWAN", "PERSONALIA"],
   },
   {
     path: "/dashboard/attendance/:id",
     element: <AttendanceDetailView />,
-    role: ["KARYAWAN", "ADMIN"],
+    role: ["KARYAWAN", "PERSONALIA"],
   },
 ];
 

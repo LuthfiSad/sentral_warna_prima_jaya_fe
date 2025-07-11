@@ -197,7 +197,7 @@ export const UserFormAdd: React.FC = () => {
                 disabled={mutation.isPending}
               >
                 <option value="false">KARYAWAN</option>
-                <option value="true">ADMIN</option>
+                <option value="true">PERSONALIA</option>
               </select>
             </div>
 

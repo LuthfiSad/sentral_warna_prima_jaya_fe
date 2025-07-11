@@ -1,4 +1,4 @@
-import { CONFIG_MENU_ADMIN } from "@features/admin/config";
+import { CONFIG_MENU_PERSONALIA } from "@features/admin/config";
 import Footer from "@features/admin/components/Footer";
 import { useAuth } from "@features/auth/hooks/useAuth";
 import { useAtom } from "jotai";
@@ -69,7 +69,7 @@ const AdminView: React.FC = () => {
       return;
     }
 
-    const userRole = auth.data.data?.is_admin ? "ADMIN" : "KARYAWAN";
+    const userRole = auth.data.data?.is_admin ? "PERSONALIA" : "KARYAWAN";
 
     function capitalize(str: string): string {
       return str
@@ -84,7 +84,7 @@ const AdminView: React.FC = () => {
       let redirectPath = "/";
 
       switch (userRole) {
-        case "ADMIN":
+        case "PERSONALIA":
           redirectPath = "/";
           toast.error(
             "You don't have permission, you are not " +
@@ -153,10 +153,10 @@ const AdminView: React.FC = () => {
       <Sidenav
         openSidenav={openSidenav}
         setOpenSidenav={handleOpenSidenav}
-        Menus={CONFIG_MENU_ADMIN.filter((menu) =>
-          menu.role.includes(auth?.data?.data?.is_admin ? "ADMIN" : "KARYAWAN")
+        Menus={CONFIG_MENU_PERSONALIA.filter((menu) =>
+          menu.role.includes(auth?.data?.data?.is_admin ? "PERSONALIA" : "KARYAWAN")
         )}
-        user={auth?.data?.data?.is_admin ? "ADMIN" : "KARYAWAN"}
+        user={auth?.data?.data?.is_admin ? "PERSONALIA" : "KARYAWAN"}
       />
 
       <div className="p-4 min-h-screen flex flex-col xl:ml-80 justify-between">
