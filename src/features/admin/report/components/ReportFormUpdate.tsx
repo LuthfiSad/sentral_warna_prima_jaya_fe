@@ -198,9 +198,7 @@ export const ReportFormUpdate: React.FC = () => {
         return "success";
       case "REJECTED":
         return "danger";
-      case "SUBMITTED":
-        return "primary";
-      case "DRAFT":
+      case "PENDING":
         return "warning";
       default:
         return "secondary";
@@ -213,10 +211,8 @@ export const ReportFormUpdate: React.FC = () => {
         return "Disetujui";
       case "REJECTED":
         return "Ditolak";
-      case "SUBMITTED":
-        return "Menunggu Approval";
-      case "DRAFT":
-        return "Draft";
+      case "PENDING":
+        return "Pending";
       default:
         return status;
     }
@@ -270,7 +266,7 @@ export const ReportFormUpdate: React.FC = () => {
   }
 
   const report = reportById.data;
-  const canEdit = report.status === "DRAFT" || report.status === "REJECTED" || dataUser?.is_admin;
+  const canEdit = report.status === "PENDING" || report.status === "REJECTED" || dataUser?.is_admin;
 
   if (!canEdit) {
     return (
@@ -523,7 +519,7 @@ export const ReportFormUpdate: React.FC = () => {
       </form>
 
       {/* Action Buttons for Draft Reports */}
-      {report.status === "DRAFT" && !dataUser?.is_admin && (
+      {report.status === "PENDING" && !dataUser?.is_admin && (
         <div className="card mt-4">
           <div className="card-body">
             <h6 className="card-title">Aksi Laporan</h6>
@@ -532,18 +528,38 @@ export const ReportFormUpdate: React.FC = () => {
                 className="btn btn-success"
                 onClick={async () => {
                   const confirm = window.confirm(
-                    "Submit laporan untuk approval? Setelah disubmit, laporan tidak dapat diedit kecuali ditolak."
+                    "Apakah Anda yakin ingin menyetujui laporan? Setelah diapprove, laporan tidak dapat diedit."
                   );
                   if (!confirm) return;
                   
                   await mutation.mutateAsync({
-                    type: "submit",
+                    type: "approve",
                     id: report.id.toString(),
                   });
                 }}
                 disabled={mutation.isPending}
               >
-                Submit untuk Approval
+                Approve
+              </button>
+              <button
+                className="btn btn-danger"
+                onClick={async () => {
+                  // const confirm = window.confirm(
+                  //   "Apakah Anda yakin ingin menolak laporan ini?"
+                  // );
+                  // if (!confirm) return;
+                  const reason = prompt("Masukkan alasan penolakan:");
+                  if (!reason) return;
+                  
+                  await mutation.mutateAsync({
+                    type: "reject",
+                    id: report.id.toString(),
+                    data: { reason },
+                  });
+                }}
+                disabled={mutation.isPending}
+              >
+                Reject
               </button>
             </div>
             <small className="text-muted">
@@ -558,7 +574,7 @@ export const ReportFormUpdate: React.FC = () => {
         <div className="card-body">
           <h6 className="card-title">Informasi</h6>
           <ul className="list-unstyled mb-0">
-            <li className="mb-1">• Laporan <strong>DRAFT</strong> dapat diedit kapan saja</li>
+            <li className="mb-1">• Laporan <strong>PENDING</strong> dapat diedit kapan saja</li>
             <li className="mb-1">• Laporan <strong>DITOLAK</strong> dapat diedit dan disubmit ulang</li>
             <li className="mb-1">• Laporan <strong>MENUNGGU APPROVAL</strong> tidak dapat diedit</li>
             <li>• Laporan <strong>DISETUJUI</strong> tidak dapat diedit (hanya admin)</li>

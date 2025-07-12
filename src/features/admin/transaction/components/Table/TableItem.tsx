@@ -61,7 +61,7 @@ export const TableItem: React.FC<ITransactionItemProps> = ({
         return "bg-warning";
       case "PENDING":
         return "bg-secondary";
-      case "MENUNGGU_APPROVAL":
+      case "PENDING":
         return "bg-primary";
       default:
         return "bg-secondary";
@@ -78,8 +78,8 @@ export const TableItem: React.FC<ITransactionItemProps> = ({
         return "Dalam Proses";
       case "PENDING":
         return "Menunggu";
-      case "MENUNGGU_APPROVAL":
-        return "Menunggu Approval";
+      case "PENDING":
+        return "Pending";
       default:
         return status;
     }
@@ -123,7 +123,7 @@ export const TableItem: React.FC<ITransactionItemProps> = ({
 
     // Admin actions
     if (dataUser?.is_admin) {
-      if (status === "MENUNGGU_APPROVAL") {
+      if (status === "PENDING") {
         actions.push(
           <button
             key="finalize"

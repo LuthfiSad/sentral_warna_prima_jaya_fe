@@ -14,7 +14,6 @@ import {
   FiEdit3,
   FiCheck,
   FiX,
-  FiSend,
 } from "react-icons/fi";
 
 export const ReportDetail: React.FC = () => {
@@ -40,9 +39,7 @@ export const ReportDetail: React.FC = () => {
         return "success";
       case "REJECTED":
         return "danger";
-      case "SUBMITTED":
-        return "primary";
-      case "DRAFT":
+      case "PENDING":
         return "warning";
       default:
         return "secondary";
@@ -55,10 +52,8 @@ export const ReportDetail: React.FC = () => {
         return "Disetujui";
       case "REJECTED":
         return "Ditolak";
-      case "SUBMITTED":
-        return "Menunggu Approval";
-      case "DRAFT":
-        return "Draft";
+      case "PENDING":
+        return "Pending";
       default:
         return status;
     }
@@ -78,18 +73,6 @@ export const ReportDetail: React.FC = () => {
     } else {
       return `${diffMinutes} menit`;
     }
-  };
-
-  const handleSubmit = async () => {
-    const confirm = window.confirm(
-      "Submit laporan untuk approval? Setelah disubmit, laporan tidak dapat diedit kecuali ditolak."
-    );
-    if (!confirm) return;
-
-    await mutation.mutateAsync({
-      type: "submit",
-      id: report?.data?.id.toString(),
-    });
   };
 
   const handleApprove = async () => {
@@ -175,7 +158,7 @@ export const ReportDetail: React.FC = () => {
                 >
                   {getStatusText(reportData.status)}
                 </span>
-                {((reportData.status === "DRAFT" ||
+                {((reportData.status === "PENDING" ||
                   reportData.status === "REJECTED") &&
                   String(reportData.employee.id) === dataUser?.id) ||
                 dataUser?.is_admin ? (
@@ -341,25 +324,9 @@ export const ReportDetail: React.FC = () => {
             </div>
             <div className="card-body">
               <div className="d-grid gap-2">
-                {/* Employee Actions */}
-                {!dataUser?.is_admin &&
-                  String(reportData.employee.id) === dataUser?.id && (
-                    <>
-                      {reportData.status === "DRAFT" && (
-                        <button
-                          className="btn btn-success"
-                          onClick={handleSubmit}
-                          disabled={mutation.isPending}
-                        >
-                          <FiSend className="me-2" />
-                          Submit untuk Approval
-                        </button>
-                      )}
-                    </>
-                  )}
 
                 {/* Admin Actions */}
-                {dataUser?.is_admin && reportData.status === "SUBMITTED" && (
+                {dataUser?.is_admin && reportData.status === "PENDING" && (
                   <>
                     <button
                       className="btn btn-danger"
@@ -428,7 +395,7 @@ export const ReportDetail: React.FC = () => {
                   </div>
                 </div>
 
-                {reportData.status !== "DRAFT" && (
+                {reportData.status !== "PENDING" && (
                   <div className="timeline-item mb-3">
                     <div className="d-flex">
                       <div className="flex-shrink-0">

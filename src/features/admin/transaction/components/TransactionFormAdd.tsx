@@ -1,4 +1,4 @@
-// @features/transaction/components/TransactionFormAdd.tsx - Updated with Searchable Select
+// @features/transaction/components/TransactionFormAdd.tsx - Updated with total_cost field
 import React, { useState, useEffect, useRef } from "react";
 import { PageLayout } from "@features/admin/components/PageLayout";
 import { useNavigate, useSearchParams } from "react-router-dom";
@@ -6,12 +6,13 @@ import { CustomApiError } from "@features/_global/types/CustomApiError";
 import { useTransactionCreation } from "../hooks/useTransaction";
 import { TransactionCreateDTO } from "@core/model/transaction";
 import { CustomerModel } from "@core/model/customer";
-import { FiSearch, FiUser, FiTruck, FiChevronDown, FiX } from "react-icons/fi";
+import { FiSearch, FiUser, FiTruck, FiChevronDown, FiX, FiDollarSign } from "react-icons/fi";
 import { useCustomer } from "@features/admin/customer/hooks/useCustomer";
 
 const InitialValue: TransactionCreateDTO = {
   customer_id: 0,
   complaint: "",
+  total_cost: 0,
 };
 
 export const TransactionFormAdd: React.FC = () => {
@@ -75,6 +76,11 @@ export const TransactionFormAdd: React.FC = () => {
 
     if (!transactionBody.complaint.trim()) {
       newErrors.complaint = "Keluhan wajib diisi";
+      isValid = false;
+    }
+
+    if (transactionBody.total_cost < 0) {
+      newErrors.total_cost = "Total biaya tidak boleh negatif";
       isValid = false;
     }
 
@@ -148,6 +154,14 @@ export const TransactionFormAdd: React.FC = () => {
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(e.target.value);
     setIsDropdownOpen(true);
+  };
+
+  const formatCurrency = (amount: number) => {
+    return new Intl.NumberFormat('id-ID', {
+      style: 'currency',
+      currency: 'IDR',
+      minimumFractionDigits: 0,
+    }).format(amount);
   };
 
   return (
@@ -344,6 +358,41 @@ export const TransactionFormAdd: React.FC = () => {
               </small>
             </div>
 
+            {/* Total Cost Field */}
+            <div className="col-md-4">
+              <label htmlFor="total_cost">Total Biaya Estimasi</label>
+            </div>
+            <div className="col-md-8 form-group">
+              <div className="input-group">
+                <span className="input-group-text">
+                  <FiDollarSign />
+                </span>
+                <input
+                  type="number"
+                  className={`form-control ${errors.total_cost ? 'is-invalid' : ''}`}
+                  id="total_cost"
+                  placeholder="0"
+                  min="0"
+                  step="1000"
+                  value={transactionBody.total_cost}
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                    setTransactionBody((prev) => ({
+                      ...prev,
+                      total_cost: parseFloat(e.target.value) || 0,
+                    }))
+                  }
+                  disabled={mutation.isPending}
+                />
+                <span className="input-group-text">IDR</span>
+              </div>
+              {errors.total_cost && (
+                <small className="text-danger">{errors.total_cost}</small>
+              )}
+              <small className="text-muted">
+                Estimasi biaya perbaikan. Format: {formatCurrency(transactionBody.total_cost)}
+              </small>
+            </div>
+
             {/* Submit and Reset Buttons */}
             <div className="col-12 d-flex justify-content-end">
               <button
@@ -372,9 +421,10 @@ export const TransactionFormAdd: React.FC = () => {
           <h6 className="card-title">Informasi</h6>
           <ul className="list-unstyled mb-0">
             <li className="mb-1">• Transaksi akan dibuat dengan status <strong>PENDING</strong></li>
+            <li className="mb-1">• Total biaya dapat disesuaikan selama proses pengerjaan</li>
             <li className="mb-1">• Karyawan dapat memulai pengerjaan setelah transaksi dibuat</li>
             <li className="mb-1">• Customer baru dapat didaftarkan melalui tombol "Tambah Customer Baru"</li>
-            <li>• Pastikan keluhan dideskripsikan dengan jelas untuk memudahkan pengerjaan</li>
+            <li>• Pastikan keluhan dan estimasi biaya dideskripsikan dengan jelas</li>
           </ul>
         </div>
       </div>

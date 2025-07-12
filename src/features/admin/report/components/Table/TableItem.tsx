@@ -9,7 +9,6 @@ interface IReportItemProps extends ReportModel {
   linkUpdate: string;
   // linkDetail: string;
   handleDelete: (id: string) => void;
-  handleSubmit: (id: string) => void;
   handleApprove: (id: string) => void;
   handleReject: (id: string) => void;
   dataUser: UserModel;
@@ -30,7 +29,6 @@ export const TableItem: React.FC<IReportItemProps> = ({
   linkUpdate,
   // linkDetail,
   handleDelete,
-  handleSubmit,
   handleApprove,
   handleReject,
   dataUser,
@@ -52,10 +50,8 @@ export const TableItem: React.FC<IReportItemProps> = ({
         return "bg-success";
       case "REJECTED":
         return "bg-danger";
-      case "SUBMITTED":
+      case "PENDING":
         return "bg-primary";
-      case "DRAFT":
-        return "bg-warning";
       default:
         return "bg-secondary";
     }
@@ -67,10 +63,8 @@ export const TableItem: React.FC<IReportItemProps> = ({
         return "Disetujui";
       case "REJECTED":
         return "Ditolak";
-      case "SUBMITTED":
-        return "Menunggu Approval";
-      case "DRAFT":
-        return "Draft";
+      case "PENDING":
+        return "Pending";
       default:
         return status;
     }
@@ -109,7 +103,7 @@ export const TableItem: React.FC<IReportItemProps> = ({
 
     // Employee actions
     if (!dataUser?.is_admin && String(employee?.id) == dataUser?.employee?.id) {
-      if (status === "DRAFT" || status === "REJECTED") {
+      if (status === "PENDING" || status === "REJECTED") {
         actions.push(
           <Link key="edit" to={linkUpdate}>
             <button className="btn btn-link p-0 text-warning text-xs font-semibold">
@@ -119,32 +113,14 @@ export const TableItem: React.FC<IReportItemProps> = ({
         );
       }
 
-      if (status === "DRAFT") {
-        actions.push(
-          <button
-            key="submit"
-            className="btn btn-link p-0 text-primary text-xs font-semibold"
-            onClick={() => {
-              const confirm = window.confirm(
-                "Submit laporan untuk approval? Setelah disubmit, laporan tidak dapat diedit kecuali ditolak."
-              );
-              if (!confirm) return;
-              handleSubmit(id.toString());
-            }}
-          >
-            Submit
-          </button>
-        );
-      }
-
-      if (status === "DRAFT") {
+      if (status === "PENDING") {
         actions.push(
           <button
             key="delete"
             className="btn btn-link p-0 text-danger text-xs font-semibold"
             onClick={() => {
               const confirm = window.confirm(
-                "Apakah Anda yakin ingin menghapus DRAFT laporan ini?"
+                "Apakah Anda yakin ingin menghapus PENDING laporan ini?"
               );
               if (!confirm) return;
               handleDelete(id.toString());
@@ -158,7 +134,7 @@ export const TableItem: React.FC<IReportItemProps> = ({
 
     // Admin actions
     if (dataUser?.is_admin) {
-      if (status === "SUBMITTED") {
+      if (status === "PENDING") {
         actions.push(
           <button
             key="approve"

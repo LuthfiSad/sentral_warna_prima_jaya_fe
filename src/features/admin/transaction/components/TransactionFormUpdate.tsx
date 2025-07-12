@@ -1,4 +1,4 @@
-// @features/transaction/components/TransactionFormUpdate.tsx
+// @features/transaction/components/TransactionFormUpdate.tsx - Updated with total_cost field
 import React, { useEffect, useState } from "react";
 import { PageLayout } from "@features/admin/components/PageLayout";
 import { useNavigate } from "react-router-dom";
@@ -6,10 +6,11 @@ import { useTransactionById, useTransactionCreation } from "../hooks/useTransact
 import { CustomApiError } from "@features/_global/types/CustomApiError";
 import { TransactionUpdateDTO } from "@core/model/transaction";
 import LoadingData from "@features/_global/components/LoadingData";
-import { FiUser, FiTruck } from "react-icons/fi";
+import { FiUser, FiTruck, FiDollarSign } from "react-icons/fi";
 
 const InitialValue: TransactionUpdateDTO = {
   complaint: "",
+  total_cost: 0,
 };
 
 export const TransactionFormUpdate: React.FC = () => {
@@ -27,9 +28,10 @@ export const TransactionFormUpdate: React.FC = () => {
 
   useEffect(() => {
     if (transactionById && transactionById.data) {
-      const { complaint } = transactionById.data;
+      const { complaint, total_cost } = transactionById.data;
       setTransactionBody({
         complaint,
+        total_cost: total_cost || 0,
       });
     }
   }, [transactionById]);
@@ -40,6 +42,11 @@ export const TransactionFormUpdate: React.FC = () => {
 
     if (!transactionBody.complaint?.trim()) {
       newErrors.complaint = "Keluhan wajib diisi";
+      isValid = false;
+    }
+
+    if (transactionBody.total_cost && transactionBody.total_cost < 0) {
+      newErrors.total_cost = "Total biaya tidak boleh negatif";
       isValid = false;
     }
 
@@ -70,9 +77,10 @@ export const TransactionFormUpdate: React.FC = () => {
 
   const handleReset = () => {
     if (transactionById && transactionById.data) {
-      const { complaint } = transactionById.data;
+      const { complaint, total_cost } = transactionById.data;
       setTransactionBody({
         complaint,
+        total_cost: total_cost || 0,
       });
     } else {
       setTransactionBody(InitialValue);
@@ -89,6 +97,14 @@ export const TransactionFormUpdate: React.FC = () => {
       hour: "2-digit",
       minute: "2-digit",
     });
+  };
+
+  const formatCurrency = (amount: number) => {
+    return new Intl.NumberFormat('id-ID', {
+      style: 'currency',
+      currency: 'IDR',
+      minimumFractionDigits: 0,
+    }).format(amount);
   };
 
   if (isLoading) {
@@ -170,7 +186,7 @@ export const TransactionFormUpdate: React.FC = () => {
             </div>
           </div>
           <div className="row">
-            <div className="col-md-6">
+            <div className="col-md-4">
               <div className="mb-3">
                 <label className="form-label text-muted">Status Saat Ini</label>
                 <p>
@@ -178,19 +194,28 @@ export const TransactionFormUpdate: React.FC = () => {
                     transaction.status === "DIBAYAR" ? "success" :
                     transaction.status === "SELESAI" ? "info" :
                     transaction.status === "PROSES" ? "warning" :
-                    transaction.status === "MENUNGGU_APPROVAL" ? "primary" :
+                    transaction.status === "PENDING" ? "primary" :
                     "secondary"
                   }`}>
                     {transaction.status === "DIBAYAR" ? "Dibayar" :
                      transaction.status === "SELESAI" ? "Selesai" :
                      transaction.status === "PROSES" ? "Dalam Proses" :
-                     transaction.status === "MENUNGGU_APPROVAL" ? "Menunggu Approval" :
+                     transaction.status === "PENDING" ? "Pending" :
                      "Menunggu"}
                   </span>
                 </p>
               </div>
             </div>
-            <div className="col-md-6">
+            <div className="col-md-4">
+              <div className="mb-3">
+                <label className="form-label text-muted">
+                  <FiDollarSign className="me-1" />
+                  Biaya Saat Ini
+                </label>
+                <p className="h6 text-success">{formatCurrency(transaction.total_cost || 0)}</p>
+              </div>
+            </div>
+            <div className="col-md-4">
               <div className="mb-3">
                 <label className="form-label text-muted">Tanggal Dibuat</label>
                 <p>{formatDate(transaction.created_at)}</p>
@@ -230,6 +255,41 @@ export const TransactionFormUpdate: React.FC = () => {
               </small>
             </div>
 
+            {/* Total Cost Field */}
+            <div className="col-md-4">
+              <label htmlFor="total_cost">Total Biaya</label>
+            </div>
+            <div className="col-md-8 form-group">
+              <div className="input-group">
+                <span className="input-group-text">
+                  <FiDollarSign />
+                </span>
+                <input
+                  type="number"
+                  className={`form-control ${errors.total_cost ? 'is-invalid' : ''}`}
+                  id="total_cost"
+                  placeholder="0"
+                  min="0"
+                  step="1000"
+                  value={transactionBody.total_cost}
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                    setTransactionBody((prev) => ({
+                      ...prev,
+                      total_cost: parseFloat(e.target.value) || 0,
+                    }))
+                  }
+                  disabled={mutation.isPending}
+                />
+                <span className="input-group-text">IDR</span>
+              </div>
+              {errors.total_cost && (
+                <small className="text-danger">{errors.total_cost}</small>
+              )}
+              <small className="text-muted">
+                Total biaya perbaikan. Format: {formatCurrency(transactionBody.total_cost || 0)}
+              </small>
+            </div>
+
             {/* Submit and Reset Buttons */}
             <div className="col-12 d-flex justify-content-end">
               <button
@@ -257,7 +317,7 @@ export const TransactionFormUpdate: React.FC = () => {
         <div className="card-body">
           <h6 className="card-title">Informasi</h6>
           <ul className="list-unstyled mb-0">
-            <li className="mb-1">• Hanya keluhan yang dapat diubah setelah transaksi dibuat</li>
+            <li className="mb-1">• Keluhan dan total biaya dapat diubah setelah transaksi dibuat</li>
             <li className="mb-1">• Customer dan kendaraan tidak dapat diubah</li>
             <li className="mb-1">• Transaksi hanya dapat diubah jika status masih <strong>PENDING</strong> atau <strong>PROSES</strong></li>
             <li>• Perubahan akan tercatat dalam riwayat transaksi</li>

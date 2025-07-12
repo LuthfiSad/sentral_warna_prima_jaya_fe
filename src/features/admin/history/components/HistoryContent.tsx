@@ -44,7 +44,7 @@ export const HistoryContent: React.FC = () => {
         return "warning";
       case "PENDING":
         return "secondary";
-      case "MENUNGGU_APPROVAL":
+      case "PENDING":
         return "primary";
       default:
         return "secondary";

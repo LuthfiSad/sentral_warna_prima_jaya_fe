@@ -1,4 +1,4 @@
-// @features/transaction/components/TransactionDetail.tsx - Updated with Calculate Cost Modal
+// @features/transaction/components/TransactionDetail.tsx - Updated with Calculate Cost Modal and Invoice Print
 import React, { useState } from "react";
 import { PageLayout } from "@features/admin/components/PageLayout";
 import { useNavigate } from "react-router-dom";
@@ -15,11 +15,13 @@ import {
   FiEdit3,
   FiPlay,
   FiCheck,
-  FiCreditCard
+  FiCreditCard,
+  FiPrinter
 } from "react-icons/fi";
 import { HistoryModel } from "@core/model/history";
 import { ReportModel } from "@core/model/report";
 import { CalculateCostModal } from "./CalculateCostModal";
+import { InvoicePrint } from "./InvoicePrint";
 
 export const TransactionDetail: React.FC = () => {
   const { data: transaction, isLoading } = useTransactionById();
@@ -30,6 +32,7 @@ export const TransactionDetail: React.FC = () => {
   
   // Modal state
   const [showCalculateCostModal, setShowCalculateCostModal] = useState(false);
+  const [showInvoicePrint, setShowInvoicePrint] = useState(false);
 
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
@@ -61,8 +64,6 @@ export const TransactionDetail: React.FC = () => {
         return "warning";
       case "PENDING":
         return "secondary";
-      case "MENUNGGU_APPROVAL":
-        return "primary";
       default:
         return "secondary";
     }
@@ -78,8 +79,6 @@ export const TransactionDetail: React.FC = () => {
         return "Dalam Proses";
       case "PENDING":
         return "Menunggu";
-      case "MENUNGGU_APPROVAL":
-        return "Menunggu Approval";
       default:
         return status;
     }
@@ -117,6 +116,10 @@ export const TransactionDetail: React.FC = () => {
 
   const handleCalculateCost = () => {
     setShowCalculateCostModal(true);
+  };
+
+  const handlePrintInvoice = () => {
+    setShowInvoicePrint(true);
   };
 
   if (isLoading) {
@@ -294,6 +297,17 @@ export const TransactionDetail: React.FC = () => {
             </div>
             <div className="card-body">
               <div className="d-grid gap-2">
+                {/* Print Invoice - Only for SELESAI or DIBAYAR status */}
+                {(transactionData.status === "SELESAI" || transactionData.status === "DIBAYAR") && (
+                  <button
+                    className="btn btn-success"
+                    onClick={handlePrintInvoice}
+                  >
+                    <FiPrinter className="me-2" />
+                    Cetak Invoice
+                  </button>
+                )}
+
                 {/* Employee Actions */}
                 {!dataUser?.is_admin && transactionData.status === "PENDING" && (
                   <button
@@ -307,7 +321,7 @@ export const TransactionDetail: React.FC = () => {
                 )}
 
                 {/* Employee - Create Report */}
-                {!dataUser?.is_admin && (transactionData.status === "PROSES" || transactionData.status === "MENUNGGU_APPROVAL") && (
+                {!dataUser?.is_admin && (transactionData.status === "PROSES" || transactionData.status === "PENDING") && (
                   <button
                     className="btn btn-primary"
                     onClick={() => navigate(`/dashboard/report/create?transaction_id=${transactionData.id}`)}
@@ -318,7 +332,7 @@ export const TransactionDetail: React.FC = () => {
                 )}
 
                 {/* Admin Actions */}
-                {dataUser?.is_admin && transactionData.status === "MENUNGGU_APPROVAL" && (
+                {dataUser?.is_admin && transactionData.status === "PENDING" && (
                   <>
                     <button
                       className="btn btn-warning"
@@ -409,7 +423,7 @@ export const TransactionDetail: React.FC = () => {
           <div className="col-12">
             <div className="card">
               <div className="card-header">
-                <h5 className="mb-0">Laporan Pekerjaan</h5>
+                <h5 className="mb-0">Laporan Pekerjaan (total perbaikan: {transactionData.reports.length})</h5>
               </div>
               <div className="card-body">
                 <div className="table-responsive">
@@ -470,6 +484,14 @@ export const TransactionDetail: React.FC = () => {
           current_total_cost: transactionData.total_cost,
         }}
       />
+
+      {/* Invoice Print Modal */}
+      {showInvoicePrint && (
+        <InvoicePrint
+          transactionData={transactionData}
+          onClose={() => setShowInvoicePrint(false)}
+        />
+      )}
     </PageLayout>
   );
 };

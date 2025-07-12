@@ -36,7 +36,7 @@ export const CustomerDetail: React.FC = () => {
         return "warning";
       case "PENDING":
         return "secondary";
-      case "MENUNGGU_APPROVAL":
+      case "PENDING":
         return "primary";
       default:
         return "secondary";
@@ -53,8 +53,8 @@ export const CustomerDetail: React.FC = () => {
         return "Dalam Proses";
       case "PENDING":
         return "Menunggu";
-      case "MENUNGGU_APPROVAL":
-        return "Menunggu Approval";
+      case "PENDING":
+        return "Pending";
       default:
         return status;
     }

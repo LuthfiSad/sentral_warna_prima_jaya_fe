@@ -26,7 +26,9 @@ export const ReportFormAdd: React.FC = () => {
     useState<TransactionModel | null>(null);
 
   const { data: transaction, isLoading: transactionLoading } =
-    useTransactionById();
+    useTransactionById({
+      id: transactionId || "",
+    });
 
   const [reportBody, setReportBody] = useState<ReportCreateDTO>({
     ...InitialValue,
@@ -456,11 +458,11 @@ export const ReportFormAdd: React.FC = () => {
           <h6 className="card-title">Informasi</h6>
           <ul className="list-unstyled mb-0">
             <li className="mb-1">
-              • Laporan akan disimpan sebagai <strong>DRAFT</strong> terlebih
+              • Laporan akan disimpan sebagai <strong>PENDING</strong> terlebih
               dahulu
             </li>
             <li className="mb-1">
-              • Anda dapat mengedit DRAFT laporan sebelum disubmit untuk
+              • Anda dapat mengedit PENDING laporan sebelum disubmit untuk
               approval
             </li>
             <li className="mb-1">

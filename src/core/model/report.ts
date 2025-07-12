@@ -1,5 +1,9 @@
+import { EmployeeModel } from "./employee";
+import { TransactionModel } from "./transaction";
+import { UserModel } from "./user";
+
 // @core/model/report.ts - Updated for new flow
-export type ReportStatus = "DRAFT" | "SUBMITTED" | "APPROVED" | "REJECTED";
+export type ReportStatus = "PENDING" | "APPROVED" | "REJECTED";
 
 export interface ReportModel {
   id: number;
@@ -12,25 +16,9 @@ export interface ReportModel {
   image_url?: string;
   created_at: string;
   updated_at: string;
-  employee: {
-    id: number;
-    name: string;
-  };
-  transaction: {
-    id: number;
-    customer: {
-      name: string;
-      plate_number: string;
-      vehicle_type: string;
-      vehicle_model: string;
-    };
-    complaint: string;
-    status: string;
-  };
-  user: {
-    id: number;
-    username: string;
-  };
+  employee: EmployeeModel
+  transaction: TransactionModel
+  user: UserModel
 }
 
 export interface ReportCreateDTO {

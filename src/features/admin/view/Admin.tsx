@@ -140,6 +140,7 @@ const AdminView: React.FC = () => {
 
   // Handle unauthenticated state
   if (!auth?.data) {
+    localStorage.removeItem("token");
     return <Navigate to="/login" replace />;
   }
 

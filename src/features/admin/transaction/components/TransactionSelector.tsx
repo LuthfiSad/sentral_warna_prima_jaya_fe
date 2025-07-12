@@ -27,7 +27,7 @@ export const TransactionSelector: React.FC<TransactionSelectorProps> = ({
   // Fetch transactions with PENDING status
   const { data: transactionsData, isLoading: transactionsLoading } = useTransaction({
     search: 'selected',
-    status: "PENDING", // Only show PENDING transactions
+    status: "PENDING,PROSES", // Only show PENDING transactions
     perPage: 9999999,
   });
 

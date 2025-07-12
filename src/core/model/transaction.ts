@@ -6,10 +6,21 @@ import { ReportModel } from "./report";
 export type TransactionStatus = 
   | "PENDING" 
   | "PROSES" 
-  | "MENUNGGU_APPROVAL" 
+  | "PENDING" 
   | "SELESAI" 
   | "DIBAYAR";
 
+// export interface TransactionExport {
+//     id: number;
+//     complaint: string;
+//     status: string;
+//     created_at: string;
+//     updated_at: string;
+//     total_cost: number;
+//     customer: CustomerModel;
+//     reports: ReportModel[];
+//   }
+  
 export interface TransactionModel {
   id: number;
   customer_id: number;
@@ -28,6 +39,7 @@ export interface TransactionModel {
 export interface TransactionCreateDTO {
   customer_id: number;
   complaint: string;
+  total_cost: number;
 }
 
 export interface TransactionUpdateDTO {

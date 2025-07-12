@@ -120,12 +120,13 @@ export function useTransactionCreation() {
   return mutation;
 }
 
-export function useTransactionById() {
+export function useTransactionById(option?: { id?: string }) {
   const { id } = useParams();
+  const transaction_id = option?.id || id;
   return useQuery({
-    queryKey: ["transactionsById", id],
-    queryFn: () => transactionService.getById({ path: id }),
-    enabled: !!id,
+    queryKey: ["transactionsById", transaction_id],
+    queryFn: () => transactionService.getById({ path: transaction_id }),
+    enabled: !!transaction_id,
   });
 }
 

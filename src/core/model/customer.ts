@@ -3,6 +3,7 @@ export interface CustomerModel {
   id: number;
   name: string;
   address: string;
+  divisi: string;
   phone: string;
   email: string;
   plate_number: string;

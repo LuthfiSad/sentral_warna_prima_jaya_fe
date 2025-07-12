@@ -96,7 +96,7 @@ export const allRoutes = [
     role: ["PERSONALIA"],
   },
   {
-    path: "/dashboard/transaction/:id/edit",
+    path: "/dashboard/transaction/edit/:id",
     element: <TransactionUpdateView />,
     role: ["PERSONALIA"],
   },

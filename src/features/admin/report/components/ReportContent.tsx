@@ -40,13 +40,6 @@ export const ReportContent: React.FC = () => {
     });
   };
 
-  const handleSubmit = async (id: string) => {
-    await mutation.mutateAsync({
-      type: "submit",
-      id,
-    });
-  };
-
   const handleApprove = async (id: string) => {
     await mutation.mutateAsync({
       type: "approve",
@@ -97,16 +90,14 @@ export const ReportContent: React.FC = () => {
 
   const statusOptions = [
     { value: "", label: "Semua Status" },
-    { value: "DRAFT", label: "Draft" },
-    { value: "SUBMITTED", label: "Menunggu Approval" },
+    { value: "PENDING", label: "Pending" },
     { value: "APPROVED", label: "Disetujui" },
     { value: "REJECTED", label: "Ditolak" },
   ];
 
   const getStatsCards = () => {
     const stats = {
-      DRAFT: 0,
-      SUBMITTED: 0,
+      PENDING: 0,
       APPROVED: 0,
       REJECTED: 0,
     };
@@ -117,23 +108,15 @@ export const ReportContent: React.FC = () => {
 
     return (
       <div className="row mb-4">
-        <div className="col-md-3">
+        <div className="col-md-4">
           <div className="card text-center">
             <div className="card-body">
-              <h5 className="text-warning">{stats.DRAFT}</h5>
-              <small>Draft</small>
+              <h5 className="text-primary">{stats.PENDING}</h5>
+              <small>Pending</small>
             </div>
           </div>
         </div>
-        <div className="col-md-3">
-          <div className="card text-center">
-            <div className="card-body">
-              <h5 className="text-primary">{stats.SUBMITTED}</h5>
-              <small>Menunggu Approval</small>
-            </div>
-          </div>
-        </div>
-        <div className="col-md-3">
+        <div className="col-md-4">
           <div className="card text-center">
             <div className="card-body">
               <h5 className="text-success">{stats.APPROVED}</h5>
@@ -141,7 +124,7 @@ export const ReportContent: React.FC = () => {
             </div>
           </div>
         </div>
-        <div className="col-md-3">
+        <div className="col-md-4">
           <div className="card text-center">
             <div className="card-body">
               <h5 className="text-danger">{stats.REJECTED}</h5>
@@ -202,9 +185,9 @@ export const ReportContent: React.FC = () => {
             <div className="col-md-8 d-flex justify-content-end gap-2">
               <button
                 className="btn btn-info btn-sm"
-                onClick={() => setSearchParams({ ...queryParams, status: "SUBMITTED", page: "1" })}
+                onClick={() => setSearchParams({ ...queryParams, status: "PENDING", page: "1" })}
               >
-                Lihat Pending Approval ({reports?.data?.filter((r: ReportModel) => r.status === "SUBMITTED").length || 0})
+                Lihat Pending Approval ({reports?.data?.filter((r: ReportModel) => r.status === "PENDING").length || 0})
               </button>
               
               <button
@@ -245,7 +228,6 @@ export const ReportContent: React.FC = () => {
                     linkUpdate={`/dashboard/report/edit/${item.id}`}
                     // linkDetail={`/dashboard/report/${item.id}`}
                     handleDelete={handleDelete}
-                    handleSubmit={handleSubmit}
                     handleApprove={handleApprove}
                     handleReject={handleReject}
                   />

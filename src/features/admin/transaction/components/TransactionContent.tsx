@@ -84,7 +84,7 @@ export const TransactionContent: React.FC = () => {
     { value: "", label: "Semua Status" },
     { value: "PENDING", label: "Menunggu" },
     { value: "PROSES", label: "Dalam Proses" },
-    { value: "MENUNGGU_APPROVAL", label: "Menunggu Approval" },
+    { value: "PENDING", label: "Pending" },
     { value: "SELESAI", label: "Selesai" },
     { value: "DIBAYAR", label: "Dibayar" },
   ];
